@@ -1,0 +1,146 @@
+import React from "react";
+import { Marked, type Token, type Tokens } from "marked";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ParserProps = { content: string; components?: { [key: string]: (...args: any[]) => JSX.Element } };
+
+export const Parser: React.FC<ParserProps> = async ({ components, content }) => {
+    const tree = new Marked({ async: true }).lexer(content);
+    let isRobin = false;
+
+    const TokenParser: React.FC<{ token: Token | Token[] }> = ({ token }) => {
+        if (!token) return null;
+
+        if (isRobin) {
+            if (!Array.isArray(token) && token.type === "html" && token.raw.trim() === "<!---/robin-->") {
+                isRobin = false;
+            }
+            return null;
+        }
+
+        if (Array.isArray(token))
+            return token.map((t, index) => <TokenParser token={t} key={(t as Tokens.Text).text || index} />);
+
+        switch (token.type) {
+            case "heading":
+                const Component = `h${token.depth}` as "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+                return <Component className={`r-h${token.depth}`}>{token.text}</Component>;
+            case "table":
+                return (
+                    <table className="r-table">
+                        <thead className="r-thead">
+                            <tr className="r-tr">
+                                {token.header.map((t: Tokens.Text) => (
+                                    <th key={t.text} className="r-th">
+                                        <TokenParser token={t} />
+                                    </th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody className="r-tbody">
+                            {token.rows.map((r: Tokens.Text[], index: number) => (
+                                <tr key={index} className="r-tr">
+                                    {r.map((i) => (
+                                        <td key={i.text} className="r-td">
+                                            <TokenParser token={i} />
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                );
+            case "link":
+                return (
+                    <a href={token.href} className="r-a">
+                        {token.tokens ? <TokenParser token={token.tokens} /> : token.text}
+                    </a>
+                );
+            case "space":
+                return <br />;
+            case "paragraph":
+                return <p className="r-p">{token.tokens ? <TokenParser token={token.tokens} /> : token.text}</p>;
+            case "strong":
+                return (
+                    <strong className="r-strong">
+                        {token.tokens ? <TokenParser token={token.tokens} /> : token.text}
+                    </strong>
+                );
+            case "em":
+                return <em className="r-em">{token.tokens ? <TokenParser token={token.tokens} /> : token.text}</em>;
+            case "codespan":
+                return <code className="r-code">{token.text}</code>;
+            case "code":
+                return <pre className="r-pre">{token.text}</pre>;
+            case "blockquote":
+                return (
+                    <blockquote className="r-blockquote">
+                        {token.tokens ? <TokenParser token={token.tokens} /> : token.text}
+                    </blockquote>
+                );
+            case "list":
+                const ListComponent = token.ordered ? "ol" : "ul";
+                return (
+                    <ListComponent className={`r-${ListComponent}`}>
+                        {token.items.map((i: Tokens.ListItem) => (
+                            <li key={i.text} className="r-li">
+                                {i.task ? (
+                                    <label>
+                                        <input type="checkbox" defaultChecked={i.checked} className="r-checkbox" />
+                                        {i.tokens ? <TokenParser token={i.tokens} /> : i.text}
+                                    </label>
+                                ) : i.tokens ? (
+                                    <TokenParser token={i.tokens} />
+                                ) : (
+                                    i.text
+                                )}
+                            </li>
+                        ))}
+                    </ListComponent>
+                );
+            case "html":
+                const text = token.raw.trim();
+
+                if (text.startsWith("<!---robin") && text.endsWith("-->")) {
+                    const componentName = text.match(/<!---robin ([\w]+)/)?.[1];
+
+                    if (!componentName) return null;
+
+                    if (!components || !(componentName in components)) {
+                        console.log(`Unknown component: ${componentName}`);
+                        return null;
+                    }
+                    const propRows = text.split(/\r?\n/).slice(1, -1);
+                    const props = propRows.reduce<{ [key: string]: string | true }>((acc, cur) => {
+                        const [_match, key, value] = cur.match(/^([\w]+)(?:="([^"]+)")?$/) || [];
+
+                        if (!_match) {
+                            console.log(`Invalid component attribute: "${cur}"`);
+                            return acc;
+                        }
+
+                        acc[key] = value ?? true;
+                        return acc;
+                    }, {});
+                    const Component = components[componentName as keyof typeof components];
+
+                    if (!text.endsWith("/-->")) isRobin = true;
+
+                    return <Component {...props} />;
+                }
+
+                return null;
+            case "text":
+                if ("tokens" in token) {
+                    return <TokenParser token={token.tokens || []} />;
+                }
+                return token.text;
+            default:
+                if (!token.type && "text" in token) return token.text;
+
+                console.log(`Unknown token ${token.type}`, token);
+                return null;
+        }
+    };
+    return <TokenParser token={tree} />;
+};
