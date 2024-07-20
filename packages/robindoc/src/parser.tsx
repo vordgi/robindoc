@@ -80,20 +80,28 @@ export const Parser: React.FC<ParserProps> = async ({ components, content }) => 
                 );
             case "list":
                 const ListComponent = token.ordered ? "ol" : "ul";
+                const isTaskList = token.items.every((i: Tokens.ListItem) => i.task);
+                if (isTaskList) {
+                    return (
+                        <ListComponent className={`r-${ListComponent} r-task-${ListComponent}`}>
+                            {token.items.map((i: Tokens.ListItem) => (
+                                <li key={i.text} className="r-li r-task-li">
+                                    <label className="r-label r-task-label">
+                                        <input type="checkbox" defaultChecked={i.checked} className="r-checkbox" />
+                                        <span className="r-label-text">
+                                            {i.tokens ? <TokenParser token={i.tokens} /> : i.text}
+                                        </span>
+                                    </label>
+                                </li>
+                            ))}
+                        </ListComponent>
+                    );
+                }
                 return (
                     <ListComponent className={`r-${ListComponent}`}>
                         {token.items.map((i: Tokens.ListItem) => (
                             <li key={i.text} className="r-li">
-                                {i.task ? (
-                                    <label>
-                                        <input type="checkbox" defaultChecked={i.checked} className="r-checkbox" />
-                                        {i.tokens ? <TokenParser token={i.tokens} /> : i.text}
-                                    </label>
-                                ) : i.tokens ? (
-                                    <TokenParser token={i.tokens} />
-                                ) : (
-                                    i.text
-                                )}
+                                {i.tokens ? <TokenParser token={i.tokens} /> : i.text}
                             </li>
                         ))}
                     </ListComponent>

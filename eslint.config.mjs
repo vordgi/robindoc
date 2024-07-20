@@ -2,7 +2,7 @@ import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended"
 import tseslint from "typescript-eslint";
 
 export default [
-    { ignores: ["**/node_modules/", "**/dist/", "site/"] },
+    { ignores: ["**/node_modules/", "**/dist/", "packages/*/lib/", "site/"] },
     {
         rules: {
             "prettier/prettier": [
