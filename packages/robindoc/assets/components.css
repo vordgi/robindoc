@@ -2,8 +2,7 @@
   max-width: 672px;
   margin-right: auto;
   margin-left: auto;
-  padding-top: 60px;
-  padding-bottom: 60px;
+  padding: 60px 12px;
 }
 .r-h1 {
   font-size: 40px;
@@ -62,8 +61,8 @@
 }
 .r-checkbox {
   cursor: pointer;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   margin: 4px;
   vertical-align: middle;
 }

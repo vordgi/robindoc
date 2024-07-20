@@ -2,4 +2,44 @@ body {
   padding: 0;
   margin: 0;
   accent-color: var(--accent-color, #ea580c);
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+@media screen and (width < 768px) {
+  .body-mobile-lock {
+    overflow: hidden;
+  }
+}
+
+.body-lock {
+  overflow: hidden;
+}
+
+:root {
+  --body: #ffffff;
+  --neutral50: #f8fafc;
+  --neutral100: #f1f5f9;
+  --neutral200: #e2e8f0;
+  --neutral300: #cbd5e1;
+  --neutral400: #94a3b8;
+  --neutral500: #64748b;
+  --neutral600: #475569;
+  --neutral700: #334155;
+  --neutral800: #1e293b;
+  --neutral900: #0f172a;
+  --neutral950: #020617;
+  --primary50: #fff7ed;
+  --primary100: #ffedd5;
+  --primary200: #fed7aa;
+  --primary300: #fdba74;
+  --primary400: #fb923c;
+  --primary500: #f97316;
+  --primary600: #ea580c;
+  --primary700: #c2410c;
+  --primary800: #9a3412;
+  --primary900: #7c2d12;
+  --primary950: #431407;
 }
