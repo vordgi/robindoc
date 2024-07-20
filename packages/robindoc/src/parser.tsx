@@ -112,6 +112,8 @@ export const Parser: React.FC<ParserProps> = async ({ components, content }) => 
                 if (text.startsWith("<!---robin") && text.endsWith("-->")) {
                     const componentName = text.match(/<!---robin ([\w]+)/)?.[1];
 
+                    if (!text.endsWith("/-->")) isRobin = true;
+
                     if (!componentName) return null;
 
                     if (!components || !(componentName in components)) {
@@ -131,8 +133,6 @@ export const Parser: React.FC<ParserProps> = async ({ components, content }) => 
                         return acc;
                     }, {});
                     const Component = components[componentName as keyof typeof components];
-
-                    if (!text.endsWith("/-->")) isRobin = true;
 
                     return <Component {...props} />;
                 }
