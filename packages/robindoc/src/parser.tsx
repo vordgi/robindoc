@@ -1,11 +1,20 @@
 import React from "react";
 import { Marked, type Token, type Tokens } from "marked";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type ParserProps = { content: string; components?: { [key: string]: (...args: any[]) => JSX.Element } };
+type ParserProps = {
+    content: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    components?: { [key: string]: (...args: any[]) => JSX.Element };
+    config?: {
+        publicAssetsFolder?: string;
+    };
+};
 
-export const Parser: React.FC<ParserProps> = async ({ components, content }) => {
+export const Parser: React.FC<ParserProps> = async ({ components, content, config = {} }) => {
+    const { publicAssetsFolder } = config;
     const tree = new Marked({ async: true }).lexer(content);
+    const publicAssetsFolderClean = publicAssetsFolder?.replace(/^(\.*\/)*|\/$/g, "");
+    const publicAssetsRule = publicAssetsFolder && new RegExp(`^(.*/)*${publicAssetsFolderClean}/`, "g");
     let isRobin = false;
 
     const TokenParser: React.FC<{ token: Token | Token[] }> = ({ token }) => {
@@ -58,6 +67,11 @@ export const Parser: React.FC<ParserProps> = async ({ components, content }) => 
                 );
             case "space":
                 return <br />;
+            case "hr":
+                return <hr className="r-hr" />;
+            case "image":
+                const src = publicAssetsRule ? token.href.replace(publicAssetsRule, `/`) : token.href;
+                return <img src={src} className="r-img" alt={token.title || ""} />;
             case "paragraph":
                 return <p className="r-p">{token.tokens ? <TokenParser token={token.tokens} /> : token.text}</p>;
             case "strong":
