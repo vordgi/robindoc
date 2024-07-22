@@ -4,7 +4,7 @@ import { Marked, type Token, type Tokens } from "marked";
 type ParserProps = {
     content: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    components?: { [key: string]: (...args: any[]) => JSX.Element };
+    components?: { [key: string]: (props: { [key: string]: string | true }) => JSX.Element };
     config?: {
         publicAssetsFolder?: string;
     };
@@ -164,5 +164,10 @@ export const Parser: React.FC<ParserProps> = async ({ components, content, confi
                 return null;
         }
     };
-    return <TokenParser token={tree} />;
+
+    return (
+        <div className="r-content">
+            <TokenParser token={tree} />
+        </div>
+    );
 };
