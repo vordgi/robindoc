@@ -24,6 +24,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "dot-prop": "6.0.1",
     "marked": "13.0.2"
   },
   "devDependencies": {
