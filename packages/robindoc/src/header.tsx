@@ -31,7 +31,12 @@ export const Header: React.FC<LogoProps> = ({ logo, links = [] }) => {
                     </div>
                 </HeaderMenu>
                 <div className="r-header-social">
-                    <a href="https://github.com/vordgi/robindoc" className="r-header-git">
+                    <a
+                        href="https://github.com/vordgi/robindoc"
+                        className="r-header-git"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         <svg width="32" height="32" viewBox="0 0 32 32">
                             <title>Github</title>
                             <g clipPath="url(#mark)">

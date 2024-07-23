@@ -1,4 +1,5 @@
 import React from "react";
+import { Theme } from "./theme";
 
 export type FooterProps = {
     copyright: string;
@@ -10,13 +11,18 @@ export const Footer: React.FC<FooterProps> = ({ copyright, hidePoweredBy }) => (
         <div className="r-container">
             <div className="r-footer-row">
                 <div className="r-copyright">{copyright}</div>
-                <div className="r-theme"></div>
+                <Theme />
             </div>
             {!hidePoweredBy && (
                 <div className="r-footer-row r-footer-additional">
                     <div className="r-powered">
                         Powered by{" "}
-                        <a href="https://robindoc.com" className="r-powered-link">
+                        <a
+                            href="https://robindoc.com"
+                            className="r-powered-link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
                             ROBINDOC
                         </a>
                     </div>
