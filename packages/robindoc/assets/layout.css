@@ -27,9 +27,6 @@
   display: block;
   margin-right: 24px;
 }
-.r-header-logo svg {
-  display: block;
-}
 .r-header-logo, .r-header-git {
   color: var(--neutral700);
 }
@@ -130,7 +127,7 @@
   }
 }
 .r-header-link {
-  color: var(--neutral500);
+  color: var(--neutral600);
   text-decoration: none;
   font-weight: 600;
 }
@@ -175,15 +172,6 @@
   color: var(--neutral800);
 }
 
-.r-theme {
-  display: block;
-  width: 124px;
-  height: 40px;
-  background-color: var(--neutral950);
-  color: var(--neutral50);
-  border-radius: 14px;
-}
-
 .r-powered {
   font-size: 14px;
   display: block;
@@ -198,4 +186,76 @@
 
 .r-powered-link:hover {
   color: var(--primary900);
+}
+
+
+
+/* Theme */
+
+.r-theme {
+  position: relative;
+  display: flex;
+  gap: 4px;
+  width: 108px;
+  height: 36px;
+  padding: 2px;
+  background-color: var(--neutral950);
+  border-radius: 14px;
+}
+
+.r-theme::before {
+  content: "";
+  position: absolute;
+  display: block;
+  height: 32px;
+  width: 32px;
+  top: 2px;
+  left: 2px;
+  background-color: var(--body);
+  border-radius: 12px;
+  transition: left .2s;
+}
+
+.r-theme-btn {
+  padding: 8px;
+  background: none;
+  border: 0;
+  border-radius: 12px;
+  cursor: pointer;
+  color: var(--neutral50);
+  fill: var(--neutral950);
+  z-index: 1;
+  transition: color .2s .1s, fill .2s;
+}
+
+.r-theme-btn:hover {
+  color: var(--neutral50);
+  fill: var(--neutral50);
+}
+
+.theme-dark:not(.theme-system) .r-theme::before {
+  left: 2px;
+}
+
+.theme-dark:not(.theme-system) .r-theme-btn__dark {
+  color: var(--neutral950);
+  pointer-events: none;
+}
+
+.theme-system .r-theme::before {
+  left: 38px;
+}
+
+.theme-system .r-theme-btn__system {
+  color: var(--neutral950);
+  pointer-events: none;
+}
+
+.theme-light:not(.theme-system) .r-theme::before {
+  left: 74px;
+}
+
+.theme-light:not(.theme-system) .r-theme-btn__light {
+  color: var(--neutral950);
+  pointer-events: none;
 }
