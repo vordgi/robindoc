@@ -1,5 +1,9 @@
 import React from "react";
 import { Marked, type Token, type Tokens } from "marked";
+import GithubSlugger from "github-slugger";
+import { AnchorProvider } from "./anchor-provider";
+import { Heading } from "./heading";
+import { Contents } from "./contents";
 
 type ParserProps = {
     content: string;
@@ -10,13 +14,21 @@ type ParserProps = {
     };
 };
 
-export const Parser: React.FC<ParserProps> = async ({ components, content, config = {} }) => {
+export const Parser: React.FC<ParserProps> = ({ components, content, config = {} }) => {
     const { publicAssetsFolder } = config;
     const tree = new Marked({ async: true }).lexer(content);
+
+    const slugger = new GithubSlugger();
+    const headings = tree.reduce<{ title: string; id: string; nested: boolean; token: Token }[]>((acc, token) => {
+        if (token.type === "heading" && (token.depth === 2 || token.depth === 3)) {
+            acc.push({ title: token.text, id: slugger.slug(token.text), token, nested: token.depth === 3 });
+        }
+        return acc;
+    }, []);
+
     const publicAssetsFolderClean = publicAssetsFolder?.replace(/^(\.*\/)*|\/$/g, "");
     const publicAssetsRule = publicAssetsFolder && new RegExp(`^(.*/)*${publicAssetsFolderClean}/`, "g");
     let isRobin = false;
-
     const TokenParser: React.FC<{ token: Token | Token[] }> = ({ token }) => {
         if (!token) return null;
 
@@ -33,7 +45,16 @@ export const Parser: React.FC<ParserProps> = async ({ components, content, confi
         switch (token.type) {
             case "heading":
                 const Component = `h${token.depth}` as "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-                return <Component className={`r-h${token.depth}`}>{token.text}</Component>;
+                const predefinedData = headings.find((heading) => heading.token === token);
+                if (predefinedData?.id) {
+                    return (
+                        <Heading id={predefinedData?.id} component={Component}>
+                            {token.text}
+                        </Heading>
+                    );
+                } else {
+                    return <Component className={`r-h${token.depth}`}>{token.text}</Component>;
+                }
             case "table":
                 return (
                     <table className="r-table">
@@ -166,8 +187,13 @@ export const Parser: React.FC<ParserProps> = async ({ components, content, confi
     };
 
     return (
-        <div className="r-content">
-            <TokenParser token={tree} />
-        </div>
+        <AnchorProvider>
+            <div className="r-parser">
+                <Contents headings={headings.map((el) => ({ id: el.id, nested: el.nested, title: el.title }))} />
+                <div className="r-content">
+                    <TokenParser token={tree} />
+                </div>
+            </div>
+        </AnchorProvider>
     );
 };
