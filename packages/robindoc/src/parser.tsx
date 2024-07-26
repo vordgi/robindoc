@@ -8,7 +8,7 @@ import { Contents } from "./contents";
 type ParserProps = {
     content: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    components?: { [key: string]: (props: { [key: string]: string | true }) => JSX.Element };
+    components?: { [key: string]: (props: { [key: string]: string | true | undefined }) => JSX.Element };
     config?: {
         publicAssetsFolder?: string;
     };
@@ -188,11 +188,9 @@ export const Parser: React.FC<ParserProps> = ({ components, content, config = {}
 
     return (
         <AnchorProvider>
-            <div className="r-parser">
-                <Contents headings={headings.map((el) => ({ id: el.id, nested: el.nested, title: el.title }))} />
-                <div className="r-content">
-                    <TokenParser token={tree} />
-                </div>
+            <Contents headings={headings.map((el) => ({ id: el.id, nested: el.nested, title: el.title }))} />
+            <div className="r-content">
+                <TokenParser token={tree} />
             </div>
         </AnchorProvider>
     );

@@ -1,7 +1,13 @@
 :root {
-  --sticky-offset: 60px;
-  scroll-padding-top: calc(var(--sticky-offset) + 20px);
+  --header-height: 60px;
+  scroll-padding-top: calc(var(--header-height) + 20px);
   scroll-behavior: smooth;
+}
+
+@media screen and (width < 768px) {
+  :root {
+    scroll-padding-top: calc(var(--header-height) + 60px);
+  }
 }
 
 body {
@@ -30,6 +36,7 @@ svg {
 }
 
 .theme-light {
+  color-scheme: light;
   --body: #ffffff;
   --neutral50: #f8fafc;
   --neutral100: #f1f5f9;
@@ -60,6 +67,7 @@ svg {
 }
 
 .theme-dark {
+  color-scheme: dark;
   --body: #00020a;
   --neutral50: #020617;
   --neutral100: #0f172a;
