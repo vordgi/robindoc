@@ -10,7 +10,7 @@ export const AnchorProvider: React.FC<React.PropsWithChildren> = ({ children }) 
     const anchors = useRef<HTMLHeadingElement[]>([]);
 
     const register = useCallback((ref: HTMLHeadingElement) => {
-        if (!anchors.current.find((el) => el.id === ref.id)) {
+        if (ref?.id && !anchors.current.find((el) => el.id === ref.id)) {
             anchors.current.push(ref);
         }
     }, []);
@@ -26,7 +26,7 @@ export const AnchorProvider: React.FC<React.PropsWithChildren> = ({ children }) 
 
             let scheduledAnimationFrame = false;
             window.addEventListener("scroll", () => {
-                if (!scheduledAnimationFrame) {
+                if (!scheduledAnimationFrame && window.innerWidth > 1080) {
                     scheduledAnimationFrame = true;
                     setTimeout(() => {
                         findTargetSection();
