@@ -1,5 +1,6 @@
 import React from "react";
 import { HeaderMenu } from "./header-menu";
+import { Search } from "./search";
 
 export type LogoProps = {
     logo: React.ReactElement;
@@ -26,9 +27,7 @@ export const Header: React.FC<LogoProps> = ({ logo, links = [] }) => {
                             </a>
                         ))}
                     </nav>
-                    <div className="r-header-actions">
-                        <input placeholder="Search..." name="search" disabled className="r-header-search" />
-                    </div>
+                    <Search />
                 </HeaderMenu>
                 <div className="r-header-social">
                     <a
