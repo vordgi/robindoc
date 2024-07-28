@@ -1,7 +1,7 @@
 import React from "react";
-import { readFile } from "fs/promises";
-import { Marked, type Token, type Tokens } from "marked";
 import GithubSlugger from "github-slugger";
+import { Marked, type Token, type Tokens } from "marked";
+import { loadContent, type Provider } from "./utils/load-content";
 import { AnchorProvider } from "./anchor-provider";
 import { Heading } from "./heading";
 import { Contents } from "./contents";
@@ -12,12 +12,20 @@ type ParserProps = {
     config?: {
         publicAssetsFolder?: string;
     };
+    provider?: Provider;
     hideContents?: boolean;
 } & ({ content: string; uri?: undefined } | { uri: string; content?: undefined });
 
-export const Parser: React.FC<ParserProps> = async ({ components, content, uri, config = {}, hideContents }) => {
+export const Parser: React.FC<ParserProps> = async ({
+    components,
+    content,
+    uri,
+    config = {},
+    provider,
+    hideContents,
+}) => {
     const { publicAssetsFolder } = config;
-    const data = uri ? await readFile(uri, "utf-8") : content;
+    const data = uri ? await loadContent(uri, provider) : content;
 
     if (!data) {
         throw new Error("Robindoc: Please provide content or valid uri");
