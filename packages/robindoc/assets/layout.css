@@ -339,6 +339,9 @@
   padding: 0 12px 32px;
   grid-area: content;
 }
+.r-content > *:first-child {
+  margin-top: 0;
+}
 .r-contents {
   grid-area: contents;
 }
