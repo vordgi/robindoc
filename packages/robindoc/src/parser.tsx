@@ -1,4 +1,5 @@
 import React from "react";
+import { readFile } from "fs/promises";
 import { Marked, type Token, type Tokens } from "marked";
 import GithubSlugger from "github-slugger";
 import { AnchorProvider } from "./anchor-provider";
@@ -6,17 +7,22 @@ import { Heading } from "./heading";
 import { Contents } from "./contents";
 
 type ParserProps = {
-    content: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     components?: { [key: string]: (props: { [key: string]: string | true | undefined }) => JSX.Element };
     config?: {
         publicAssetsFolder?: string;
     };
-};
+} & ({ content: string; uri?: undefined } | { uri: string; content?: undefined });
 
-export const Parser: React.FC<ParserProps> = ({ components, content, config = {} }) => {
+export const Parser: React.FC<ParserProps> = async ({ components, content, uri, config = {} }) => {
     const { publicAssetsFolder } = config;
-    const tree = new Marked({ async: true }).lexer(content);
+    const data = uri ? await readFile(uri, "utf-8") : content;
+
+    if (!data) {
+        throw new Error("Robindoc: Please provide content or valid uri");
+    }
+
+    const tree = new Marked({ async: true }).lexer(data);
 
     const slugger = new GithubSlugger();
     const headings = tree.reduce<{ title: string; id: string; nested: boolean; token: Token }[]>((acc, token) => {
@@ -101,6 +107,8 @@ export const Parser: React.FC<ParserProps> = ({ components, content, config = {}
                         {token.tokens ? <TokenParser token={token.tokens} /> : token.text}
                     </strong>
                 );
+            case "del":
+                return <del className="r-del">{token.tokens ? <TokenParser token={token.tokens} /> : token.text}</del>;
             case "em":
                 return <em className="r-em">{token.tokens ? <TokenParser token={token.tokens} /> : token.text}</em>;
             case "codespan":
