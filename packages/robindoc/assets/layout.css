@@ -1,6 +1,7 @@
 .r-main {
   display: grid;
   grid-template-areas: "sidebar" "contents" "content";
+  grid-template-columns: 1fr;
   justify-content: center;
   column-gap: 20px;
 }
@@ -8,12 +9,21 @@
 @media screen and (width >= 768px) {
   .r-main {
     grid-template-areas: "sidebar contents" "sidebar content";
+    grid-template-columns: auto 1fr;
   }  
 }
 
 @media screen and (width >= 1080px) {
   .r-main {
     grid-template-areas: "sidebar content contents";
+    grid-template-columns: auto 520px auto;
+  }  
+}
+
+@media screen and (width >= 1180px) {
+  .r-main {
+    grid-template-areas: "sidebar content contents";
+    grid-template-columns: auto 672px auto;
   }  
 }
 
@@ -326,28 +336,34 @@
 /* PARSER */
 
 .r-content {
-  max-width: 672px;
   padding: 0 12px 32px;
   grid-area: content;
 }
 .r-contents {
-  padding: 20px 12px;
   grid-area: contents;
 }
 @media screen and (width >= 1080px) {
   .r-content {
     padding: 32px 12px;
   }
-  .r-contents {
-    order: 1;
-  }
 }
 .r-contents-sticky {
+  padding: 0 12px 32px;
   position: sticky;
-  top: calc(var(--header-height) + 32px);
+  top: var(--header-height);
   display: flex;
   flex-direction: column;
   min-width: 220px;
+  max-height: 320px;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--neutral200) transparent;
+}
+@media screen and (width >= 1080px) {
+  .r-contents-sticky {
+    max-height: calc(100vh - var(--header-height));
+    scrollbar-gutter: stable;
+  }
 }
 .r-contents-list {
   display: flex;
@@ -356,10 +372,16 @@
   padding-bottom: 12px;
 }
 .r-contents-title {
+  position: sticky;
+  top: 0;
+  background: var(--body);
+  font-weight: 600;
+  margin-top: 20px;
   cursor: pointer;
   padding-top: 12px;
   padding-bottom: 12px;
   color: var(--neutral600);
+  z-index: 1;
 }
 @media screen and (width < 1080px) {
   .r-contents-sticky:not(._opened) .r-contents-list {
@@ -383,9 +405,8 @@
 }
 @media screen and (width >= 1080px) {
   .r-contents-title {
-    pointer-events: none;
     color: var(--neutral900);
-    padding-top: 0;
+    cursor: auto;
   }
   .r-contents-chevron {
     display: none;

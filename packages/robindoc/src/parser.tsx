@@ -12,9 +12,10 @@ type ParserProps = {
     config?: {
         publicAssetsFolder?: string;
     };
+    hideContents?: boolean;
 } & ({ content: string; uri?: undefined } | { uri: string; content?: undefined });
 
-export const Parser: React.FC<ParserProps> = async ({ components, content, uri, config = {} }) => {
+export const Parser: React.FC<ParserProps> = async ({ components, content, uri, config = {}, hideContents }) => {
     const { publicAssetsFolder } = config;
     const data = uri ? await readFile(uri, "utf-8") : content;
 
@@ -196,7 +197,9 @@ export const Parser: React.FC<ParserProps> = async ({ components, content, uri, 
 
     return (
         <AnchorProvider>
-            <Contents headings={headings.map((el) => ({ id: el.id, nested: el.nested, title: el.title }))} />
+            {!hideContents && (
+                <Contents headings={headings.map((el) => ({ id: el.id, nested: el.nested, title: el.title }))} />
+            )}
             <div className="r-content">
                 <TokenParser token={tree} />
             </div>
