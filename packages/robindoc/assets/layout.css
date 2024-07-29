@@ -1,7 +1,7 @@
 .r-main {
   display: grid;
   grid-template-areas: "sidebar" "contents" "content";
-  grid-template-columns: 1fr;
+  grid-template-columns: 100%;
   justify-content: center;
   column-gap: 20px;
 }
@@ -9,7 +9,7 @@
 @media screen and (width >= 768px) {
   .r-main {
     grid-template-areas: "sidebar contents" "sidebar content";
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto calc(100% - 280px);
   }  
 }
 
@@ -356,7 +356,7 @@
   top: var(--header-height);
   display: flex;
   flex-direction: column;
-  min-width: 220px;
+  width: 232px;
   max-height: 320px;
   overflow: auto;
   scrollbar-width: thin;
@@ -575,7 +575,7 @@
 /* SIDEBAR */
 
 .r-sidebar {
-  width: 220px;
+  width: 232px;
   grid-area: sidebar;
 }
 
