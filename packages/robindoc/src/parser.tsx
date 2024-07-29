@@ -55,7 +55,7 @@ export const Parser: React.FC<ParserProps> = async ({
         }
 
         if (Array.isArray(token))
-            return token.map((t, index) => <TokenParser token={t} key={(t as Tokens.Text).text || index} />);
+            return token.map((t, index) => <TokenParser token={t} key={(t as Tokens.Text).raw || index} />);
 
         switch (token.type) {
             case "heading":
@@ -76,7 +76,7 @@ export const Parser: React.FC<ParserProps> = async ({
                         <thead className="r-thead">
                             <tr className="r-tr">
                                 {token.header.map((t: Tokens.Text) => (
-                                    <th key={t.text} className="r-th">
+                                    <th key={t.raw} className="r-th">
                                         <TokenParser token={t} />
                                     </th>
                                 ))}
@@ -86,7 +86,7 @@ export const Parser: React.FC<ParserProps> = async ({
                             {token.rows.map((r: Tokens.Text[], index: number) => (
                                 <tr key={index} className="r-tr">
                                     {r.map((i) => (
-                                        <td key={i.text} className="r-td">
+                                        <td key={i.raw} className="r-td">
                                             <TokenParser token={i} />
                                         </td>
                                     ))}
@@ -98,7 +98,7 @@ export const Parser: React.FC<ParserProps> = async ({
             case "link":
                 return (
                     <a href={token.href} className="r-a">
-                        {token.tokens ? <TokenParser token={token.tokens} /> : token.text}
+                        {token.tokens ? <TokenParser token={token.tokens} /> : token.raw}
                     </a>
                 );
             case "space":
@@ -109,25 +109,27 @@ export const Parser: React.FC<ParserProps> = async ({
                 const src = publicAssetsRule ? token.href.replace(publicAssetsRule, `/`) : token.href;
                 return <img src={src} className="r-img" alt={token.title || ""} />;
             case "paragraph":
-                return <p className="r-p">{token.tokens ? <TokenParser token={token.tokens} /> : token.text}</p>;
+                return <p className="r-p">{token.tokens ? <TokenParser token={token.tokens} /> : token.raw}</p>;
             case "strong":
                 return (
                     <strong className="r-strong">
-                        {token.tokens ? <TokenParser token={token.tokens} /> : token.text}
+                        {token.tokens ? <TokenParser token={token.tokens} /> : token.raw}
                     </strong>
                 );
             case "del":
-                return <del className="r-del">{token.tokens ? <TokenParser token={token.tokens} /> : token.text}</del>;
+                return <del className="r-del">{token.tokens ? <TokenParser token={token.tokens} /> : token.raw}</del>;
             case "em":
-                return <em className="r-em">{token.tokens ? <TokenParser token={token.tokens} /> : token.text}</em>;
+                return <em className="r-em">{token.tokens ? <TokenParser token={token.tokens} /> : token.raw}</em>;
             case "codespan":
-                return <code className="r-code">{token.text}</code>;
+                return <code className="r-code">{token.raw.replace(/^`|`$/g, "")}</code>;
             case "code":
                 return <pre className="r-pre">{token.text}</pre>;
+            case "escape":
+                return token.text;
             case "blockquote":
                 return (
                     <blockquote className="r-blockquote">
-                        {token.tokens ? <TokenParser token={token.tokens} /> : token.text}
+                        {token.tokens ? <TokenParser token={token.tokens} /> : token.raw}
                     </blockquote>
                 );
             case "list":
@@ -137,11 +139,11 @@ export const Parser: React.FC<ParserProps> = async ({
                     return (
                         <ListComponent className={`r-${ListComponent} r-task-${ListComponent}`}>
                             {token.items.map((i: Tokens.ListItem) => (
-                                <li key={i.text} className="r-li r-task-li">
+                                <li key={i.raw} className="r-li r-task-li">
                                     <label className="r-label r-task-label">
                                         <input type="checkbox" defaultChecked={i.checked} className="r-checkbox" />
                                         <span className="r-label-text">
-                                            {i.tokens ? <TokenParser token={i.tokens} /> : i.text}
+                                            {i.tokens ? <TokenParser token={i.tokens} /> : i.raw}
                                         </span>
                                     </label>
                                 </li>
@@ -152,8 +154,8 @@ export const Parser: React.FC<ParserProps> = async ({
                 return (
                     <ListComponent className={`r-${ListComponent}`}>
                         {token.items.map((i: Tokens.ListItem) => (
-                            <li key={i.text} className="r-li">
-                                {i.tokens ? <TokenParser token={i.tokens} /> : i.text}
+                            <li key={i.raw} className="r-li">
+                                {i.tokens ? <TokenParser token={i.tokens} /> : i.raw}
                             </li>
                         ))}
                     </ListComponent>
@@ -194,9 +196,9 @@ export const Parser: React.FC<ParserProps> = async ({
                 if ("tokens" in token) {
                     return <TokenParser token={token.tokens || []} />;
                 }
-                return token.text;
+                return token.raw;
             default:
-                if (!token.type && "text" in token) return token.text;
+                if (!token.type && "raw" in token) return token.raw;
 
                 console.log(`Unknown token ${token.type}`, token);
                 return null;
