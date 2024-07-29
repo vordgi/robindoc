@@ -1,8 +1,8 @@
 import React from "react";
 import GithubSlugger from "github-slugger";
 import { Marked, type Token, type Tokens } from "marked";
-import { type Provider } from "./types/content";
-import { loadContent } from "./utils/load-content";
+import { type Provider } from "../types/content";
+import { loadContent } from "../utils/load-content";
 import { AnchorProvider } from "./anchor-provider";
 import { Heading } from "./heading";
 import { Contents } from "./contents";
