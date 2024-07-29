@@ -1,9 +1,6 @@
 import { readFile } from "fs/promises";
+import { type Provider } from "../types/content";
 import { GithubProvider } from "../providers/github";
-
-export interface Provider {
-    load(uri: string): Promise<string>;
-}
 
 export const loadContent = async (uri: string, provider?: Provider) => {
     if (provider) {
