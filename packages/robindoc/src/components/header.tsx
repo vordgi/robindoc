@@ -2,7 +2,7 @@ import React from "react";
 import { HeaderMenu } from "./header-menu";
 import { Search } from "./search";
 
-export type LogoProps = {
+export type HeaderProps = {
     logo: React.ReactElement;
     link?: React.ElementType;
     links?: {
@@ -11,7 +11,7 @@ export type LogoProps = {
     }[];
 };
 
-export const Header: React.FC<LogoProps> = ({ logo, link: Link = "a", links = [] }) => {
+export const Header: React.FC<HeaderProps> = ({ logo, link: Link = "a", links = [] }) => {
     return (
         <header className="r-header">
             <div className="r-container r-header-body">
