@@ -4,30 +4,31 @@ import { Search } from "./search";
 
 export type LogoProps = {
     logo: React.ReactElement;
+    link?: React.ElementType;
     links?: {
         title: string;
         href: string;
     }[];
 };
 
-export const Header: React.FC<LogoProps> = ({ logo, links = [] }) => {
+export const Header: React.FC<LogoProps> = ({ logo, link: Link = "a", links = [] }) => {
     return (
         <header className="r-header">
             <div className="r-container r-header-body">
                 <div>
-                    <a href="/" className="r-header-logo">
+                    <Link href="/" className="r-header-logo">
                         {logo}
-                    </a>
+                    </Link>
                 </div>
                 <HeaderMenu>
                     <nav className="r-header-nav">
                         {links.map((link) => (
-                            <a href={link.href} className="r-header-link" key={link.title}>
+                            <Link href={link.href} className="r-header-link" key={link.title}>
                                 {link.title}
-                            </a>
+                            </Link>
                         ))}
                     </nav>
-                    <Search />
+                    <Search link={Link} />
                 </HeaderMenu>
                 <div className="r-header-social">
                     <a
