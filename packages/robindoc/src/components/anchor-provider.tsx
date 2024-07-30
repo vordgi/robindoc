@@ -17,11 +17,16 @@ export const AnchorProvider: React.FC<React.PropsWithChildren> = ({ children }) 
     const updateTargetSection = useCallback(() => {
         if (window.scrollY + 20 > document.body.scrollHeight - window.innerHeight) {
             setActiveIndex(anchors.current.length - 1);
-        } else if (window.scrollY + 100 > document.body.scrollHeight - window.innerHeight) {
-            setActiveIndex(anchors.current.length - 2);
         } else {
             const headingIndex = anchors.current.findLastIndex((el) => el.offsetTop < window.scrollY + 100);
-            setActiveIndex(headingIndex);
+            if (
+                window.scrollY + 100 > document.body.scrollHeight - window.innerHeight &&
+                headingIndex < anchors.current.length - 2
+            ) {
+                setActiveIndex(anchors.current.length - 2);
+            } else {
+                setActiveIndex(headingIndex);
+            }
         }
     }, []);
 
