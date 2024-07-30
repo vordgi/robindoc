@@ -7,7 +7,7 @@ import { AnchorProvider } from "./anchor-provider";
 import { Heading } from "./heading";
 import { Contents } from "./contents";
 
-type ParserProps = {
+export type ArticleProps = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     components?: { [key: string]: (props: { [key: string]: string | true | undefined }) => JSX.Element };
     config?: {
@@ -18,7 +18,7 @@ type ParserProps = {
     link?: React.ElementType;
 } & ({ content: string; uri?: undefined } | { uri: string; content?: undefined });
 
-export const Parser: React.FC<ParserProps> = async ({
+export const Article: React.FC<ArticleProps> = async ({
     components,
     content,
     uri,
@@ -34,10 +34,10 @@ export const Parser: React.FC<ParserProps> = async ({
         throw new Error("Robindoc: Please provide content or valid uri");
     }
 
-    const tree = new Marked({ async: true }).lexer(data);
+    const markedTree = new Marked({ async: true }).lexer(data);
 
     const slugger = new GithubSlugger();
-    const headings = tree.reduce<{ title: string; id: string; nested: boolean; token: Token }[]>((acc, token) => {
+    const headings = markedTree.reduce<{ title: string; id: string; nested: boolean; token: Token }[]>((acc, token) => {
         if (token.type === "heading" && (token.depth === 2 || token.depth === 3)) {
             acc.push({ title: token.text, id: slugger.slug(token.text), token, nested: token.depth === 3 });
         }
@@ -47,7 +47,7 @@ export const Parser: React.FC<ParserProps> = async ({
     const publicAssetsFolderClean = publicAssetsFolder?.replace(/^(\.*\/)*|\/$/g, "");
     const publicAssetsRule = publicAssetsFolder && new RegExp(`^(.*/)*${publicAssetsFolderClean}/`, "g");
     let isRobin = false;
-    const TokenParser: React.FC<{ token: Token | Token[] }> = ({ token }) => {
+    const ArticleToken: React.FC<{ token: Token | Token[] }> = ({ token }) => {
         if (!token) return null;
 
         if (isRobin) {
@@ -58,7 +58,7 @@ export const Parser: React.FC<ParserProps> = async ({
         }
 
         if (Array.isArray(token))
-            return token.map((t, index) => <TokenParser token={t} key={(t as Tokens.Text).raw || index} />);
+            return token.map((t, index) => <ArticleToken token={t} key={(t as Tokens.Text).raw || index} />);
 
         switch (token.type) {
             case "heading":
@@ -80,7 +80,7 @@ export const Parser: React.FC<ParserProps> = async ({
                             <tr className="r-tr">
                                 {token.header.map((t: Tokens.Text) => (
                                     <th key={t.raw} className="r-th">
-                                        <TokenParser token={t} />
+                                        <ArticleToken token={t} />
                                     </th>
                                 ))}
                             </tr>
@@ -90,7 +90,7 @@ export const Parser: React.FC<ParserProps> = async ({
                                 <tr key={index} className="r-tr">
                                     {r.map((i) => (
                                         <td key={i.raw} className="r-td">
-                                            <TokenParser token={i} />
+                                            <ArticleToken token={i} />
                                         </td>
                                     ))}
                                 </tr>
@@ -101,7 +101,7 @@ export const Parser: React.FC<ParserProps> = async ({
             case "link":
                 return (
                     <Link href={token.href} className="r-a">
-                        {token.tokens ? <TokenParser token={token.tokens} /> : token.raw}
+                        {token.tokens ? <ArticleToken token={token.tokens} /> : token.raw}
                     </Link>
                 );
             case "space":
@@ -112,17 +112,17 @@ export const Parser: React.FC<ParserProps> = async ({
                 const src = publicAssetsRule ? token.href.replace(publicAssetsRule, `/`) : token.href;
                 return <img src={src} className="r-img" alt={token.title || ""} />;
             case "paragraph":
-                return <p className="r-p">{token.tokens ? <TokenParser token={token.tokens} /> : token.raw}</p>;
+                return <p className="r-p">{token.tokens ? <ArticleToken token={token.tokens} /> : token.raw}</p>;
             case "strong":
                 return (
                     <strong className="r-strong">
-                        {token.tokens ? <TokenParser token={token.tokens} /> : token.raw}
+                        {token.tokens ? <ArticleToken token={token.tokens} /> : token.raw}
                     </strong>
                 );
             case "del":
-                return <del className="r-del">{token.tokens ? <TokenParser token={token.tokens} /> : token.raw}</del>;
+                return <del className="r-del">{token.tokens ? <ArticleToken token={token.tokens} /> : token.raw}</del>;
             case "em":
-                return <em className="r-em">{token.tokens ? <TokenParser token={token.tokens} /> : token.raw}</em>;
+                return <em className="r-em">{token.tokens ? <ArticleToken token={token.tokens} /> : token.raw}</em>;
             case "codespan":
                 return <code className="r-code">{token.raw.replace(/^`|`$/g, "")}</code>;
             case "code":
@@ -132,7 +132,7 @@ export const Parser: React.FC<ParserProps> = async ({
             case "blockquote":
                 return (
                     <blockquote className="r-blockquote">
-                        {token.tokens ? <TokenParser token={token.tokens} /> : token.raw}
+                        {token.tokens ? <ArticleToken token={token.tokens} /> : token.raw}
                     </blockquote>
                 );
             case "list":
@@ -146,7 +146,7 @@ export const Parser: React.FC<ParserProps> = async ({
                                     <label className="r-label r-task-label">
                                         <input type="checkbox" defaultChecked={i.checked} className="r-checkbox" />
                                         <span className="r-label-text">
-                                            {i.tokens ? <TokenParser token={i.tokens} /> : i.raw}
+                                            {i.tokens ? <ArticleToken token={i.tokens} /> : i.raw}
                                         </span>
                                     </label>
                                 </li>
@@ -158,7 +158,7 @@ export const Parser: React.FC<ParserProps> = async ({
                     <ListComponent className={`r-${ListComponent}`}>
                         {token.items.map((i: Tokens.ListItem) => (
                             <li key={i.raw} className="r-li">
-                                {i.tokens ? <TokenParser token={i.tokens} /> : i.raw}
+                                {i.tokens ? <ArticleToken token={i.tokens} /> : i.raw}
                             </li>
                         ))}
                     </ListComponent>
@@ -197,7 +197,7 @@ export const Parser: React.FC<ParserProps> = async ({
                 return null;
             case "text":
                 if ("tokens" in token) {
-                    return <TokenParser token={token.tokens || []} />;
+                    return <ArticleToken token={token.tokens || []} />;
                 }
                 return token.raw;
             default:
@@ -214,7 +214,7 @@ export const Parser: React.FC<ParserProps> = async ({
                 <Contents headings={headings.map((el) => ({ id: el.id, nested: el.nested, title: el.title }))} />
             )}
             <div className="r-content">
-                <TokenParser token={tree} />
+                <ArticleToken token={markedTree} />
             </div>
         </AnchorProvider>
     );

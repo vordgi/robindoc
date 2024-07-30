@@ -1,12 +1,12 @@
 import React from "react";
 import { SidebarMenu } from "./sidebar-menu";
 
-export type SidebarNavProps = {
+export type SidebarProps = {
     links: { href: string; title: string }[];
     link?: React.ElementType;
 };
 
-export const Sidebar: React.FC<SidebarNavProps> = ({ links, link: Link = "a" }) => (
+export const Sidebar: React.FC<SidebarProps> = ({ links, link: Link = "a" }) => (
     <SidebarMenu>
         <nav className="r-sidebar-nav">
             <ul className="r-sidebar-list">
