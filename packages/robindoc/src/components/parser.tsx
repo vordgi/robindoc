@@ -15,6 +15,7 @@ type ParserProps = {
     };
     provider?: Provider;
     hideContents?: boolean;
+    link?: React.ElementType;
 } & ({ content: string; uri?: undefined } | { uri: string; content?: undefined });
 
 export const Parser: React.FC<ParserProps> = async ({
@@ -24,6 +25,7 @@ export const Parser: React.FC<ParserProps> = async ({
     config = {},
     provider,
     hideContents,
+    link: Link = "a",
 }) => {
     const { publicAssetsFolder } = config;
     const data = uri ? await loadContent(uri, provider) : content;
@@ -98,9 +100,9 @@ export const Parser: React.FC<ParserProps> = async ({
                 );
             case "link":
                 return (
-                    <a href={token.href} className="r-a">
+                    <Link href={token.href} className="r-a">
                         {token.tokens ? <TokenParser token={token.tokens} /> : token.raw}
-                    </a>
+                    </Link>
                 );
             case "space":
                 return <br />;

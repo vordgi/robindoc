@@ -2,7 +2,12 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-const SearchModal: React.FC<{ closeHandler(): void }> = ({ closeHandler }) => {
+interface SearchModalProps {
+    closeHandler(): void;
+    link?: React.ElementType;
+}
+
+const SearchModal: React.FC<SearchModalProps> = ({ closeHandler, link: Link = "a" }) => {
     const [results, setResults] = useState<{ title: string; href: string; match: string }[] | null>(null);
     const debounceRef = useRef<NodeJS.Timeout | null>(null);
     const abortControllerRef = useRef<AbortController | null>(null);
@@ -65,10 +70,10 @@ const SearchModal: React.FC<{ closeHandler(): void }> = ({ closeHandler }) => {
                         {results.length > 0 ? (
                             results.map((item) => (
                                 <li key={item.href}>
-                                    <a href={item.href} className="r-search-item">
+                                    <Link href={item.href} onClick={closeHandler} className="r-search-item">
                                         <p className="r-search-item-title">{item.title}</p>
                                         <p className="r-search-item-desc">{item.match}</p>
-                                    </a>
+                                    </Link>
                                 </li>
                             ))
                         ) : (
@@ -81,7 +86,11 @@ const SearchModal: React.FC<{ closeHandler(): void }> = ({ closeHandler }) => {
     );
 };
 
-export const Search = () => {
+interface SearchProps {
+    link?: React.ElementType;
+}
+
+export const Search: React.FC<SearchProps> = ({ link }) => {
     const [system, setSystem] = useState<"none" | "other" | "apple">("none");
     const [opened, setOpened] = useState(false);
 
@@ -146,7 +155,7 @@ export const Search = () => {
                     </kbd>
                 )}
             </button>
-            {opened && <SearchModal closeHandler={closeHandler} />}
+            {opened && <SearchModal closeHandler={closeHandler} link={link} />}
         </>
     );
 };
