@@ -1,15 +1,34 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useMemo } from "react";
 import { CurrentSectionContext } from "./anchor-provider";
 
-interface ContentsProps extends React.PropsWithChildren {
+export interface ContentsProps extends React.PropsWithChildren {
     headings: { id: string; nested: boolean; title: string }[];
+    editOnGitUri?: string | { uri: string; text?: string } | null;
 }
 
-export const Contents: React.FC<ContentsProps> = ({ headings }) => {
+export const Contents: React.FC<ContentsProps> = ({ headings, editOnGitUri }) => {
     const [opened, setOpened] = useState(false);
     const currentSection = useContext(CurrentSectionContext);
+    const gitData = useMemo(() => {
+        if (!editOnGitUri) return null;
+
+        const uri = typeof editOnGitUri === "string" ? editOnGitUri : editOnGitUri.uri;
+        let text: string;
+        if (typeof editOnGitUri === "string" || !editOnGitUri.text) {
+            if (uri.match(/https?:\/\/github.com/)) {
+                text = "Edit on GitHub";
+            } else if (uri.match(/https?:\/\/gitlab.com/)) {
+                text = "Edit on GitLab";
+            } else {
+                text = "Edit on Git";
+            }
+        } else {
+            text = editOnGitUri.text;
+        }
+        return { uri, text };
+    }, [editOnGitUri]);
 
     const toggleHandler = () => {
         if (window.innerWidth < 1080) {
@@ -50,6 +69,13 @@ export const Contents: React.FC<ContentsProps> = ({ headings }) => {
                             ))}
                         </div>
                     </>
+                )}
+                {gitData && (
+                    <div className="r-contents-actions">
+                        <a href={gitData.uri} target="_blank" rel="noopener noreferrer" className="r-contents-git">
+                            {gitData.text}
+                        </a>
+                    </div>
                 )}
             </div>
         </div>

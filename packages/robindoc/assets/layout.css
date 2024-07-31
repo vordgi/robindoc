@@ -351,7 +351,7 @@
   }
 }
 .r-contents-sticky {
-  padding: 0 12px 32px;
+  padding: 0 12px;
   position: sticky;
   top: var(--header-height);
   display: flex;
@@ -457,6 +457,24 @@
 }
 .r-contents-link:hover::after {
   background-color: var(--primary700);
+}
+.r-contents-actions {
+  position: sticky;
+  bottom: 0;
+  padding: 12px 0;
+  background-color: var(--body);
+}
+.r-contents-git {
+  position: relative;
+  color: var(--neutral600);
+  text-decoration: none;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.r-contents-git:hover {
+  color: var(--neutral900);
 }
 
 

@@ -5,7 +5,7 @@ import { type Provider } from "../types/content";
 import { loadContent } from "../utils/load-content";
 import { AnchorProvider } from "./anchor-provider";
 import { Heading } from "./heading";
-import { Contents } from "./contents";
+import { Contents, type ContentsProps } from "./contents";
 
 export type ArticleProps = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -16,6 +16,7 @@ export type ArticleProps = {
     provider?: Provider;
     hideContents?: boolean;
     link?: React.ElementType;
+    editOnGitUri?: ContentsProps["editOnGitUri"];
 } & ({ content: string; uri?: undefined } | { uri: string; content?: undefined });
 
 export const Article: React.FC<ArticleProps> = async ({
@@ -26,6 +27,7 @@ export const Article: React.FC<ArticleProps> = async ({
     provider,
     hideContents,
     link: Link = "a",
+    editOnGitUri,
 }) => {
     const { publicAssetsFolder } = config;
     const data = uri ? await loadContent(uri, provider) : content;
@@ -211,7 +213,10 @@ export const Article: React.FC<ArticleProps> = async ({
     return (
         <AnchorProvider>
             {!hideContents && (
-                <Contents headings={headings.map((el) => ({ id: el.id, nested: el.nested, title: el.title }))} />
+                <Contents
+                    editOnGitUri={editOnGitUri === null ? null : editOnGitUri || uri}
+                    headings={headings.map((el) => ({ id: el.id, nested: el.nested, title: el.title }))}
+                />
             )}
             <div className="r-content">
                 <ArticleToken token={markedTree} />
