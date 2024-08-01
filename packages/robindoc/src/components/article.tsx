@@ -8,7 +8,6 @@ import { Heading } from "./heading";
 import { Contents, type ContentsProps } from "./contents";
 
 export type ArticleProps = {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     components?: { [key: string]: (props: { [key: string]: string | true | undefined }) => JSX.Element };
     config?: {
         publicAssetsFolder?: string;
@@ -77,28 +76,30 @@ export const Article: React.FC<ArticleProps> = async ({
                 }
             case "table":
                 return (
-                    <table className="r-table">
-                        <thead className="r-thead">
-                            <tr className="r-tr">
-                                {token.header.map((t: Tokens.Text) => (
-                                    <th key={t.raw} className="r-th">
-                                        <ArticleToken token={t} />
-                                    </th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody className="r-tbody">
-                            {token.rows.map((r: Tokens.Text[], index: number) => (
-                                <tr key={index} className="r-tr">
-                                    {r.map((i) => (
-                                        <td key={i.raw} className="r-td">
-                                            <ArticleToken token={i} />
-                                        </td>
+                    <div className="r-box">
+                        <table className="r-table">
+                            <thead className="r-thead">
+                                <tr className="r-tr">
+                                    {token.header.map((t: Tokens.Text) => (
+                                        <th key={t.raw} className="r-th">
+                                            {t.tokens ? <ArticleToken token={t.tokens} /> : t.text}
+                                        </th>
                                     ))}
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody className="r-tbody">
+                                {token.rows.map((r: Tokens.Text[], index: number) => (
+                                    <tr key={index} className="r-tr">
+                                        {r.map((i) => (
+                                            <td key={i.raw} className="r-td">
+                                                {i.tokens ? <ArticleToken token={i.tokens} /> : i.text}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 );
             case "link":
                 return (
