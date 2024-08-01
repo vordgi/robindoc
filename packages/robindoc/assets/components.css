@@ -88,3 +88,34 @@
   margin-top: 6px;
   margin-bottom: 6px;
 }
+.r-box {
+  width: 100%;
+  overflow: auto;
+  margin-block-start: 12px;
+  margin-block-end: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--neutral200) transparent;
+}
+.r-table {
+  min-width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+.r-thead {
+  background-color: var(--neutral100);
+}
+.r-td {
+  padding: 6px 12px;
+}
+.r-th {
+  padding: 6px 12px;
+}
+.r-th {
+  border-top: 1px solid var(--neutral500);
+  border-bottom: 1px solid var(--neutral500);
+  border-collapse: collapse;
+}
+.r-td {
+  border-bottom: 1px solid var(--neutral400);
+  border-collapse: collapse;
+}

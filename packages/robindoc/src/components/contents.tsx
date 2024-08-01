@@ -1,29 +1,17 @@
 "use client";
 
-import React, { useContext, useState, useMemo } from "react";
+import React, { useContext, useState } from "react";
 import { CurrentSectionContext } from "./anchor-provider";
 import { detectGitType } from "../utils/git-data";
 
 export interface ContentsProps extends React.PropsWithChildren {
     headings: { id: string; nested: boolean; title: string }[];
-    editOnGitUri?: string | { uri: string; text?: string } | null;
+    editOnGitUri?: string | null;
 }
 
 export const Contents: React.FC<ContentsProps> = ({ headings, editOnGitUri }) => {
     const [opened, setOpened] = useState(false);
     const currentSection = useContext(CurrentSectionContext);
-    const gitUri = useMemo(() => {
-        if (!editOnGitUri) return null;
-
-        const uri = typeof editOnGitUri === "string" ? editOnGitUri : editOnGitUri.uri;
-        let text: string;
-        if (typeof editOnGitUri === "string" || !editOnGitUri.text) {
-            text = `Edit on ${detectGitType(uri)}`;
-        } else {
-            text = editOnGitUri.text;
-        }
-        return { uri, text };
-    }, [editOnGitUri]);
 
     const toggleHandler = () => {
         if (window.innerWidth < 1080) {
@@ -65,10 +53,10 @@ export const Contents: React.FC<ContentsProps> = ({ headings, editOnGitUri }) =>
                         </div>
                     </>
                 )}
-                {gitUri && (
+                {editOnGitUri?.match(/^https?:\/\//) && (
                     <div className="r-contents-actions">
-                        <a href={gitUri.uri} target="_blank" rel="noopener noreferrer" className="r-contents-git">
-                            {gitUri.text}
+                        <a href={editOnGitUri} target="_blank" rel="noopener noreferrer" className="r-contents-git">
+                            Edit on {detectGitType(editOnGitUri).name}
                         </a>
                     </div>
                 )}
