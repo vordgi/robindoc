@@ -33,11 +33,11 @@
   color: var(--link-visited-hovered);
 }
 .r-pre {
-  background-color: var(--neutral100);
   border-radius: 6px;
-  padding: 12px 24px;
+  padding: 16px 20px;
   color: var(--primary800);
-  border: 1px solid var(--primary800);
+  background-color: var(--neutral50);
+  border: 1px solid var(--neutral800);
   font-size: 16px;
   overflow-x: auto;
 }

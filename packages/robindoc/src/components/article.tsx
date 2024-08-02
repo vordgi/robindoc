@@ -6,6 +6,7 @@ import { loadContent } from "../utils/load-content";
 import { AnchorProvider } from "./anchor-provider";
 import { Heading } from "./heading";
 import { Contents, type ContentsProps } from "./contents";
+import { Shiki } from "./code";
 
 export type ArticleProps = {
     components?: { [key: string]: (props: { [key: string]: string | true | undefined }) => JSX.Element };
@@ -129,7 +130,7 @@ export const Article: React.FC<ArticleProps> = async ({
             case "codespan":
                 return <code className="r-code">{token.raw.replace(/^`|`$/g, "")}</code>;
             case "code":
-                return <pre className="r-pre">{token.text}</pre>;
+                return <Shiki lang={token.lang} code={token.text} className="r-pre"></Shiki>;
             case "escape":
                 return token.text;
             case "blockquote":
