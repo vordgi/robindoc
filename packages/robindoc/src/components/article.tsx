@@ -1,7 +1,7 @@
 import React from "react";
 import GithubSlugger from "github-slugger";
 import { Marked, type Token, type Tokens } from "marked";
-import { type Provider } from "../types/content";
+import { type RobinProps, type Provider } from "../types/content";
 import { loadContent } from "../utils/load-content";
 import { AnchorProvider } from "./anchor-provider";
 import { Heading } from "./heading";
@@ -9,7 +9,9 @@ import { Contents, type ContentsProps } from "./contents";
 import { Shiki } from "./code";
 
 export type ArticleProps = {
-    components?: { [key: string]: (props: { [key: string]: string | true | undefined }) => JSX.Element };
+    components?: {
+        [key: string]: (props: Record<string, string | true | undefined | React.ReactNode>) => JSX.Element;
+    };
     config?: {
         publicAssetsFolder?: string;
     };
@@ -48,15 +50,28 @@ export const Article: React.FC<ArticleProps> = async ({
 
     const publicAssetsFolderClean = publicAssetsFolder?.replace(/^(\.*\/)*|\/$/g, "");
     const publicAssetsRule = publicAssetsFolder && new RegExp(`^(.*/)*${publicAssetsFolderClean}/`, "g");
-    let isRobin = false;
+    let robin: null | { props: RobinProps; childTokens: Token[]; componentName: string } = null;
     const ArticleToken: React.FC<{ token: Token | Token[] }> = ({ token }) => {
         if (!token) return null;
 
-        if (isRobin) {
+        if (robin) {
             if (!Array.isArray(token) && token.type === "html" && token.raw.trim() === "<!---/robin-->") {
-                isRobin = false;
+                const { componentName, childTokens, props } = robin;
+                const RobinComponent = components![componentName];
+                robin = null;
+                return (
+                    <RobinComponent {...props}>
+                        <ArticleToken token={childTokens} />
+                    </RobinComponent>
+                );
+            } else {
+                if (Array.isArray(token)) {
+                    robin.childTokens.push(...token);
+                } else {
+                    robin.childTokens.push(token);
+                }
+                return null;
             }
-            return null;
         }
 
         if (Array.isArray(token))
@@ -130,7 +145,7 @@ export const Article: React.FC<ArticleProps> = async ({
             case "codespan":
                 return <code className="r-code">{token.raw.replace(/^`|`$/g, "")}</code>;
             case "code":
-                return <Shiki lang={token.lang} code={token.text} className="r-pre"></Shiki>;
+                return <Shiki lang={token.lang} code={token.text} className="r-pre" />;
             case "escape":
                 return token.text;
             case "blockquote":
@@ -173,8 +188,6 @@ export const Article: React.FC<ArticleProps> = async ({
                 if (text.startsWith("<!---robin") && text.endsWith("-->")) {
                     const componentName = text.match(/<!---robin ([\w]+)/)?.[1];
 
-                    if (!text.endsWith("/-->")) isRobin = true;
-
                     if (!componentName) return null;
 
                     if (!components || !(componentName in components)) {
@@ -183,7 +196,7 @@ export const Article: React.FC<ArticleProps> = async ({
                     }
                     const propRows = text.split(/\r?\n/).slice(1, -1);
                     const props = propRows.reduce<{ [key: string]: string | true }>((acc, cur) => {
-                        const [_match, key, value] = cur.match(/^([\w]+)(?:="([^"]+)")?$/) || [];
+                        const [_match, key, value] = cur.match(/^([\w]+)(?:="(.+)")?$/) || [];
 
                         if (!_match) {
                             console.log(`Invalid component attribute: "${cur}"`);
@@ -193,9 +206,13 @@ export const Article: React.FC<ArticleProps> = async ({
                         acc[key] = value ?? true;
                         return acc;
                     }, {});
-                    const Component = components[componentName as keyof typeof components];
 
-                    return <Component {...props} />;
+                    if (text.endsWith("/-->")) {
+                        const Component = components[componentName as keyof typeof components];
+                        return <Component {...props} />;
+                    } else {
+                        robin = { props, componentName, childTokens: [] };
+                    }
                 }
 
                 return null;
