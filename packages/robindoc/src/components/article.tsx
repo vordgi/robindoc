@@ -1,7 +1,7 @@
 import React from "react";
 import GithubSlugger from "github-slugger";
 import { Marked, type Token, type Tokens } from "marked";
-import { type RobinProps, type Provider } from "../types/content";
+import { type RobinProps, type Provider, Components } from "../types/content";
 import { loadContent } from "../utils/load-content";
 import { AnchorProvider } from "./anchor-provider";
 import { Heading } from "./heading";
@@ -9,9 +9,7 @@ import { Contents, type ContentsProps } from "./contents";
 import { Shiki } from "./code";
 
 export type ArticleProps = {
-    components?: {
-        [key: string]: (props: Record<string, string | true | undefined | React.ReactNode>) => JSX.Element;
-    };
+    components?: Components;
     config?: {
         publicAssetsFolder?: string;
     };

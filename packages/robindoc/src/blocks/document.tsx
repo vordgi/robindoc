@@ -3,12 +3,15 @@ import { Main } from "../components/main";
 import { Sidebar, type SidebarProps } from "../components/sidebar";
 import { Article, type ArticleProps } from "../components/article";
 
-export type DocumentProps = ArticleProps & SidebarProps;
+export type DocumentProps = ArticleProps &
+    Omit<SidebarProps, "links"> & {
+        links?: SidebarProps["links"] | null;
+    };
 
-export const Document: React.FC<DocumentProps> = ({ link, links, ...articleProps }) => {
+export const Document: React.FC<DocumentProps> = ({ link, pathname, links, ...articleProps }) => {
     return (
         <Main>
-            <Sidebar links={links} link={link} />
+            {links && links.length > 0 && <Sidebar links={links} link={link} pathname={pathname} />}
             <Article link={link} {...articleProps} />
         </Main>
     );
