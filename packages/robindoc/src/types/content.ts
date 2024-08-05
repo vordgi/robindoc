@@ -5,3 +5,7 @@ export interface Provider {
 export type RobinProps = {
     [key: string]: string | true;
 };
+
+export type Components = {
+    [key: string]: (props: Record<string, string | true | undefined | React.ReactNode>) => JSX.Element;
+};

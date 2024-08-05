@@ -1,34 +1,45 @@
 import React from "react";
 import { SidebarMenu } from "./sidebar-menu";
 
-type LinkItem = {
+export type LinkItem = {
     title: string;
-    icon?: React.ElementType;
     href?: string;
     type?: "row" | "heading";
-    items?: LinkItem[];
+    items?: LinkItem[] | null;
 };
 
 export type SidebarProps = {
     links: LinkItem[];
     link?: React.ElementType;
+    pathname?: string;
 };
 
-const LinkItem: React.FC<{ item: LinkItem; link?: React.ElementType; depth: number }> = ({
+const checkIsTargetSection = (item: LinkItem, pathname?: string) => {
+    if (!pathname) return false;
+    if (item.href && pathname === new URL(item.href, "http://r").pathname?.replace(/\/$/, "")) return true;
+    if (item.items?.find((el) => checkIsTargetSection(el, pathname))) return true;
+    return false;
+};
+
+const LinkItem: React.FC<{ item: LinkItem; link?: React.ElementType; pathname?: string; depth: number }> = ({
     item,
     link: Link = "a",
+    pathname,
     depth,
 }) => (
     <li className={`r-sidebar-li r-sidebar-li-d${depth}`}>
         {item.href ? (
-            <Link href={item.href} className={`r-sidebar-link${item.type === "heading" ? " r-sidebar-heading" : ""}`}>
+            <Link
+                href={item.href}
+                className={`r-sidebar-link${item.type === "heading" ? " r-sidebar-heading" : ""}${pathname && item.href && pathname === new URL(item.href, "http://r").pathname?.replace(/\/$/, "") ? " _active" : ""}${checkIsTargetSection(item, pathname) ? " _target" : ""}`}
+            >
                 {item.title}
             </Link>
         ) : (
             <p className={`r-sidebar-p${item.type === "heading" ? " r-sidebar-heading" : ""}`}>{item.title}</p>
         )}
-        {item.items && (
-            <details className="r-sidebar-drop">
+        {item.items && item.items.length > 0 && (
+            <details className="r-sidebar-drop" open={checkIsTargetSection(item, pathname)}>
                 <summary className="r-sidebar-drop-btn">
                     <svg
                         className="r-sidebar-drop-icon"
@@ -51,6 +62,7 @@ const LinkItem: React.FC<{ item: LinkItem; link?: React.ElementType; depth: numb
                             link={Link}
                             key={link.href + link.title}
                             depth={depth >= 4 ? 4 : depth + 1}
+                            pathname={pathname}
                         />
                     ))}
                 </ul>
@@ -59,12 +71,18 @@ const LinkItem: React.FC<{ item: LinkItem; link?: React.ElementType; depth: numb
     </li>
 );
 
-export const Sidebar: React.FC<SidebarProps> = ({ links, link: Link }) => (
+export const Sidebar: React.FC<SidebarProps> = ({ links, pathname, link: Link }) => (
     <SidebarMenu>
         <nav className="r-sidebar-nav">
             <ul className="r-sidebar-list">
                 {links.map((link) => (
-                    <LinkItem item={link} link={Link} key={link.href + link.title} depth={0} />
+                    <LinkItem
+                        pathname={pathname?.replace(/\/$/, "")}
+                        item={link}
+                        link={Link}
+                        key={link.href + link.title}
+                        depth={0}
+                    />
                 ))}
             </ul>
         </nav>
