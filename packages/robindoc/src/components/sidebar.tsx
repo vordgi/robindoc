@@ -9,7 +9,7 @@ export type LinkItem = {
 };
 
 export type SidebarProps = {
-    links: LinkItem[];
+    links?: LinkItem[] | null;
     link?: React.ElementType;
     pathname?: string;
 };
@@ -71,20 +71,24 @@ const LinkItem: React.FC<{ item: LinkItem; link?: React.ElementType; pathname?: 
     </li>
 );
 
-export const Sidebar: React.FC<SidebarProps> = ({ links, pathname, link: Link }) => (
-    <SidebarMenu>
-        <nav className="r-sidebar-nav">
-            <ul className="r-sidebar-list">
-                {links.map((link) => (
-                    <LinkItem
-                        pathname={pathname?.replace(/\/$/, "")}
-                        item={link}
-                        link={Link}
-                        key={link.href + link.title}
-                        depth={0}
-                    />
-                ))}
-            </ul>
-        </nav>
-    </SidebarMenu>
-);
+export const Sidebar: React.FC<SidebarProps> = ({ links, pathname, link: Link }) => {
+    if (!links?.length) return <div className="r-sidebar" />;
+
+    return (
+        <SidebarMenu>
+            <nav className="r-sidebar-nav">
+                <ul className="r-sidebar-list">
+                    {links.map((link) => (
+                        <LinkItem
+                            pathname={pathname?.replace(/\/$/, "")}
+                            item={link}
+                            link={Link}
+                            key={link.href + link.title}
+                            depth={0}
+                        />
+                    ))}
+                </ul>
+            </nav>
+        </SidebarMenu>
+    );
+};

@@ -229,12 +229,11 @@ export const Article: React.FC<ArticleProps> = async ({
 
     return (
         <AnchorProvider>
-            {!hideContents && (
-                <Contents
-                    editOnGitUri={editOnGitUri === null ? null : editOnGitUri || uri}
-                    headings={headings.map((el) => ({ id: el.id, nested: el.nested, title: el.title }))}
-                />
-            )}
+            <Contents
+                editOnGitUri={editOnGitUri === null ? null : editOnGitUri || uri}
+                hideContents={hideContents}
+                headings={headings.map((el) => ({ id: el.id, nested: el.nested, title: el.title }))}
+            />
             <div className="r-content">
                 <ArticleToken token={markedTree} />
             </div>

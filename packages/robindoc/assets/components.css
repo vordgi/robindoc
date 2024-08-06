@@ -1,23 +1,30 @@
 .r-h1 {
   font-size: 40px;
+  line-height: 1.4;
 }
 .r-h2 {
-  font-size: 32px;
+  font-size: 28px;
+  line-height: 1.4;
 }
 .r-h3 {
-  font-size: 28px;
+  font-size: 24px;
+  line-height: 1.4;
 }
 .r-h4 {
-  font-size: 24px;
+  font-size: 20px;
+  line-height: 1.4;
 }
 .r-h5 {
-  font-size: 20px;
+  font-size: 18px;
+  line-height: 1.4;
 }
 .r-h6 {
   font-size: 16px;
+  line-height: 1.4;
 }
 .r-p {
   margin: 0;
+  line-height: 1.8;
 }
 .r-a {
   text-decoration: none;

@@ -6,10 +6,11 @@ import { detectGitType } from "../utils/git-data";
 
 export interface ContentsProps extends React.PropsWithChildren {
     headings: { id: string; nested: boolean; title: string }[];
+    hideContents?: boolean;
     editOnGitUri?: string | null;
 }
 
-export const Contents: React.FC<ContentsProps> = ({ headings, editOnGitUri }) => {
+export const Contents: React.FC<ContentsProps> = ({ headings, hideContents, editOnGitUri }) => {
     const [opened, setOpened] = useState(false);
     const currentSection = useContext(CurrentSectionContext);
 
@@ -22,7 +23,7 @@ export const Contents: React.FC<ContentsProps> = ({ headings, editOnGitUri }) =>
     return (
         <div className="r-contents">
             <div className={`r-contents-sticky${opened ? " _opened" : ""}`}>
-                {headings.length > 0 && (
+                {headings.length > 0 && !hideContents && (
                     <>
                         <div className="r-contents-title" onClick={toggleHandler}>
                             On this page
