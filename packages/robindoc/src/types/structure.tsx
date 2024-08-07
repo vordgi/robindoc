@@ -1,8 +1,8 @@
-import { type Provider } from "./content";
+import { BaseProvider } from "../providers/base";
 
 export type Configuration = {
     sourceUri?: string;
-    provider?: Provider;
+    provider?: BaseProvider;
     basePath?: string;
     gitToken?: string;
 };

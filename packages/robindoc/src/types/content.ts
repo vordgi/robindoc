@@ -1,8 +1,3 @@
-export interface Provider {
-    type: "local" | "remote";
-    load(uri: string): Promise<string>;
-}
-
 export type RobinProps = {
     [key: string]: string | true;
 };

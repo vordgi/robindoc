@@ -1,36 +1,24 @@
 import React from "react";
 import GithubSlugger from "github-slugger";
 import { Marked, type Token, type Tokens } from "marked";
-import { type RobinProps, type Provider, Components } from "../types/content";
+import { type RobinProps, type Components } from "../types/content";
+import { type BaseProvider } from "../providers/base";
 import { loadContent } from "../utils/load-content";
 import { AnchorProvider } from "./anchor-provider";
 import { Heading } from "./heading";
 import { Contents, type ContentsProps } from "./contents";
 import { Shiki } from "./code";
-import path from "path";
-import { readFile } from "fs/promises";
 
 export type ArticleProps = {
     components?: Components;
     config?: {
         publicDirs?: string[];
     };
-    provider?: Provider;
+    provider?: BaseProvider;
     hideContents?: boolean;
     link?: React.ElementType;
     editOnGitUri?: ContentsProps["editOnGitUri"];
 } & ({ content: string; uri?: undefined } | { uri: string; content?: undefined });
-
-const extensionsMap = {
-    ".svg": "image/svg+xml",
-    ".jpg": "image/jpeg",
-    ".jpeg": "image/jpeg",
-    ".png": "image/png",
-    ".webp": "image/webp",
-    ".avif": "image/avif",
-    ".gif": "image/gif",
-    ".ico": "image/vnd.microsoft.icon",
-};
 
 export const Article: React.FC<ArticleProps> = async ({
     components,
@@ -43,7 +31,9 @@ export const Article: React.FC<ArticleProps> = async ({
     editOnGitUri,
 }) => {
     const { publicDirs } = config;
-    const { data, type } = uri ? await loadContent(uri, provider) : { data: content, type: "local" };
+    const { data, provider: targetProvider } = uri
+        ? await loadContent(uri, provider)
+        : { data: content, provider: null };
 
     if (!data) {
         throw new Error("Robindoc: Please provide content or valid uri");
@@ -59,7 +49,6 @@ export const Article: React.FC<ArticleProps> = async ({
         return acc;
     }, []);
 
-    const publicDirsRule = publicDirs && new RegExp(`^(${publicDirs?.join("|")})(\/|$)`);
     let robin: null | { props: RobinProps; childTokens: Token[]; componentName: string } = null;
     const ArticleToken: React.FC<{ token: Token | Token[] }> = async ({ token }) => {
         if (!token) return null;
@@ -140,22 +129,8 @@ export const Article: React.FC<ArticleProps> = async ({
             case "image":
                 let src = token.href;
 
-                if (type === "local") {
-                    const assetPath = path.posix.join(
-                        process.cwd(),
-                        uri?.replace(/^\//, "./") || "",
-                        token.href.replace(/^\//, "./"),
-                    );
-                    const relativePath = path.posix.relative(process.cwd(), assetPath);
-                    const { dir, ext } = path.parse(relativePath);
-                    const publicDirMatch = publicDirsRule && dir.match(publicDirsRule);
-
-                    if (publicDirMatch) {
-                        src = `${relativePath.replace(publicDirMatch[1], "")}`;
-                    } else if (ext in extensionsMap) {
-                        const base64Image = await readFile(relativePath, "base64");
-                        src = `data:${extensionsMap[ext as keyof typeof extensionsMap]};base64,${base64Image}`;
-                    }
+                if (targetProvider) {
+                    src = await targetProvider.getFileSrc(uri || "", token.href, publicDirs);
                 }
 
                 return <img src={src} className="r-img" alt={token.title || ""} />;

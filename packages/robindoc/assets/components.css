@@ -126,3 +126,6 @@
   border-bottom: 1px solid var(--neutral400);
   border-collapse: collapse;
 }
+.r-img {
+  max-width: 100%;
+}

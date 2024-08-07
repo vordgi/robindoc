@@ -3,6 +3,7 @@ import path from "path";
 import { glob } from "glob";
 import { existsSync } from "fs";
 import { BaseProvider } from "./base";
+import { extensionsMap } from "../data/contents";
 
 export class FileSystemProvider implements BaseProvider {
     readonly type = "local";
@@ -48,5 +49,24 @@ export class FileSystemProvider implements BaseProvider {
 
         const content = await readFile(pathname, "utf-8");
         return content;
+    }
+
+    async getFileSrc(uri: string, href: string, publicDirs?: string[]) {
+        if (href.match(/https?:\/\//)) return href;
+
+        const assetPath = path.posix.join(process.cwd(), uri?.replace(/^\//, "./") || "", href.replace(/^\//, "./"));
+        const relativePath = path.posix.relative(process.cwd(), assetPath);
+        const { dir, ext } = path.parse(relativePath);
+        const publicDirsRule = publicDirs && new RegExp(`^(${publicDirs?.join("|")})(\/|$)`);
+        const publicDirMatch = publicDirsRule && dir.match(publicDirsRule);
+
+        let src = href;
+        if (publicDirMatch) {
+            src = `${relativePath.replace(publicDirMatch[1], "")}`;
+        } else if (ext in extensionsMap) {
+            const base64Image = await readFile(relativePath, "base64");
+            src = `data:${extensionsMap[ext as keyof typeof extensionsMap]};base64,${base64Image}`;
+        }
+        return src;
     }
 }
