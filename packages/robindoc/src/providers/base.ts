@@ -9,4 +9,6 @@ export abstract class BaseProvider {
     constructor(rootUri: string) {}
 
     abstract load(uri: string): Promise<string>;
+
+    abstract getFileSrc(uri: string, href: string, publicDirs?: string[]): Promise<string>;
 }

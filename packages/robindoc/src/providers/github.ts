@@ -1,3 +1,5 @@
+import path from "path";
+import { extensionsMap } from "../data/contents";
 import { BaseProvider } from "./base";
 
 export class GithubProvider implements BaseProvider {
@@ -18,7 +20,7 @@ export class GithubProvider implements BaseProvider {
     pathname?: string;
 
     constructor(rootUri: string, token?: string) {
-        this.rootUri = rootUri;
+        this.rootUri = rootUri.replace(/\/$/, "");
         const groups = this.testUri(rootUri);
 
         if (!groups) {
@@ -101,5 +103,33 @@ export class GithubProvider implements BaseProvider {
         );
         const groups = match?.groups;
         return groups || null;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async getFileSrc(uri: string, href: string) {
+        if (href.match(/https?:\/\//)) return href;
+
+        const filePath = href.startsWith("/") ? href : uri.replace(/\/$/, "") + "/" + href;
+        const url = new URL(`https://api.github.com/repos/${this.owner}/${this.repo}/contents${filePath}`);
+        url.searchParams.set("ref", this.ref);
+
+        const headers = new Headers();
+        if (this.token) headers.set("Authorization", `Bearer ${this.token}`);
+
+        const resp = await fetch(url.toString(), { headers });
+
+        if (!resp.ok) {
+            throw new Error("Can not load asset: " + resp.statusText);
+        }
+
+        const fileData = await resp.json();
+        const srcUrl = new URL(fileData.download_url);
+
+        if (srcUrl.searchParams.get("token")) {
+            const { ext } = path.parse(filePath);
+            return `data:${extensionsMap[ext as keyof typeof extensionsMap]};base64,${fileData.content}`;
+        } else {
+            return fileData.download_url;
+        }
     }
 }

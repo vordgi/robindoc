@@ -1,10 +1,10 @@
+import { type BaseProvider } from "../providers/base";
 import { Marked } from "marked";
 import { set } from "dot-prop";
-import { type Provider } from "../types/content";
 import { loadContent } from "./load-content";
 
 type GetMetaOptions =
-    | { uri: string; provider?: Provider; content?: undefined }
+    | { uri: string; provider?: BaseProvider; content?: undefined }
     | { uri?: undefined; provider?: undefined; content: string };
 
 export const getMeta = async (opts: GetMetaOptions) => {
