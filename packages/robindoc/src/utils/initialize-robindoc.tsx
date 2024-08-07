@@ -4,7 +4,7 @@ import { parseStructure } from "./parse-structure";
 import { getConfiguration } from "./get-configuration";
 import { Document, type DocumentProps } from "../blocks/document";
 
-type PageProps = Omit<Partial<DocumentProps>, "uri"> & {
+type PageProps = Omit<Partial<DocumentProps>, "uri" | "content" | "provider"> & {
     path: string;
 };
 
@@ -17,9 +17,16 @@ export const initializeRobindoc = (structure: Structure) => {
         if (!pageData) {
             throw new Error(`Can not find data for "${pathname}". Please check structure`);
         }
-        const content = await pageData.configuration.provider?.load(pageData.uri);
 
-        return <Document pathname={pathname} links={tree} content={content || ""} {...props} />;
+        return (
+            <Document
+                pathname={pathname}
+                links={tree}
+                provider={pageData.configuration.provider}
+                uri={pageData.uri}
+                {...props}
+            />
+        );
     };
 
     const getPages = async (basePath?: string) => {

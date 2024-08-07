@@ -5,6 +5,8 @@ import { existsSync } from "fs";
 import { BaseProvider } from "./base";
 
 export class FileSystemProvider implements BaseProvider {
+    readonly type = "local";
+
     rootUri: string;
 
     treePromise: Promise<string[]>;
