@@ -1,6 +1,8 @@
 import { BaseProvider } from "./base";
 
 export class GithubProvider implements BaseProvider {
+    readonly type = "remote";
+
     rootUri: string;
 
     treePromise: Promise<string[]>;

@@ -7,17 +7,30 @@ import { AnchorProvider } from "./anchor-provider";
 import { Heading } from "./heading";
 import { Contents, type ContentsProps } from "./contents";
 import { Shiki } from "./code";
+import path from "path";
+import { readFile } from "fs/promises";
 
 export type ArticleProps = {
     components?: Components;
     config?: {
-        publicAssetsFolder?: string;
+        publicDirs?: string[];
     };
     provider?: Provider;
     hideContents?: boolean;
     link?: React.ElementType;
     editOnGitUri?: ContentsProps["editOnGitUri"];
 } & ({ content: string; uri?: undefined } | { uri: string; content?: undefined });
+
+const extensionsMap = {
+    ".svg": "image/svg+xml",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".png": "image/png",
+    ".webp": "image/webp",
+    ".avif": "image/avif",
+    ".gif": "image/gif",
+    ".ico": "image/vnd.microsoft.icon",
+};
 
 export const Article: React.FC<ArticleProps> = async ({
     components,
@@ -29,8 +42,8 @@ export const Article: React.FC<ArticleProps> = async ({
     link: Link = "a",
     editOnGitUri,
 }) => {
-    const { publicAssetsFolder } = config;
-    const data = uri ? await loadContent(uri, provider) : content;
+    const { publicDirs } = config;
+    const { data, type } = uri ? await loadContent(uri, provider) : { data: content, type: "local" };
 
     if (!data) {
         throw new Error("Robindoc: Please provide content or valid uri");
@@ -46,10 +59,9 @@ export const Article: React.FC<ArticleProps> = async ({
         return acc;
     }, []);
 
-    const publicAssetsFolderClean = publicAssetsFolder?.replace(/^(\.*\/)*|\/$/g, "");
-    const publicAssetsRule = publicAssetsFolder && new RegExp(`^(.*/)*${publicAssetsFolderClean}/`, "g");
+    const publicDirsRule = publicDirs && new RegExp(`^(${publicDirs?.join("|")})(\/|$)`);
     let robin: null | { props: RobinProps; childTokens: Token[]; componentName: string } = null;
-    const ArticleToken: React.FC<{ token: Token | Token[] }> = ({ token }) => {
+    const ArticleToken: React.FC<{ token: Token | Token[] }> = async ({ token }) => {
         if (!token) return null;
 
         if (robin) {
@@ -126,7 +138,26 @@ export const Article: React.FC<ArticleProps> = async ({
             case "hr":
                 return <hr className="r-hr" />;
             case "image":
-                const src = publicAssetsRule ? token.href.replace(publicAssetsRule, `/`) : token.href;
+                let src = token.href;
+
+                if (type === "local") {
+                    const assetPath = path.posix.join(
+                        process.cwd(),
+                        uri?.replace(/^\//, "./") || "",
+                        token.href.replace(/^\//, "./"),
+                    );
+                    const relativePath = path.posix.relative(process.cwd(), assetPath);
+                    const { dir, ext } = path.parse(relativePath);
+                    const publicDirMatch = publicDirsRule && dir.match(publicDirsRule);
+
+                    if (publicDirMatch) {
+                        src = `${relativePath.replace(publicDirMatch[1], "")}`;
+                    } else if (ext in extensionsMap) {
+                        const base64Image = await readFile(relativePath, "base64");
+                        src = `data:${extensionsMap[ext as keyof typeof extensionsMap]};base64,${base64Image}`;
+                    }
+                }
+
                 return <img src={src} className="r-img" alt={token.title || ""} />;
             case "paragraph":
                 return <p className="r-p">{token.tokens ? <ArticleToken token={token.tokens} /> : token.raw}</p>;

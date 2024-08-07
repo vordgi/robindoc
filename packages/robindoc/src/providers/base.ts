@@ -1,4 +1,6 @@
 export abstract class BaseProvider {
+    abstract type: "local" | "remote";
+
     abstract rootUri: string;
 
     abstract treePromise: Promise<string[]>;

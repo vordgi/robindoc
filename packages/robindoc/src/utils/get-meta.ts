@@ -9,7 +9,7 @@ type GetMetaOptions =
 
 export const getMeta = async (opts: GetMetaOptions) => {
     const { uri, provider, content } = opts;
-    const data = uri ? await loadContent(uri, provider) : content;
+    const { data } = uri ? await loadContent(uri, provider) : { data: content };
 
     if (!data) {
         throw new Error("Robindoc: Please provide content or valid uri");

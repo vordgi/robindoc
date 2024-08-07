@@ -1,4 +1,5 @@
 export interface Provider {
+    type: "local" | "remote";
     load(uri: string): Promise<string>;
 }
 
