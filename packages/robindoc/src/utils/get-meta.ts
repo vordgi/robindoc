@@ -1,5 +1,6 @@
 import { type BaseProvider } from "../providers/base";
-import { Marked } from "marked";
+import matter from "gray-matter";
+import { lexer } from "marked";
 import { set } from "dot-prop";
 import { loadContent } from "./load-content";
 
@@ -15,9 +16,10 @@ export const getMeta = async (opts: GetMetaOptions) => {
         throw new Error("Robindoc: Please provide content or valid uri");
     }
 
-    const tree = new Marked({ async: true }).lexer(data);
+    const { content: matterContent, data: matterData } = matter(data);
+    const tree = lexer(matterContent);
 
-    const metaData = Object.entries(tree.links).reduce<Record<string, string>>((acc, cur) => {
+    const robinData = Object.entries(tree.links).reduce<Record<string, string>>((acc, cur) => {
         const [key, value] = cur;
         const metaKey = key.startsWith("robin.") && key.replace("robin.", "");
         const content = value.title;
@@ -27,7 +29,7 @@ export const getMeta = async (opts: GetMetaOptions) => {
         }
 
         return acc;
-    }, {});
+    }, matterData);
 
-    return metaData;
+    return robinData;
 };

@@ -2,6 +2,7 @@ import React from "react";
 import { type Structure } from "../types/structure";
 import { parseStructure } from "./parse-structure";
 import { getConfiguration } from "./get-configuration";
+import { getMeta as getMetaBase } from "./get-meta";
 import { Document, type DocumentProps } from "../blocks/document";
 
 type PageProps = Omit<Partial<DocumentProps>, "uri" | "content" | "provider"> & {
@@ -35,5 +36,18 @@ export const initializeRobindoc = (structure: Structure) => {
         return pagesArr;
     };
 
-    return { Page, getPages };
+    const getMeta = async (path: string) => {
+        const pathname = path.replace(/\/$/, "") || "/";
+        const pageData = pages[pathname];
+        if (!pageData) {
+            throw new Error(`Can not find data for "${pathname}". Please check structure`);
+        }
+        const meta = await getMetaBase({
+            uri: pageData.uri,
+            provider: pageData.configuration.provider,
+        });
+        return meta;
+    };
+
+    return { Page, getPages, getMeta };
 };
