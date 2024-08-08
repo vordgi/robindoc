@@ -1,6 +1,7 @@
 import React from "react";
 import GithubSlugger from "github-slugger";
-import { Marked, type Token, type Tokens } from "marked";
+import matter from "gray-matter";
+import { lexer, type Token, type Tokens } from "marked";
 import { type RobinProps, type Components } from "../types/content";
 import { type BaseProvider } from "../providers/base";
 import { loadContent } from "../utils/load-content";
@@ -39,7 +40,8 @@ export const Article: React.FC<ArticleProps> = async ({
         throw new Error("Robindoc: Please provide content or valid uri");
     }
 
-    const markedTree = new Marked({ async: true }).lexer(data);
+    const { content: matterContent } = matter(data);
+    const markedTree = lexer(matterContent.trim());
 
     const slugger = new GithubSlugger();
     const headings = markedTree.reduce<{ title: string; id: string; nested: boolean; token: Token }[]>((acc, token) => {

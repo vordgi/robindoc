@@ -58,6 +58,8 @@
   background-color: var(--neutral100);
   padding: 12px;
   border-left: 6px solid var(--primary800);
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
   font: inherit;
   margin: 0;
 }
