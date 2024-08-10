@@ -5,23 +5,23 @@ import { getConfiguration } from "./get-configuration";
 import { getMeta as getMetaBase } from "./get-meta";
 import { Document, type DocumentProps } from "../blocks/document";
 
-type PageProps = Omit<Partial<DocumentProps>, "uri" | "content" | "provider"> & {
-    path: string;
+type PageProps = Omit<Partial<DocumentProps>, "uri" | "content" | "provider" | "pathname"> & {
+    pathname: string;
 };
 
 export const initializeRobindoc = (structure: Structure) => {
     const { tree, pages } = parseStructure(structure, getConfiguration(structure));
 
-    const Page: React.FC<PageProps> = async ({ path, ...props }) => {
-        const pathname = path.replace(/\/$/, "") || "/";
-        const pageData = pages[pathname];
+    const Page: React.FC<PageProps> = async ({ pathname, ...props }) => {
+        const pathnameClean = pathname.replace(/\/$/, "") || "/";
+        const pageData = pages[pathnameClean];
         if (!pageData) {
-            throw new Error(`Can not find data for "${pathname}". Please check structure`);
+            throw new Error(`Can not find data for "${pathnameClean}". Please check structure`);
         }
 
         return (
             <Document
-                pathname={pathname}
+                pathname={pathnameClean}
                 links={tree}
                 provider={pageData.configuration.provider}
                 uri={pageData.uri}
@@ -36,11 +36,11 @@ export const initializeRobindoc = (structure: Structure) => {
         return pagesArr;
     };
 
-    const getMeta = async (path: string) => {
-        const pathname = path.replace(/\/$/, "") || "/";
-        const pageData = pages[pathname];
+    const getMeta = async (pathname: string) => {
+        const pathnameClean = pathname.replace(/\/$/, "") || "/";
+        const pageData = pages[pathnameClean];
         if (!pageData) {
-            throw new Error(`Can not find data for "${pathname}". Please check structure`);
+            throw new Error(`Can not find data for "${pathnameClean}". Please check structure`);
         }
         const meta = await getMetaBase({
             uri: pageData.uri,
