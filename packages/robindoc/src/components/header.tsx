@@ -7,6 +7,7 @@ import { HeaderSocial } from "./header-social";
 type SectionOption = {
     key: string;
     hrefKey?: string;
+    href?: string;
     title: string;
     shortTitle?: string;
 };
@@ -61,7 +62,9 @@ export const Header: React.FC<HeaderProps> = ({ logo, versions, locales, link: L
                                 <SectionDropdown
                                     defaultOption={targetVersion.key}
                                     options={versions.list.map((version) => ({
-                                        href: `${localePrefix}${version.key === versions.default ? "" : `/${version.hrefKey || version.key}`}/`,
+                                        href:
+                                            version.href ||
+                                            `${localePrefix}${version.key === versions.default ? "" : `/${version.hrefKey || version.key}`}/`,
                                         key: version.key,
                                         title: version.title,
                                         shortTitle: version.shortTitle,
@@ -72,7 +75,9 @@ export const Header: React.FC<HeaderProps> = ({ logo, versions, locales, link: L
                                 <SectionDropdown
                                     defaultOption={targetLocale.key}
                                     options={locales.list.map((locale) => ({
-                                        href: `${locale.key === locales.default ? "" : `/${locale.hrefKey || locale.key}`}${versionPrefix}/`,
+                                        href:
+                                            locale.href ||
+                                            `${locale.key === locales.default ? "" : `/${locale.hrefKey || locale.key}`}${versionPrefix}/`,
                                         key: locale.key,
                                         title: locale.title,
                                         shortTitle: locale.shortTitle,

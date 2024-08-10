@@ -204,13 +204,19 @@
 }
 
 .r-dropdown-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   position: relative;
   cursor: pointer;
   padding: 12px 4px;
   font-weight: 500;
   z-index: 1;
 }
-
+.r-dropdown-chevron {
+  margin-left: 6px;
+  transition: transform .3s;
+}
 .r-dropdown-drop {
   list-style: none;
   position: absolute;
@@ -228,16 +234,17 @@
   min-width: 120px;
   max-width: 180px;
 }
-
 .r-dropdown:hover {
   color: var(--neutral950);
 }
-
 .r-dropdown:hover .r-dropdown-drop {
   visibility: visible;
   pointer-events: all;
   transform: translateY(20px);
   opacity: 1;
+}
+.r-dropdown:hover .r-dropdown-chevron {
+  transform: rotate(180deg);
 }
 
 .r-dropdown-link {
