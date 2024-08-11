@@ -1,0 +1,148 @@
+@import "../../assets/vars";
+
+.r-article {
+  padding: 20px 0 80px;
+  grid-area: content;
+
+  @media screen and (width >= $sm) {
+    padding: 20px 12px 80px;
+  }
+
+  @media screen and (width >= $lg) {
+    padding: 32px 12px 80px;
+  }
+
+  & > *:first-child {
+    margin-top: 0;
+  }
+}
+
+.r-p {
+  margin: 0;
+  line-height: 1.8;
+}
+
+.r-a {
+  text-decoration: none;
+  color: var(--link-base);
+
+  &:hover {
+    color: var(--link-base-hovered);
+  }
+
+  &:visited {
+    color: var(--link-visited);
+  }
+
+  &:visited:hover {
+    color: var(--link-visited-hovered);
+  }
+}
+
+.r-pre {
+  border-radius: 6px;
+  padding: 16px 20px;
+  color: var(--primary800);
+  background-color: var(--neutral50);
+  border: 1px solid var(--neutral800);
+  font-size: 16px;
+  overflow-x: auto;
+}
+
+.r-code {
+  background-color: var(--neutral100);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 16px;
+}
+
+.r-blockquote {
+  background-color: var(--neutral100);
+  padding: 12px;
+  border-left: 6px solid var(--primary800);
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  font: inherit;
+  margin: 0;
+}
+
+.r-checkbox {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  margin: 4px;
+  vertical-align: middle;
+}
+
+.r-label {
+  cursor: pointer;
+}
+
+.r-task-ol,
+.r-task-ul {
+  list-style: none;
+  padding-left: 16px;
+}
+
+.r-task-label {
+  display: block;
+  width: 100%;
+  padding-top: 2px;
+  padding-bottom: 2px;
+
+  &:hover {
+    .r-checkbox {
+      filter: brightness(0.8);
+    }
+  }
+}
+
+.r-task-li {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.r-label-text {
+  vertical-align: middle;
+}
+
+.r-li:not(.r-task-li) {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.r-box {
+  width: 100%;
+  overflow: auto;
+  margin-block-start: 12px;
+  margin-block-end: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--neutral200) transparent;
+}
+
+.r-table {
+  min-width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+.r-thead {
+  background-color: var(--neutral100);
+}
+
+.r-td {
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--neutral400);
+  border-collapse: collapse;
+}
+
+.r-th {
+  padding: 6px 12px;
+  border-top: 1px solid var(--neutral500);
+  border-bottom: 1px solid var(--neutral500);
+  border-collapse: collapse;
+}
+
+.r-img {
+  max-width: 100%;
+}

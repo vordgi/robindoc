@@ -12,6 +12,6 @@
     "declaration": true,
     "jsx": "react"
   },
-  "include": ["env.d.ts", "src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules"]
 }
