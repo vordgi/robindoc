@@ -6,9 +6,12 @@ import React, { useEffect, useRef, useState } from "react";
 interface SearchModalProps {
     closeHandler(): void;
     link?: React.ElementType;
+    opened: boolean;
+    inputHandler(text: string): void;
 }
 
-const SearchModal: React.FC<SearchModalProps> = ({ closeHandler, link: Link = "a" }) => {
+const SearchModal: React.FC<SearchModalProps> = ({ closeHandler, link: Link = "a", opened, inputHandler }) => {
+    const inputRef = useRef<HTMLInputElement | null>(null);
     const [results, setResults] = useState<{ title: string; href: string; match: string }[] | null>(null);
     const debounceRef = useRef<NodeJS.Timeout | null>(null);
     const abortControllerRef = useRef<AbortController | null>(null);
@@ -16,6 +19,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ closeHandler, link: Link = "a
     const searchHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (debounceRef.current) clearTimeout(debounceRef.current);
         const value = e.currentTarget.value;
+        inputHandler(value);
 
         if (!value) {
             setResults(null);
@@ -49,18 +53,23 @@ const SearchModal: React.FC<SearchModalProps> = ({ closeHandler, link: Link = "a
         };
     });
 
+    useEffect(() => {
+        if (opened) inputRef.current?.focus();
+    }, [opened]);
+
     return (
         <>
-            <div onClick={closeHandler} className="r-search-backdrop" />
-            <div className="r-search-popup">
+            <div onClick={closeHandler} className={`r-search-backdrop${opened ? " _visible" : ""}`} />
+            <div className={`r-search-popup${opened ? " _visible" : ""}`}>
                 <div className="r-search-popup-header">
                     <input
                         type="text"
                         name="search"
                         placeholder="Type something..."
                         className="r-search-input"
-                        autoFocus
+                        autoFocus={opened}
                         onChange={searchHandler}
+                        ref={inputRef}
                     />
                     <kbd className="r-search-kbd r-search-popup-kbd" onClick={closeHandler}>
                         <kbd className="r-search-key">ESC</kbd>
@@ -92,6 +101,7 @@ interface SearchProps {
 }
 
 export const Search: React.FC<SearchProps> = ({ link }) => {
+    const titleRef = useRef<HTMLSpanElement>(null);
     const [system, setSystem] = useState<"none" | "other" | "apple">("none");
     const [opened, setOpened] = useState(false);
 
@@ -107,6 +117,11 @@ export const Search: React.FC<SearchProps> = ({ link }) => {
         if (opened) {
             closeHandler();
         } else {
+            openHandler();
+        }
+    };
+    const keyDownHandler = (e: React.KeyboardEvent<HTMLElement>) => {
+        if (e.key.length === 1 && e.code !== "Space") {
             openHandler();
         }
     };
@@ -136,10 +151,18 @@ export const Search: React.FC<SearchProps> = ({ link }) => {
         }
     }, []);
 
+    const inputHandler = (text: string) => {
+        if (titleRef.current) {
+            titleRef.current.innerText = text || "Search...";
+        }
+    };
+
     return (
         <>
-            <button type="button" className="r-search-btn" onClick={toggleHandler}>
-                Search...
+            <button type="button" className="r-search-btn" onClick={toggleHandler} onKeyDown={keyDownHandler}>
+                <span className="r-search-title" ref={titleRef}>
+                    Search...
+                </span>
                 {system !== "none" && (
                     <kbd className="r-search-kbd">
                         {system === "apple" ? (
@@ -156,7 +179,7 @@ export const Search: React.FC<SearchProps> = ({ link }) => {
                     </kbd>
                 )}
             </button>
-            {opened && <SearchModal closeHandler={closeHandler} link={link} />}
+            <SearchModal closeHandler={closeHandler} link={link} opened={opened} inputHandler={inputHandler} />
         </>
     );
 };

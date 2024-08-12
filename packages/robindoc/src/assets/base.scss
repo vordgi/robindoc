@@ -9,6 +9,10 @@
   @media screen and (width < $sm) {
     scroll-padding-top: calc(var(--header-height) + 60px);
   }
+
+  @media screen and (width > $lg) {
+    scrollbar-gutter: stable;
+  }
 }
 
 body {
