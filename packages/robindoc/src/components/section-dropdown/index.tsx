@@ -24,7 +24,7 @@ export const SectionDropdown: React.FC<SectionDropdownProps> = ({ defaultOption,
 
     return (
         <div className="r-dropdown">
-            <div className="r-dropdown-summary">
+            <button className="r-dropdown-summary">
                 <span>{defaultOptionDetailed.shortTitle || defaultOptionDetailed.title}</span>
                 <svg
                     width="16"
@@ -39,7 +39,7 @@ export const SectionDropdown: React.FC<SectionDropdownProps> = ({ defaultOption,
                 >
                     <path d="m6 9 6 6 6-6" />
                 </svg>
-            </div>
+            </button>
             <ul className="r-dropdown-drop">
                 {options.map((option) => (
                     <li key={option.key}>

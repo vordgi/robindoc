@@ -22,7 +22,8 @@
   margin-right: 24px;
   color: var(--neutral700);
 
-  &:hover {
+  &:hover,
+  &:focus {
     color: var(--neutral950);
   }
 }
@@ -43,7 +44,8 @@
   font-weight: 600;
   padding: 4px 0;
 
-  &:hover {
+  &:hover,
+  &:focus {
     color: var(--neutral950);
   }
 }

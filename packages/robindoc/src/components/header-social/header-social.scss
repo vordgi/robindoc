@@ -14,7 +14,8 @@
 .r-header-social-git {
   color: var(--neutral700);
 
-  &:hover {
+  &:hover,
+  &:focus {
     color: var(--neutral950);
   }
 }

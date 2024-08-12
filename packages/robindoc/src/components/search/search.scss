@@ -13,6 +13,7 @@
 
   @media screen and (width >= $sm) {
     width: 220px;
+    padding: 8px 96px 8px 20px;
   }
 
   &:hover {
@@ -22,6 +23,12 @@
       color: var(--neutral950);
     }
   }
+}
+
+.r-search-title {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .r-search-kbd {
@@ -59,8 +66,20 @@
   bottom: 0;
   left: 0;
   background-color: var(--body);
-  opacity: 0.9;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.3s,
+    visibility 0.3s 0.3s;
   z-index: 100;
+}
+
+.r-search-backdrop._visible {
+  opacity: 0.9;
+  visibility: visible;
+  transition: opacity 0.3s;
+  pointer-events: all;
 }
 
 .r-search-popup {
@@ -71,15 +90,35 @@
   background-color: var(--neutral100);
   border-radius: 12px 12px 0 0;
   border: 1px solid var(--neutral200);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.3s,
+    transform 0.3s,
+    visibility 0.3s 0.3s;
   z-index: 1000;
 
   @media screen and (width >= $sm) {
     top: 10%;
     left: 50%;
     bottom: auto;
-    transform: translateX(-50%);
+    transform: translateX(-50%) scale(0.95);
     max-width: 480px;
     border-radius: 12px;
+  }
+}
+
+.r-search-popup._visible {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
+  pointer-events: all;
+
+  @media screen and (width >= $sm) {
+    transform: translateX(-50%) scale(1);
   }
 }
 
