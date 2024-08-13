@@ -10,6 +10,7 @@ import { AnchorProvider } from "../anchor-provider";
 import { Heading } from "../heading";
 import { Contents, type ContentsProps } from "../contents";
 import { Shiki } from "../code";
+import { NavLink } from "../nav-link";
 
 export type ArticleProps = {
     components?: Components;
@@ -29,7 +30,7 @@ export const Article: React.FC<ArticleProps> = async ({
     config = {},
     provider,
     hideContents,
-    link: Link = "a",
+    link,
     editOnGitUri,
 }) => {
     const { publicDirs } = config;
@@ -121,9 +122,9 @@ export const Article: React.FC<ArticleProps> = async ({
                 );
             case "link":
                 return (
-                    <Link href={token.href} className="r-a">
+                    <NavLink link={link} href={token.href} className="r-a">
                         {token.tokens ? <ArticleToken token={token.tokens} /> : token.raw}
-                    </Link>
+                    </NavLink>
                 );
             case "space":
                 return <br />;

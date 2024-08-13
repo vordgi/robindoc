@@ -25,6 +25,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
   position: relative;
   color: inherit;
   cursor: pointer;
@@ -37,7 +38,7 @@
 
 .r-dropdown-chevron {
   margin-left: 6px;
-  transition: transform 0.3s;
+  transition: transform 0.3s 0.15s;
 }
 
 .r-dropdown-drop {
@@ -49,8 +50,9 @@
   pointer-events: none;
   opacity: 0;
   transition:
-    transform 0.3s,
-    opacity 0.3s;
+    transform 0.3s 0.15s,
+    opacity 0.3s 0.15s,
+    visibility 0.3s 0.15s;
   background-color: var(--neutral50);
   border: 1px solid var(--neutral100);
   border-radius: 8px;
