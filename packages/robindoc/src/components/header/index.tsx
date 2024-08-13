@@ -5,6 +5,7 @@ import { Search } from "../search";
 import { SectionDropdown } from "../section-dropdown";
 import { HeaderSocial } from "../header-social";
 import { Container } from "../container";
+import { NavLink } from "../nav-link";
 
 type SectionOption = {
     key: string;
@@ -46,16 +47,16 @@ export const Header: React.FC<HeaderProps> = ({ logo, versions, locales, link: L
         <header className="r-header">
             <Container className="r-header-body">
                 <div>
-                    <Link href="/" className="r-header-logo">
+                    <NavLink href="/" link={Link} className="r-header-logo">
                         {logo}
-                    </Link>
+                    </NavLink>
                 </div>
                 <HeaderMenu>
                     <nav className="r-header-nav">
                         {links.map((link) => (
-                            <Link href={link.href} className="r-header-link" key={link.title}>
+                            <NavLink href={link.href} link={Link} className="r-header-link" key={link.title}>
                                 {link.title}
-                            </Link>
+                            </NavLink>
                         ))}
                     </nav>
                     <div className="r-header-actions">

@@ -1,3 +1,4 @@
+import { NavLink } from "../nav-link";
 import "./section-dropdown.scss";
 import React from "react";
 
@@ -14,7 +15,7 @@ export type SectionDropdownProps = {
     link?: React.ElementType;
 };
 
-export const SectionDropdown: React.FC<SectionDropdownProps> = ({ defaultOption, options, link: Link = "a" }) => {
+export const SectionDropdown: React.FC<SectionDropdownProps> = ({ defaultOption, options, link }) => {
     const defaultOptionDetailed = options.find((option) => option.key === defaultOption);
 
     if (!defaultOptionDetailed) {
@@ -43,12 +44,13 @@ export const SectionDropdown: React.FC<SectionDropdownProps> = ({ defaultOption,
             <ul className="r-dropdown-drop">
                 {options.map((option) => (
                     <li key={option.key}>
-                        <Link
+                        <NavLink
+                            link={link}
                             href={option.href}
                             className={`r-dropdown-link${option.key === defaultOption ? " _active" : ""}`}
                         >
                             {option.title}
-                        </Link>
+                        </NavLink>
                     </li>
                 ))}
             </ul>

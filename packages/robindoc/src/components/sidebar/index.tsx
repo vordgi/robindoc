@@ -1,6 +1,7 @@
 import "./sidebar.scss";
 import React from "react";
 import { SidebarMenu } from "./sidebar-menu";
+import { NavLink } from "../nav-link";
 
 export type LinkItem = {
     title: string;
@@ -22,20 +23,21 @@ const checkIsTargetSection = (item: LinkItem, pathname?: string) => {
     return false;
 };
 
-const LinkItem: React.FC<{ item: LinkItem; link?: React.ElementType; pathname?: string; depth: number }> = ({
+const LinkBranch: React.FC<{ item: LinkItem; link?: React.ElementType; pathname?: string; depth: number }> = ({
     item,
-    link: Link = "a",
+    link: Link,
     pathname,
     depth,
 }) => (
     <li className={`r-sidebar-li r-sidebar-li-d${depth}`}>
         {item.href ? (
-            <Link
+            <NavLink
+                link={Link}
                 href={item.href}
                 className={`r-sidebar-link${item.type === "heading" ? " r-sidebar-heading" : ""}${pathname && item.href && pathname === new URL(item.href, "http://r").pathname?.replace(/\/$/, "") ? " _active" : ""}${checkIsTargetSection(item, pathname) ? " _target" : ""}`}
             >
                 {item.title}
-            </Link>
+            </NavLink>
         ) : (
             <p className={`r-sidebar-p${item.type === "heading" ? " r-sidebar-heading" : ""}`}>{item.title}</p>
         )}
@@ -58,7 +60,7 @@ const LinkItem: React.FC<{ item: LinkItem; link?: React.ElementType; pathname?: 
                 </summary>
                 <ul className="r-sidebar-list r-sidebar-sublist">
                     {item.items.map((link) => (
-                        <LinkItem
+                        <LinkBranch
                             item={link}
                             link={Link}
                             key={link.href + link.title}
@@ -80,7 +82,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ links, pathname, link: Link })
             <nav className="r-sidebar-nav">
                 <ul className="r-sidebar-list">
                     {links.map((link) => (
-                        <LinkItem
+                        <LinkBranch
                             pathname={pathname?.replace(/\/$/, "")}
                             item={link}
                             link={Link}

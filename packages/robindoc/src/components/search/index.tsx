@@ -1,5 +1,6 @@
 "use client";
 
+import { NavLink } from "../nav-link";
 import "./search.scss";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -10,7 +11,7 @@ interface SearchModalProps {
     inputHandler(text: string): void;
 }
 
-const SearchModal: React.FC<SearchModalProps> = ({ closeHandler, link: Link = "a", opened, inputHandler }) => {
+const SearchModal: React.FC<SearchModalProps> = ({ closeHandler, link, opened, inputHandler }) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [results, setResults] = useState<{ title: string; href: string; match: string }[] | null>(null);
     const debounceRef = useRef<NodeJS.Timeout | null>(null);
@@ -80,10 +81,15 @@ const SearchModal: React.FC<SearchModalProps> = ({ closeHandler, link: Link = "a
                         {results.length > 0 ? (
                             results.map((item) => (
                                 <li key={item.href}>
-                                    <Link href={item.href} onClick={closeHandler} className="r-search-item">
+                                    <NavLink
+                                        link={link}
+                                        href={item.href}
+                                        onClick={closeHandler}
+                                        className="r-search-item"
+                                    >
                                         <p className="r-search-item-title">{item.title}</p>
                                         <p className="r-search-item-desc">{item.match}</p>
-                                    </Link>
+                                    </NavLink>
                                 </li>
                             ))
                         ) : (
