@@ -7,13 +7,7 @@
 .r-contents-sticky {
   position: sticky;
   top: var(--header-height);
-  display: flex;
-  flex-direction: column;
   width: 100%;
-  max-height: 320px;
-  overflow: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--neutral200) transparent;
 
   @media screen and (width >= $sm) {
     padding: 0 12px;
@@ -22,13 +16,28 @@
   @media screen and (width >= $lg) {
     width: 220px;
     max-height: calc(100vh - var(--header-height));
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--neutral200) transparent;
     scrollbar-gutter: stable;
   }
 }
 
-.r-contents-sticky._opened {
-  .r-contents-chevron {
-    transform: rotate(180deg);
+.r-contents-control {
+  display: contents;
+  visibility: hidden;
+
+  @media screen and (width >= $lg) {
+    pointer-events: none;
+  }
+}
+
+.r-contents-control:checked + .r-contents-details {
+  .r-contents-list {
+    @media screen and (width < $lg) {
+      visibility: visible;
+      height: calc-size(auto);
+    }
   }
 
   .r-contents-title {
@@ -36,11 +45,9 @@
       color: var(--neutral800);
     }
   }
-}
 
-.r-contents-sticky:not(._opened) .r-contents-list {
-  @media screen and (width < $lg) {
-    display: none;
+  .r-contents-chevron {
+    transform: rotate(180deg);
   }
 }
 
@@ -48,11 +55,20 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding-top: 2px;
-  padding-bottom: 12px;
+  padding: 2px;
+  overflow: hidden;
+  transition:
+    height 0.3s allow-discrete,
+    visibility 0.3s allow-discrete;
+
+  @media screen and (width < $lg) {
+    visibility: hidden;
+    height: 0;
+  }
 }
 
 .r-contents-title {
+  display: block;
   position: sticky;
   top: 0;
   background: var(--body);
@@ -102,6 +118,10 @@
 
     &::after {
       background-color: var(--primary700);
+
+      @media screen and (width >= $lg) {
+        height: calc(100% + 8px);
+      }
     }
   }
 

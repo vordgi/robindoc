@@ -71,6 +71,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, versions, locales, link: L
                                         title: version.title,
                                         shortTitle: version.shortTitle,
                                     }))}
+                                    link={Link}
                                 />
                             )}
                             {locales && targetLocale && (
@@ -84,6 +85,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, versions, locales, link: L
                                         title: locale.title,
                                         shortTitle: locale.shortTitle,
                                     }))}
+                                    link={Link}
                                 />
                             )}
                         </div>
