@@ -3,6 +3,7 @@
 .r-dropdown {
   position: relative;
   color: var(--neutral600);
+  transition: color 0.2s 0.1s;
 
   &:hover,
   &:focus-within {
@@ -30,7 +31,7 @@
   color: inherit;
   cursor: pointer;
   padding: 10px 4px;
-  font-weight: 500;
+  font-size: 16px;
   border: 0;
   background: none;
   z-index: 1;
@@ -38,7 +39,7 @@
 
 .r-dropdown-chevron {
   margin-left: 6px;
-  transition: transform 0.3s 0.15s;
+  transition: transform 0.3s 0.1s;
 }
 
 .r-dropdown-drop {
@@ -50,9 +51,9 @@
   pointer-events: none;
   opacity: 0;
   transition:
-    transform 0.3s 0.15s,
-    opacity 0.3s 0.15s,
-    visibility 0.3s 0.15s;
+    transform 0.3s 0.1s,
+    opacity 0.3s 0.1s,
+    visibility 0.3s 0.1s;
   background-color: var(--neutral50);
   border: 1px solid var(--neutral100);
   border-radius: 8px;
