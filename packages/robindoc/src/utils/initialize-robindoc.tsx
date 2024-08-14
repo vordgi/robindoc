@@ -9,10 +9,21 @@ type PageProps = Omit<Partial<DocumentProps>, "uri" | "content" | "provider" | "
     pathname: string;
 };
 
-export const initializeRobindoc = (structure: Structure) => {
-    const { tree, pages } = parseStructure(structure, getConfiguration(structure));
+const loadStructure = async (structureTemplate: Structure | (() => Structure | Promise<Structure>)) => {
+    if (typeof structureTemplate === "function") {
+        return structureTemplate();
+    } else {
+        return structureTemplate;
+    }
+};
+
+export const initializeRobindoc = (structureTemplate: Structure | (() => Structure | Promise<Structure>)) => {
+    const pageDataPromise = loadStructure(structureTemplate).then((structure) =>
+        parseStructure(structure, getConfiguration(structure)),
+    );
 
     const Page: React.FC<PageProps> = async ({ pathname, ...props }) => {
+        const { pages, tree } = await pageDataPromise;
         const pathnameClean = pathname.replace(/\/$/, "") || "/";
         const pageData = pages[pathnameClean];
         if (!pageData) {
@@ -31,12 +42,14 @@ export const initializeRobindoc = (structure: Structure) => {
     };
 
     const getPages = async (basePath?: string) => {
+        const { pages } = await pageDataPromise;
         const pagesArr = Object.keys(pages);
         if (basePath) return pagesArr.filter((page) => page.startsWith(basePath));
         return pagesArr;
     };
 
     const getMeta = async (pathname: string) => {
+        const { pages } = await pageDataPromise;
         const pathnameClean = pathname.replace(/\/$/, "") || "/";
         const pageData = pages[pathnameClean];
         if (!pageData) {
