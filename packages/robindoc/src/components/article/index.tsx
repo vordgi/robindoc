@@ -99,19 +99,19 @@ export const Article: React.FC<ArticleProps> = async ({
                         <table className="r-table">
                             <thead className="r-thead">
                                 <tr className="r-tr">
-                                    {token.header.map((t: Tokens.Text) => (
-                                        <th key={t.raw} className="r-th">
+                                    {token.header.map((t: Tokens.Text, index: number) => (
+                                        <th key={t.text + index} className="r-th">
                                             {t.tokens ? <ArticleToken token={t.tokens} /> : t.text}
                                         </th>
                                     ))}
                                 </tr>
                             </thead>
                             <tbody className="r-tbody">
-                                {token.rows.map((r: Tokens.Text[], index: number) => (
-                                    <tr key={index} className="r-tr">
-                                        {r.map((i) => (
-                                            <td key={i.raw} className="r-td">
-                                                {i.tokens ? <ArticleToken token={i.tokens} /> : i.text}
+                                {token.rows.map((row: Tokens.Text[], rowIndex: number) => (
+                                    <tr key={rowIndex} className="r-tr">
+                                        {row.map((elem, elemIndex) => (
+                                            <td key={elem.text + elemIndex} className="r-td">
+                                                {elem.tokens ? <ArticleToken token={elem.tokens} /> : elem.text}
                                             </td>
                                         ))}
                                     </tr>
@@ -121,8 +121,12 @@ export const Article: React.FC<ArticleProps> = async ({
                     </div>
                 );
             case "link":
+                const additionalProps = token.href.match(/^https?:\/\//)
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {};
+
                 return (
-                    <NavLink link={link} href={token.href} className="r-a">
+                    <NavLink link={link} href={token.href} className="r-a" {...additionalProps}>
                         {token.tokens ? <ArticleToken token={token.tokens} /> : token.raw}
                     </NavLink>
                 );
@@ -168,12 +172,12 @@ export const Article: React.FC<ArticleProps> = async ({
                 if (isTaskList) {
                     return (
                         <ListComponent className={`r-${ListComponent} r-task-${ListComponent}`}>
-                            {token.items.map((i: Tokens.ListItem) => (
-                                <li key={i.raw} className="r-li r-task-li">
+                            {token.items.map((elem: Tokens.ListItem, index: number) => (
+                                <li key={elem.raw + index} className="r-li r-task-li">
                                     <label className="r-label r-task-label">
-                                        <input type="checkbox" defaultChecked={i.checked} className="r-checkbox" />
+                                        <input type="checkbox" defaultChecked={elem.checked} className="r-checkbox" />
                                         <span className="r-label-text">
-                                            {i.tokens ? <ArticleToken token={i.tokens} /> : i.raw}
+                                            {elem.tokens ? <ArticleToken token={elem.tokens} /> : elem.raw}
                                         </span>
                                     </label>
                                 </li>
@@ -183,9 +187,9 @@ export const Article: React.FC<ArticleProps> = async ({
                 }
                 return (
                     <ListComponent className={`r-${ListComponent}`}>
-                        {token.items.map((i: Tokens.ListItem) => (
-                            <li key={i.raw} className="r-li">
-                                {i.tokens ? <ArticleToken token={i.tokens} /> : i.raw}
+                        {token.items.map((elem: Tokens.ListItem, index: number) => (
+                            <li key={elem.raw + index} className="r-li">
+                                {elem.tokens ? <ArticleToken token={elem.tokens} /> : elem.raw}
                             </li>
                         ))}
                     </ListComponent>

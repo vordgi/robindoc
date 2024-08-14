@@ -13,6 +13,7 @@
 
 .r-header-social-git {
   color: var(--neutral700);
+  transition: color 0.2s;
 
   &:hover,
   &:focus {
