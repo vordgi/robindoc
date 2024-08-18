@@ -1,13 +1,14 @@
 import path from "path";
 import { extensionsMap } from "../data/contents";
 import { BaseProvider } from "./base";
+import { getFileUrl } from "../utils/path-tools";
 
 export class GithubProvider implements BaseProvider {
     readonly type = "remote";
 
     rootUri: string;
 
-    treePromise: Promise<string[]>;
+    treePromise: Promise<{ origPath: string; clientPath: string }[]>;
 
     owner: string;
 
@@ -17,7 +18,7 @@ export class GithubProvider implements BaseProvider {
 
     token?: string;
 
-    pathname?: string;
+    pathname: string;
 
     constructor(rootUri: string, token?: string) {
         this.rootUri = rootUri.replace(/\/$/, "");
@@ -27,7 +28,7 @@ export class GithubProvider implements BaseProvider {
             throw new Error(`Invalid URI: "${rootUri}"`);
         }
 
-        const { owner, repo, ref = "main", pathname } = groups;
+        const { owner, repo, ref = "main", pathname = "" } = groups;
         this.owner = owner;
         this.repo = repo;
         this.ref = ref;
@@ -38,20 +39,20 @@ export class GithubProvider implements BaseProvider {
 
     async load(uri: string) {
         const segments = [...(this.pathname?.split("/") || []), ...uri.split("/")].filter(Boolean);
-        const uriClean = segments.join("/");
+        const fullUri = segments.join("/");
         let pathname;
-        if (uriClean.endsWith(".md") || uriClean.endsWith(".mdx")) {
-            pathname = uriClean;
+
+        if (uri.endsWith(".md") || uri.endsWith(".mdx")) {
+            pathname = fullUri;
         } else {
-            const lastPart = segments[segments.length - 1];
             const files = await this.treePromise;
-            const regexp = new RegExp(`^${uriClean}(.mdx?|(^|/)(readme|index|${lastPart}).mdx?)$`, "i");
-            const validFile = files.find((file) => file.match(regexp));
+            const validFile = files.find((file) => file.clientPath === uri);
+
             if (validFile) {
-                pathname = validFile;
+                pathname = this.pathname.replace(/\/$/, "") + validFile.origPath;
             } else {
                 throw new Error(
-                    `Can not find md file at "https://github.com/${this.owner}/${this.repo}/blob/${this.ref}/${uriClean}"`,
+                    `Can not find md file at "https://github.com/${this.owner}/${this.repo}/blob/${this.ref}/${fullUri}"`,
                 );
             }
         }
@@ -66,7 +67,7 @@ export class GithubProvider implements BaseProvider {
         const resp = await fetch(url.toString(), { headers });
         if (!resp.ok) {
             throw new Error(
-                `Can not load content from "https://github.com/${this.owner}/${this.repo}/blob/${this.ref}/${uriClean}": ${resp.statusText}`,
+                `Can not load content from "https://github.com/${this.owner}/${this.repo}/blob/${this.ref}/${fullUri}": ${resp.statusText}`,
             );
         }
         const content = await resp.text();
@@ -89,9 +90,17 @@ export class GithubProvider implements BaseProvider {
         }
         const data = (await resp.json()) as { tree: { path: string }[] };
 
-        return data.tree.reduce<string[]>((acc, item) => {
-            if (!pathnameClean || item.path.startsWith(pathnameClean)) {
-                acc.push(item.path);
+        return data.tree.reduce<{ origPath: string; clientPath: string }[]>((acc, item) => {
+            if (
+                (!pathnameClean || (pathnameClean && item.path.startsWith(pathnameClean))) &&
+                item.path.match(/\.(md|mdx)$/)
+            ) {
+                const clientPath = getFileUrl(item.path);
+
+                acc.push({
+                    origPath: item.path.substring(pathnameClean?.length || 0) || "/",
+                    clientPath: clientPath.substring(pathnameClean?.length || 0) || "/",
+                });
             }
             return acc;
         }, []);

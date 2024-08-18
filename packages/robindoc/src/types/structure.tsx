@@ -16,7 +16,7 @@ export type DocItem = {
     gitToken?: string;
     hidden?: boolean;
     basePath?: string;
-    items?: DocItem[] | null;
+    items?: DocItem[] | null | "auto";
     href?: string;
 };
 
@@ -24,5 +24,5 @@ export type Structure = {
     sourceUri?: string;
     gitToken?: string;
     basePath?: string;
-    items?: DocItem[];
+    items?: DocItem[] | "auto";
 };

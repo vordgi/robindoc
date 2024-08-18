@@ -3,7 +3,7 @@ export abstract class BaseProvider {
 
     abstract rootUri: string;
 
-    abstract treePromise: Promise<string[]>;
+    abstract treePromise: Promise<{ origPath: string; clientPath: string }[]>;
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     constructor(rootUri: string) {}
