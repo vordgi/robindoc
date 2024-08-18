@@ -4,17 +4,18 @@ import { glob } from "glob";
 import { existsSync } from "fs";
 import { BaseProvider } from "./base";
 import { extensionsMap } from "../data/contents";
+import { getFileUrl } from "../utils/path-tools";
 
 export class FileSystemProvider implements BaseProvider {
     readonly type = "local";
 
     rootUri: string;
 
-    treePromise: Promise<string[]>;
+    treePromise: BaseProvider["treePromise"];
 
     constructor(rootUri: string = process.cwd()) {
         this.rootUri = rootUri.replaceAll("\\", "/");
-        this.treePromise = glob("**/*.{md,mdx}", { cwd: rootUri, posix: true });
+        this.treePromise = this.loadTree("");
     }
 
     async load(uri: string) {
@@ -27,19 +28,10 @@ export class FileSystemProvider implements BaseProvider {
                 throw new Error(`Can not find file "${fullUri}"`);
             }
         } else {
-            const segments = fullUri.split("/");
-            const lastPart = segments[segments.length - 1];
             const files = await this.treePromise;
-            const regexp = new RegExp(
-                `^${fullUri.replace(/^\.\/?/, "")}(.mdx?|(^|/)(readme|index|${lastPart}).mdx?)$`,
-                "i",
-            );
-
-            const validFile = files.find((file) =>
-                path.posix.join(this.rootUri, file).replaceAll("\\", "/").match(regexp),
-            );
+            const validFile = files.find((file) => file.clientPath === uri);
             if (validFile) {
-                pathname = validFile;
+                pathname = this.rootUri + validFile.origPath;
             } else {
                 throw new Error(
                     `Can not find md file at "${path.posix.join(this.rootUri, fullUri).replaceAll("\\", "/")}"`,
@@ -68,5 +60,22 @@ export class FileSystemProvider implements BaseProvider {
             src = `data:${extensionsMap[ext as keyof typeof extensionsMap]};base64,${base64Image}`;
         }
         return src;
+    }
+
+    private async loadTree(pathname?: string) {
+        const pathnameClean = pathname?.replace(/^\//, "");
+        const files = await glob("**/*.{md,mdx}", { cwd: this.rootUri, posix: true });
+
+        return files.reduce<{ origPath: string; clientPath: string }[]>((acc, item) => {
+            if (!pathnameClean || (pathnameClean && item.startsWith(pathnameClean))) {
+                const clientPath = getFileUrl("/" + item);
+
+                acc.push({
+                    origPath: "/" + item.substring(pathnameClean?.length || 0),
+                    clientPath: clientPath.substring(pathnameClean?.length || 0) || "/",
+                });
+            }
+            return acc;
+        }, []);
     }
 }
