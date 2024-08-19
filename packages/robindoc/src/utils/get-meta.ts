@@ -1,6 +1,6 @@
 import { type BaseProvider } from "../providers/base";
 import matter from "gray-matter";
-import { lexer } from "marked";
+import { lexer, Tokens } from "marked";
 import { set } from "dot-prop";
 import { loadContent } from "./load-content";
 
@@ -30,6 +30,13 @@ export const getMeta = async (opts: GetMetaOptions) => {
 
         return acc;
     }, matterData);
+
+    if (!robinData.title) {
+        const pageHeading = tree.find((el) => el.type === "heading" && el.depth === 1) as Tokens.Heading | undefined;
+        if (pageHeading?.text) {
+            robinData.title = pageHeading.text;
+        }
+    }
 
     return robinData;
 };
