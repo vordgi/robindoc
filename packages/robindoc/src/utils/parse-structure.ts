@@ -1,6 +1,7 @@
 import { type Pages, type Configuration, type DocItem } from "../types/structure";
 import { type LinkItem } from "../components/sidebar";
 import { getConfiguration } from "./get-configuration";
+import { getMeta } from "./get-meta";
 
 export const parseStructure = async (
     items: DocItem[] | "auto",
@@ -22,7 +23,7 @@ export const parseStructure = async (
                     continue;
                 }
 
-                const { clientPath, origPath } = generatedItem;
+                const { clientPath } = generatedItem;
                 const fullUri = (parentConfiguration.basePath || "") + clientPath;
                 const fullUriClean = fullUri.replace(/(.+)\/$/, "$1");
 
@@ -33,14 +34,17 @@ export const parseStructure = async (
                 );
                 Object.assign(pages, subItemsData.pages);
 
+                const pseudoTitle = clientPath.substring(1) || "index";
+                const meta = await getMeta({ provider: parentConfiguration.provider, uri: clientPath });
+
                 pages[fullUriClean] = {
-                    title: origPath,
+                    title: meta.title || pseudoTitle,
                     uri: clientPath,
                     configuration: parentConfiguration,
                 };
 
                 tree.push({
-                    title: origPath,
+                    title: meta.title || pseudoTitle,
                     href: fullUriClean,
                     items: subItemsData.tree,
                     type: "row",
