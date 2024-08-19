@@ -1,6 +1,7 @@
 import path from "path";
+import { type BaseProvider } from "./base";
+import { type Fetcher } from "../types/structure";
 import { extensionsMap } from "../data/contents";
-import { BaseProvider } from "./base";
 import { getFileUrl } from "../utils/path-tools";
 
 export class GithubProvider implements BaseProvider {
@@ -20,7 +21,9 @@ export class GithubProvider implements BaseProvider {
 
     pathname: string;
 
-    constructor(rootUri: string, token?: string) {
+    fetcher: Fetcher;
+
+    constructor(rootUri: string, fetcher: Fetcher, token?: string) {
         this.rootUri = rootUri.replace(/\/$/, "");
         const groups = this.testUri(rootUri);
 
@@ -34,6 +37,7 @@ export class GithubProvider implements BaseProvider {
         this.ref = ref;
         this.token = token;
         this.pathname = pathname;
+        this.fetcher = fetcher;
         this.treePromise = this.loadTree(pathname);
     }
 
@@ -64,7 +68,7 @@ export class GithubProvider implements BaseProvider {
         url.searchParams.set("ref", this.ref);
         if (this.token) headers.set("Authorization", `Bearer ${this.token}`);
 
-        const resp = await fetch(url.toString(), { headers });
+        const resp = await this.fetcher(url.toString(), { headers });
         if (!resp.ok) {
             throw new Error(
                 `Can not load content from "https://github.com/${this.owner}/${this.repo}/blob/${this.ref}/${fullUri}": ${resp.statusText}`,
@@ -84,7 +88,7 @@ export class GithubProvider implements BaseProvider {
 
         if (this.token) headers.set("Authorization", `Bearer ${this.token}`);
 
-        const resp = await fetch(url.toString(), { headers });
+        const resp = await this.fetcher(url.toString(), { headers });
         if (!resp.ok) {
             throw new Error("Can not load tree: " + resp.statusText);
         }
@@ -125,7 +129,7 @@ export class GithubProvider implements BaseProvider {
         const headers = new Headers();
         if (this.token) headers.set("Authorization", `Bearer ${this.token}`);
 
-        const resp = await fetch(url.toString(), { headers });
+        const resp = await this.fetcher(url.toString(), { headers });
 
         if (!resp.ok) {
             throw new Error("Can not load asset: " + resp.statusText);

@@ -30,7 +30,7 @@ export const parseStructure = async (
                 const subItemsData = await parseStructure(
                     "auto",
                     parentConfiguration,
-                    prefix + generatedItem.clientPath,
+                    prefix.replace(/\/$/, "") + generatedItem.clientPath,
                 );
                 Object.assign(pages, subItemsData.pages);
 

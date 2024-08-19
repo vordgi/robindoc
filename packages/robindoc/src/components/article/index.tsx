@@ -34,9 +34,8 @@ export const Article: React.FC<ArticleProps> = async ({
     editOnGitUri,
 }) => {
     const { publicDirs } = config;
-    const { data, provider: targetProvider } = uri
-        ? await loadContent(uri, provider)
-        : { data: content, provider: null };
+    const { data, provider: targetProvider } =
+        content || !uri ? { data: content, provider: null } : await loadContent(uri, provider);
 
     if (!data) {
         throw new Error("Robindoc: Please provide content or valid uri");
