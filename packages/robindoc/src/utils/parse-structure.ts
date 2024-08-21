@@ -24,13 +24,6 @@ const parseFileTreeStructure = async (parentConfiguration: Configuration = {}, p
             const pathname = (parentConfiguration.basePath || "") + clientPath;
             const pathnameNormalized = normalizePathname(pathname);
 
-            const subItemsData = await parseFileTreeStructure(
-                parentConfiguration,
-                prefix.replace(/\/$/, "") + generatedItem.clientPath,
-                [...crumbs, pathnameNormalized],
-            );
-            Object.assign(pages, subItemsData.pages);
-
             const meta = await getMeta({ provider: parentConfiguration.provider, uri: clientPath });
             const title = meta.title || generatePseudoTitle(pathnameNormalized);
             pages[pathnameNormalized] = {
@@ -39,6 +32,13 @@ const parseFileTreeStructure = async (parentConfiguration: Configuration = {}, p
                 configuration: parentConfiguration,
                 crumbs,
             };
+
+            const subItemsData = await parseFileTreeStructure(
+                parentConfiguration,
+                prefix.replace(/\/$/, "") + generatedItem.clientPath,
+                [...crumbs, pathnameNormalized],
+            );
+            Object.assign(pages, subItemsData.pages);
 
             tree.push({
                 title,
