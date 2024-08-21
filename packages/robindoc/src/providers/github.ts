@@ -23,7 +23,7 @@ export class GithubProvider implements BaseProvider {
 
     fetcher: Fetcher;
 
-    constructor(rootUri: string, fetcher: Fetcher, token?: string) {
+    constructor(rootUri: string, fetcher: Fetcher = fetch, token?: string) {
         this.rootUri = rootUri.replace(/\/$/, "");
         const groups = this.testUri(rootUri);
 
