@@ -26,6 +26,8 @@ export const initializeRobindoc = (structureTemplate: Structure | (() => Structu
         const { pages, tree } = await pageDataPromise;
         const pathnameClean = pathname.replace(/\/$/, "") || "/";
         const pageData = pages[pathnameClean];
+        console.log(pages, tree, pathnameClean);
+
         if (!pageData) {
             throw new Error(`Can not find data for "${pathnameClean}". Please check structure`);
         }
