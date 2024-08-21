@@ -1,16 +1,4 @@
-import { type BaseProvider } from "../providers/base";
-
-export type Fetcher<T = Response> = (input: RequestInfo | URL, init?: RequestInit) => Promise<T>;
-
-export type Configuration = {
-    sourceUri?: string;
-    provider?: BaseProvider;
-    basePath?: string;
-    gitToken?: string;
-    fetcher?: Fetcher | null;
-};
-
-export type Pages = { [key: string]: { title: string; uri: string; configuration: Configuration } };
+import { type Fetcher } from "./content";
 
 export type DocItem = {
     type?: "heading" | "row";

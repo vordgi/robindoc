@@ -3,7 +3,7 @@ import React from "react";
 import GithubSlugger from "github-slugger";
 import matter from "gray-matter";
 import { lexer, type Token, type Tokens } from "marked";
-import { type RobinProps, type Components } from "../../types/content";
+import { type RobinProps, type Components, type Breadcrumbs as BreadcrumbsType } from "../../types/content";
 import { type BaseProvider } from "../../providers/base";
 import { loadContent } from "../../utils/load-content";
 import { AnchorProvider } from "../anchor-provider";
@@ -11,6 +11,7 @@ import { Heading } from "../heading";
 import { Contents, type ContentsProps } from "../contents";
 import { Shiki } from "../code";
 import { NavLink } from "../nav-link";
+import { Breadcrumbs } from "../breadcrumbs";
 
 export type ArticleProps = {
     components?: Components;
@@ -21,6 +22,8 @@ export type ArticleProps = {
     hideContents?: boolean;
     link?: React.ElementType;
     editOnGitUri?: ContentsProps["editOnGitUri"];
+    title: string;
+    breadcrumbs?: BreadcrumbsType;
 } & ({ content: string; uri?: undefined } | { uri: string; content?: undefined });
 
 export const Article: React.FC<ArticleProps> = async ({
@@ -32,6 +35,8 @@ export const Article: React.FC<ArticleProps> = async ({
     hideContents,
     link,
     editOnGitUri,
+    title,
+    breadcrumbs,
 }) => {
     const { publicDirs } = config;
     const { data, provider: targetProvider } =
@@ -242,6 +247,9 @@ export const Article: React.FC<ArticleProps> = async ({
 
     return (
         <AnchorProvider>
+            {breadcrumbs && breadcrumbs.length > 0 && (
+                <Breadcrumbs breadcrumbs={breadcrumbs} title={title} link={link} />
+            )}
             <Contents
                 editOnGitUri={editOnGitUri === null ? null : editOnGitUri || uri}
                 hideContents={hideContents}

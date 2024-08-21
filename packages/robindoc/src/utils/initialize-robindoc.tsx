@@ -4,6 +4,7 @@ import { parseStructure } from "./parse-structure";
 import { getConfiguration } from "./get-configuration";
 import { getMeta as getMetaBase } from "./get-meta";
 import { Document, type DocumentProps } from "../blocks/document";
+import { normalizePathname } from "./path-tools";
 
 type PageProps = Omit<Partial<DocumentProps>, "uri" | "content" | "provider" | "pathname"> & {
     pathname: string;
@@ -24,13 +25,14 @@ export const initializeRobindoc = (structureTemplate: Structure | (() => Structu
 
     const Page: React.FC<PageProps> = async ({ pathname, ...props }) => {
         const { pages, tree } = await pageDataPromise;
-        const pathnameClean = pathname.replace(/\/$/, "") || "/";
+        const pathnameClean = normalizePathname(pathname);
         const pageData = pages[pathnameClean];
-        console.log(pages, tree, pathnameClean);
 
         if (!pageData) {
             throw new Error(`Can not find data for "${pathnameClean}". Please check structure`);
         }
+
+        const breadcrumbs = pageData.crumbs.map((crumb) => ({ title: pages[crumb].title, pathname: crumb }));
 
         return (
             <Document
@@ -38,6 +40,8 @@ export const initializeRobindoc = (structureTemplate: Structure | (() => Structu
                 links={tree}
                 provider={pageData.configuration.provider}
                 uri={pageData.uri}
+                title={pageData.title}
+                breadcrumbs={breadcrumbs}
                 {...props}
             />
         );
@@ -52,7 +56,7 @@ export const initializeRobindoc = (structureTemplate: Structure | (() => Structu
 
     const getMeta = async (pathname: string) => {
         const { pages } = await pageDataPromise;
-        const pathnameClean = pathname.replace(/\/$/, "") || "/";
+        const pathnameClean = normalizePathname(pathname);
         const pageData = pages[pathnameClean];
         if (!pageData) {
             throw new Error(`Can not find data for "${pathnameClean}". Please check structure`);
