@@ -32,6 +32,14 @@ export const initializeRobindoc = (structureTemplate: Structure | (() => Structu
             throw new Error(`Can not find data for "${pathnameClean}". Please check structure`);
         }
 
+        const paths = Object.keys(pages);
+        const targetPageIndex = paths.indexOf(pathnameClean);
+        const prevPagePathname = targetPageIndex > 0 && paths[targetPageIndex - 1];
+        const nextPagePathname =
+            targetPageIndex !== -1 && targetPageIndex < paths.length - 1 && paths[targetPageIndex + 1];
+        const prev = prevPagePathname && { pathname: prevPagePathname, title: pages[prevPagePathname].title };
+        const next = nextPagePathname && { pathname: nextPagePathname, title: pages[nextPagePathname].title };
+
         const breadcrumbs = pageData.crumbs.map((crumb) => ({ title: pages[crumb].title, pathname: crumb }));
 
         return (
@@ -42,6 +50,8 @@ export const initializeRobindoc = (structureTemplate: Structure | (() => Structu
                 uri={pageData.uri}
                 title={pageData.title}
                 breadcrumbs={breadcrumbs}
+                prev={prev || undefined}
+                next={next || undefined}
                 {...props}
             />
         );

@@ -3,17 +3,19 @@ import React from "react";
 import GithubSlugger from "github-slugger";
 import matter from "gray-matter";
 import { lexer, type Token, type Tokens } from "marked";
-import { type RobinProps, type Components, type Breadcrumbs as BreadcrumbsType } from "../../types/content";
+import { type RobinProps, type Components } from "../../types/content";
 import { type BaseProvider } from "../../providers/base";
 import { loadContent } from "../../utils/load-content";
 import { AnchorProvider } from "../anchor-provider";
 import { Heading } from "../heading";
 import { Contents, type ContentsProps } from "../contents";
+import { Breadcrumbs, type BreadcrumbsProps } from "../breadcrumbs";
+import { Pagination, type PaginationProps } from "../pagination";
 import { Shiki } from "../code";
 import { NavLink } from "../nav-link";
-import { Breadcrumbs } from "../breadcrumbs";
 
-export type ArticleProps = {
+export type ContentProps = {
+    title: string;
     components?: Components;
     config?: {
         publicDirs?: string[];
@@ -22,9 +24,9 @@ export type ArticleProps = {
     hideContents?: boolean;
     link?: React.ElementType;
     editOnGitUri?: ContentsProps["editOnGitUri"];
-    title: string;
-    breadcrumbs?: BreadcrumbsType;
 } & ({ content: string; uri?: undefined } | { uri: string; content?: undefined });
+
+export type ArticleProps = Partial<PaginationProps> & Partial<BreadcrumbsProps> & ContentProps;
 
 export const Article: React.FC<ArticleProps> = async ({
     components,
@@ -37,6 +39,8 @@ export const Article: React.FC<ArticleProps> = async ({
     editOnGitUri,
     title,
     breadcrumbs,
+    prev,
+    next,
 }) => {
     const { publicDirs } = config;
     const { data, provider: targetProvider } =
@@ -258,6 +262,7 @@ export const Article: React.FC<ArticleProps> = async ({
             <div className="r-article">
                 <ArticleToken token={markedTree} />
             </div>
+            {(prev || next) && <Pagination prev={prev} next={next} link={link} />}
         </AnchorProvider>
     );
 };
