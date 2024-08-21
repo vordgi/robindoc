@@ -1,4 +1,4 @@
-import { type Configuration } from "../types/structure";
+import { type Configuration } from "../types/content";
 import { detectProvider } from "./detect-provider";
 
 export const getConfiguration = (currentConfiguration: Configuration, previousConfiguration: Configuration = {}) => {

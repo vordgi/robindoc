@@ -4,7 +4,7 @@ import { glob } from "glob";
 import { existsSync } from "fs";
 import { BaseProvider } from "./base";
 import { extensionsMap } from "../data/contents";
-import { getFileUrl } from "../utils/path-tools";
+import { getFileUrl, normalizePathname } from "../utils/path-tools";
 
 export class FileSystemProvider implements BaseProvider {
     readonly type = "local";
@@ -71,8 +71,8 @@ export class FileSystemProvider implements BaseProvider {
                 const clientPath = getFileUrl("/" + item);
 
                 acc.push({
-                    origPath: "/" + item.substring(pathnameClean?.length || 0),
-                    clientPath: clientPath.substring(pathnameClean?.length || 0) || "/",
+                    origPath: normalizePathname("/" + item.substring(pathnameClean?.length || 0)),
+                    clientPath: normalizePathname(clientPath.substring(pathnameClean?.length || 0)),
                 });
             }
             return acc;

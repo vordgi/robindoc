@@ -1,8 +1,8 @@
 import path from "path";
 import { type BaseProvider } from "./base";
-import { type Fetcher } from "../types/structure";
+import { type Fetcher } from "../types/content";
 import { extensionsMap } from "../data/contents";
-import { getFileUrl } from "../utils/path-tools";
+import { getFileUrl, normalizePathname } from "../utils/path-tools";
 
 export class GithubProvider implements BaseProvider {
     readonly type = "remote";
@@ -102,8 +102,8 @@ export class GithubProvider implements BaseProvider {
                 const clientPath = getFileUrl(item.path);
 
                 acc.push({
-                    origPath: item.path.substring(pathnameClean?.length || 0) || "/",
-                    clientPath: clientPath.substring(pathnameClean?.length || 0) || "/",
+                    origPath: normalizePathname(item.path.substring(pathnameClean?.length || 0)),
+                    clientPath: normalizePathname(clientPath.substring(pathnameClean?.length || 0)),
                 });
             }
             return acc;

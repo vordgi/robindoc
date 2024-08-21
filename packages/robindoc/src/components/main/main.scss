@@ -8,13 +8,13 @@
     display: grid;
     justify-content: center;
     column-gap: 20px;
-    grid-template-areas: "sidebar contents" "sidebar content";
+    grid-template-areas: "sidebar breadcrumbs" "sidebar contents" "sidebar content";
     grid-template-columns: auto calc(100% - 232px);
     grid-template-rows: auto 1fr;
   }
 
   @media screen and (width >= $lg) {
-    grid-template-areas: "sidebar content contents";
-    grid-template-columns: auto 672px auto;
+    grid-template-areas: "sidebar breadcrumbs contents" "sidebar content contents";
+    grid-template-columns: auto 680px auto;
   }
 }

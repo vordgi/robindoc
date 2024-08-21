@@ -1,4 +1,4 @@
-import { type Fetcher } from "../types/structure";
+import { type Fetcher } from "../types/content";
 
 export abstract class BaseProvider {
     abstract type: "local" | "remote";
