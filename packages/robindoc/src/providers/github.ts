@@ -1,6 +1,7 @@
 import path from "path";
+
 import { type BaseProvider } from "./base";
-import { FileTree, type Fetcher } from "../types/content";
+import { type BranchFiles, type Fetcher } from "../types/content";
 import { extensionsMap } from "../data/contents";
 import { getFileUrl, normalizePathname } from "../utils/path-tools";
 
@@ -9,7 +10,7 @@ export class GithubProvider implements BaseProvider {
 
     rootUri: string;
 
-    treePromise: BaseProvider["treePromise"];
+    filesPromise: BaseProvider["filesPromise"];
 
     owner: string;
 
@@ -38,7 +39,7 @@ export class GithubProvider implements BaseProvider {
         this.token = token;
         this.pathname = pathname;
         this.fetcher = fetcher;
-        this.treePromise = this.loadTree(pathname);
+        this.filesPromise = this.loadTree(pathname);
     }
 
     async load(uri: string) {
@@ -46,11 +47,11 @@ export class GithubProvider implements BaseProvider {
         const fullUri = segments.join("/");
         let pathname;
 
-        if (uri.endsWith(".md") || uri.endsWith(".mdx")) {
+        if (uri.endsWith(".md") || uri.endsWith(".mdx") || uri.endsWith(".json")) {
             pathname = fullUri;
         } else {
-            const files = await this.treePromise;
-            const validFile = files.find((file) => file.clientPath === uri);
+            const files = await this.filesPromise;
+            const validFile = files.docs.find((file) => file.clientPath === uri);
 
             if (validFile) {
                 pathname = this.pathname.replace(/\/$/, "") + validFile.origPath;
@@ -94,21 +95,27 @@ export class GithubProvider implements BaseProvider {
         }
         const data = (await resp.json()) as { tree: { path: string }[] };
 
-        const fileTree = data.tree.reduce<FileTree>((acc, item) => {
-            if (
-                (!pathnameClean || (pathnameClean && item.path.startsWith(pathnameClean))) &&
-                item.path.match(/\.(md|mdx)$/)
-            ) {
-                const clientPath = getFileUrl(item.path);
+        const fileTree = data.tree.reduce<BranchFiles>(
+            (acc, item) => {
+                if (!pathnameClean || (pathnameClean && item.path.startsWith(pathnameClean))) {
+                    const origPath = normalizePathname(item.path.substring(pathnameClean?.length || 0));
 
-                acc.push({
-                    origPath: normalizePathname(item.path.substring(pathnameClean?.length || 0)),
-                    clientPath: normalizePathname(clientPath.substring(pathnameClean?.length || 0)),
-                });
-            }
-            return acc;
-        }, []);
-        this.treePromise = fileTree;
+                    if (item.path.match(/\.(md|mdx)$/)) {
+                        const clientFileUrl = getFileUrl(item.path);
+
+                        acc.docs.push({
+                            origPath,
+                            clientPath: normalizePathname(clientFileUrl.substring(pathnameClean?.length || 0)),
+                        });
+                    } else if (item.path.endsWith(".json")) {
+                        acc.structures.push(origPath);
+                    }
+                }
+                return acc;
+            },
+            { docs: [], structures: [] },
+        );
+        this.filesPromise = fileTree;
 
         return fileTree;
     }

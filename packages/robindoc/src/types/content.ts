@@ -8,7 +8,9 @@ export type Components = {
     [key: string]: (props: Record<string, string | true | undefined | React.ReactNode>) => JSX.Element;
 };
 
-export type FileTree = { origPath: string; clientPath: string }[];
+export type DocsTree = { origPath: string; clientPath: string }[];
+
+export type BranchFiles = { docs: DocsTree; structures: string[] };
 
 export type Fetcher<T = Response> = (input: RequestInfo | URL, init?: RequestInit) => Promise<T>;
 
