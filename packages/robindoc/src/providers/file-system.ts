@@ -66,7 +66,7 @@ export class FileSystemProvider implements BaseProvider {
         const pathnameClean = pathname?.replace(/^\//, "");
         const files = await glob("**/*.{md,mdx}", { cwd: this.rootUri, posix: true });
 
-        return files.reduce<{ origPath: string; clientPath: string }[]>((acc, item) => {
+        const fileTree = files.reduce<{ origPath: string; clientPath: string }[]>((acc, item) => {
             if (!pathnameClean || (pathnameClean && item.startsWith(pathnameClean))) {
                 const clientPath = getFileUrl("/" + item);
 
@@ -77,5 +77,7 @@ export class FileSystemProvider implements BaseProvider {
             }
             return acc;
         }, []);
+        this.treePromise = fileTree;
+        return fileTree;
     }
 }
