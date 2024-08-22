@@ -23,7 +23,7 @@ export class FileSystemProvider implements BaseProvider {
     async load(uri: string) {
         const fullUri = path.posix.join(this.rootUri, uri).replaceAll("\\", "/").replace(/\/$/, "");
         let pathname;
-        if (fullUri.endsWith(".md") || fullUri.endsWith(".mdx")) {
+        if (fullUri.endsWith(".md") || fullUri.endsWith(".mdx") || fullUri.endsWith(".json")) {
             if (existsSync(fullUri)) {
                 pathname = fullUri;
             } else {
@@ -67,16 +67,23 @@ export class FileSystemProvider implements BaseProvider {
     private async loadFiles(pathname?: string) {
         const pathnameClean = pathname?.replace(/^\//, "");
         const files = await glob(["**/*.{md,mdx}", "**/structure.json"], { cwd: this.rootUri, posix: true });
+        const filesSorted = files.sort();
 
-        const fileTree = files.reduce<BranchFiles>(
+        const fileTree = filesSorted.reduce<BranchFiles>(
             (acc, item) => {
                 if (!pathnameClean || (pathnameClean && item.startsWith(pathnameClean))) {
-                    const clientPath = getFileUrl("/" + item);
+                    const origPath = normalizePathname("/" + item.substring(pathnameClean?.length || 0));
 
-                    acc.docs.push({
-                        origPath: normalizePathname("/" + item.substring(pathnameClean?.length || 0)),
-                        clientPath: normalizePathname(clientPath.substring(pathnameClean?.length || 0)),
-                    });
+                    if (item.match(/\.mdx?$/)) {
+                        const clientFileUrl = getFileUrl("/" + item);
+
+                        acc.docs.push({
+                            origPath,
+                            clientPath: normalizePathname(clientFileUrl.substring(pathnameClean?.length || 0)),
+                        });
+                    } else {
+                        acc.structures.push(origPath);
+                    }
                 }
                 return acc;
             },

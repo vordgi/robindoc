@@ -27,5 +27,5 @@ export const loadContent = async (uri: string, providerArg?: BaseProvider, root?
 
     const provider = new FileSystemProvider(root);
     const content = await provider.load(uri);
-    return { data: content, type: "locale", provider };
+    return { data: content, type: "local", provider };
 };

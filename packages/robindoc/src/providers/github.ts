@@ -47,7 +47,7 @@ export class GithubProvider implements BaseProvider {
         const fullUri = segments.join("/");
         let pathname;
 
-        if (uri.endsWith(".md") || uri.endsWith(".mdx")) {
+        if (uri.endsWith(".md") || uri.endsWith(".mdx") || uri.endsWith(".json")) {
             pathname = fullUri;
         } else {
             const files = await this.filesPromise;
@@ -97,16 +97,19 @@ export class GithubProvider implements BaseProvider {
 
         const fileTree = data.tree.reduce<BranchFiles>(
             (acc, item) => {
-                if (
-                    (!pathnameClean || (pathnameClean && item.path.startsWith(pathnameClean))) &&
-                    item.path.match(/\.(md|mdx)$/)
-                ) {
-                    const clientPath = getFileUrl(item.path);
+                if (!pathnameClean || (pathnameClean && item.path.startsWith(pathnameClean))) {
+                    const origPath = normalizePathname(item.path.substring(pathnameClean?.length || 0));
 
-                    acc.docs.push({
-                        origPath: normalizePathname(item.path.substring(pathnameClean?.length || 0)),
-                        clientPath: normalizePathname(clientPath.substring(pathnameClean?.length || 0)),
-                    });
+                    if (item.path.match(/\.(md|mdx)$/)) {
+                        const clientFileUrl = getFileUrl(item.path);
+
+                        acc.docs.push({
+                            origPath,
+                            clientPath: normalizePathname(clientFileUrl.substring(pathnameClean?.length || 0)),
+                        });
+                    } else if (item.path.endsWith(".json")) {
+                        acc.structures.push(origPath);
+                    }
                 }
                 return acc;
             },
