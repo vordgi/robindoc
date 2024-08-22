@@ -1,7 +1,9 @@
 import { readFile } from "fs/promises";
-import path from "path";
 import { glob } from "glob";
 import { existsSync } from "fs";
+import path from "path";
+
+import { type BranchFiles } from "../types/content";
 import { BaseProvider } from "./base";
 import { extensionsMap } from "../data/contents";
 import { getFileUrl, normalizePathname } from "../utils/path-tools";
@@ -11,11 +13,11 @@ export class FileSystemProvider implements BaseProvider {
 
     rootUri: string;
 
-    treePromise: BaseProvider["treePromise"];
+    filesPromise: BaseProvider["filesPromise"];
 
     constructor(rootUri: string = process.cwd()) {
         this.rootUri = rootUri.replaceAll("\\", "/");
-        this.treePromise = this.loadTree("");
+        this.filesPromise = this.loadFiles("");
     }
 
     async load(uri: string) {
@@ -28,8 +30,8 @@ export class FileSystemProvider implements BaseProvider {
                 throw new Error(`Can not find file "${fullUri}"`);
             }
         } else {
-            const files = await this.treePromise;
-            const validFile = files.find((file) => file.clientPath === uri);
+            const files = await this.filesPromise;
+            const validFile = files.docs.find((file) => file.clientPath === uri);
             if (validFile) {
                 pathname = this.rootUri + validFile.origPath;
             } else {
@@ -62,22 +64,25 @@ export class FileSystemProvider implements BaseProvider {
         return src;
     }
 
-    private async loadTree(pathname?: string) {
+    private async loadFiles(pathname?: string) {
         const pathnameClean = pathname?.replace(/^\//, "");
-        const files = await glob("**/*.{md,mdx}", { cwd: this.rootUri, posix: true });
+        const files = await glob(["**/*.{md,mdx}", "**/structure.json"], { cwd: this.rootUri, posix: true });
 
-        const fileTree = files.reduce<{ origPath: string; clientPath: string }[]>((acc, item) => {
-            if (!pathnameClean || (pathnameClean && item.startsWith(pathnameClean))) {
-                const clientPath = getFileUrl("/" + item);
+        const fileTree = files.reduce<BranchFiles>(
+            (acc, item) => {
+                if (!pathnameClean || (pathnameClean && item.startsWith(pathnameClean))) {
+                    const clientPath = getFileUrl("/" + item);
 
-                acc.push({
-                    origPath: normalizePathname("/" + item.substring(pathnameClean?.length || 0)),
-                    clientPath: normalizePathname(clientPath.substring(pathnameClean?.length || 0)),
-                });
-            }
-            return acc;
-        }, []);
-        this.treePromise = fileTree;
+                    acc.docs.push({
+                        origPath: normalizePathname("/" + item.substring(pathnameClean?.length || 0)),
+                        clientPath: normalizePathname(clientPath.substring(pathnameClean?.length || 0)),
+                    });
+                }
+                return acc;
+            },
+            { docs: [], structures: [] },
+        );
+        this.filesPromise = fileTree;
         return fileTree;
     }
 }

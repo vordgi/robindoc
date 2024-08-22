@@ -10,9 +10,9 @@ const parseFileTreeStructure = async (parentConfiguration: Configuration = {}, p
     const tree: LinkItem[] = [];
 
     if (parentConfiguration.provider) {
-        const generatedTree = await parentConfiguration.provider.treePromise;
+        const branchFiles = await parentConfiguration.provider.filesPromise;
 
-        for await (const generatedItem of generatedTree) {
+        for await (const generatedItem of branchFiles.docs) {
             if (
                 (!prefix && generatedItem.clientPath !== "/") ||
                 (prefix && !generatedItem.clientPath.match(new RegExp(`^${prefix.replace(/\/$/, "")}/[^/]+$`)))
