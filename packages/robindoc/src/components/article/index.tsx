@@ -28,6 +28,20 @@ export type ContentProps = {
 
 export type ArticleProps = Partial<PaginationProps> & Partial<BreadcrumbsProps> & ContentProps;
 
+const parseTokenText = (token: Token): string => {
+    if (!token) return "";
+
+    if ("tokens" in token) {
+        return token.tokens?.map((el) => parseTokenText(el)).join("") || "";
+    }
+
+    if ("text" in token) {
+        return token.text;
+    }
+
+    return "";
+};
+
 export const Article: React.FC<ArticleProps> = async ({
     components,
     content,
@@ -56,7 +70,13 @@ export const Article: React.FC<ArticleProps> = async ({
     const slugger = new GithubSlugger();
     const headings = markedTree.reduce<{ title: string; id: string; nested: boolean; token: Token }[]>((acc, token) => {
         if (token.type === "heading" && (token.depth === 2 || token.depth === 3)) {
-            acc.push({ title: token.text, id: slugger.slug(token.text), token, nested: token.depth === 3 });
+            const title = parseTokenText(token);
+            acc.push({
+                title,
+                id: slugger.slug(title),
+                token,
+                nested: token.depth === 3,
+            });
         }
         return acc;
     }, []);
@@ -95,11 +115,15 @@ export const Article: React.FC<ArticleProps> = async ({
                 if (predefinedData?.id) {
                     return (
                         <Heading id={predefinedData?.id} component={Component}>
-                            {token.text}
+                            {token.tokens ? <ArticleToken token={token.tokens} /> : token.raw}
                         </Heading>
                     );
                 } else {
-                    return <Component className={`r-h${token.depth}`}>{token.text}</Component>;
+                    return (
+                        <Component className={`r-h${token.depth}`}>
+                            {token.tokens ? <ArticleToken token={token.tokens} /> : token.raw}
+                        </Component>
+                    );
                 }
             case "table":
                 return (

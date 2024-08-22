@@ -74,10 +74,15 @@
   cursor: pointer;
 }
 
+.r-ul,
+.r-ol {
+  padding-inline-start: 12px;
+}
+
 .r-task-ol,
 .r-task-ul {
   list-style: none;
-  padding-left: 16px;
+  padding-inline-start: 16px;
 }
 
 .r-task-label {
