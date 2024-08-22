@@ -1,6 +1,6 @@
 import path from "path";
 import { type BaseProvider } from "./base";
-import { type Fetcher } from "../types/content";
+import { FileTree, type Fetcher } from "../types/content";
 import { extensionsMap } from "../data/contents";
 import { getFileUrl, normalizePathname } from "../utils/path-tools";
 
@@ -9,7 +9,7 @@ export class GithubProvider implements BaseProvider {
 
     rootUri: string;
 
-    treePromise: Promise<{ origPath: string; clientPath: string }[]>;
+    treePromise: BaseProvider["treePromise"];
 
     owner: string;
 
@@ -94,7 +94,7 @@ export class GithubProvider implements BaseProvider {
         }
         const data = (await resp.json()) as { tree: { path: string }[] };
 
-        return data.tree.reduce<{ origPath: string; clientPath: string }[]>((acc, item) => {
+        const fileTree = data.tree.reduce<FileTree>((acc, item) => {
             if (
                 (!pathnameClean || (pathnameClean && item.path.startsWith(pathnameClean))) &&
                 item.path.match(/\.(md|mdx)$/)
@@ -108,6 +108,9 @@ export class GithubProvider implements BaseProvider {
             }
             return acc;
         }, []);
+        this.treePromise = fileTree;
+
+        return fileTree;
     }
 
     private testUri(uri: string) {

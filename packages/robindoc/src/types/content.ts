@@ -8,6 +8,8 @@ export type Components = {
     [key: string]: (props: Record<string, string | true | undefined | React.ReactNode>) => JSX.Element;
 };
 
+export type FileTree = { origPath: string; clientPath: string }[];
+
 export type Fetcher<T = Response> = (input: RequestInfo | URL, init?: RequestInit) => Promise<T>;
 
 export type Configuration = {

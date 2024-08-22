@@ -1,11 +1,11 @@
-import { type Fetcher } from "../types/content";
+import { type Fetcher, type FileTree } from "../types/content";
 
 export abstract class BaseProvider {
     abstract type: "local" | "remote";
 
     abstract rootUri: string;
 
-    abstract treePromise: Promise<{ origPath: string; clientPath: string }[]>;
+    abstract treePromise: Promise<FileTree> | FileTree;
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     constructor(rootUri: string, fetcher: Fetcher, token?: string) {}
