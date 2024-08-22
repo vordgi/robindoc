@@ -6,7 +6,7 @@ import { CurrentSectionContext } from "../anchor-provider";
 import { detectGitType } from "../../utils/git-data";
 
 export interface ContentsProps extends React.PropsWithChildren {
-    headings: { id: string; nested: boolean; title: string }[];
+    headings: { id: string; nested: boolean; title: string | JSX.Element }[];
     hideContents?: boolean;
     editOnGitUri?: string | null;
 }
