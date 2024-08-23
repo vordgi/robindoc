@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const commonjs = require("@rollup/plugin-commonjs");
 const typescript = require("@rollup/plugin-typescript");
+const terser = require("@rollup/plugin-terser");
 const scss = require("rollup-plugin-scss");
-const { terser } = require("rollup-plugin-terser");
 const { default: preserveDirectives } = require("rollup-preserve-directives");
 
 module.exports = {
