@@ -6,8 +6,7 @@ import { type RobinProps, type Components } from "../../types/content";
 import { type BaseProvider } from "../../providers/base";
 import { Heading } from "../heading";
 import { Shiki } from "../code";
-import { NavLink } from "../nav-link";
-import { Img } from "./elements";
+import { Anchor, Img } from "./elements";
 import { Heading as HeadingType, parseTree, validateComponentName } from "./utils";
 
 interface DocumentJSXProps extends Omit<ContentProps, "tree" | "headings"> {
@@ -48,6 +47,7 @@ export const DocumentJSX: React.FC<DocumentJSXProps> = ({ raw, components, ...ba
 };
 
 export type ContentProps = {
+    pathname: string;
     components?: Components;
     config?: {
         publicDirs?: string[];
@@ -61,6 +61,7 @@ export type ContentProps = {
 };
 
 export const Document: React.FC<ContentProps> = ({
+    pathname,
     components,
     uri,
     targetProvider,
@@ -159,9 +160,9 @@ export const Document: React.FC<ContentProps> = ({
                     : {};
 
                 return (
-                    <NavLink link={link} href={token.href} className="r-a" {...additionalProps}>
+                    <Anchor link={link} href={token.href} targetPathname={pathname} {...additionalProps}>
                         {token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}
-                    </NavLink>
+                    </Anchor>
                 );
             case "space":
                 return <br />;
@@ -174,7 +175,6 @@ export const Document: React.FC<ContentProps> = ({
                         publicDirs={publicDirs}
                         provider={targetProvider}
                         uri={uri}
-                        className="r-img"
                         alt={token.title || ""}
                     />
                 );
@@ -286,6 +286,7 @@ export const Document: React.FC<ContentProps> = ({
                         config={config}
                         link={link}
                         targetProvider={targetProvider}
+                        pathname={pathname}
                         uri={uri}
                     />
                 );

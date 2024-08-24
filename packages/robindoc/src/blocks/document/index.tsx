@@ -9,7 +9,7 @@ export const Document: React.FC<DocumentProps> = ({ link, pathname, links, ...ar
     return (
         <Main>
             <Sidebar links={links} link={link} pathname={pathname} />
-            <Article link={link} {...articleProps} />
+            <Article link={link} pathname={pathname} {...articleProps} />
         </Main>
     );
 };
