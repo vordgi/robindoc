@@ -43,3 +43,7 @@ export const parseTokenText = (token: Token): string => {
 
     return "";
 };
+
+export const validateComponentName = (name: string) => {
+    return /^[A-Z][a-zA-Z0-9]+$/.test(name);
+};

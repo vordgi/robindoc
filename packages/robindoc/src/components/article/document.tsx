@@ -8,7 +8,7 @@ import { Heading } from "../heading";
 import { Shiki } from "../code";
 import { NavLink } from "../nav-link";
 import { Img } from "./elements";
-import { Heading as HeadingType, parseTree } from "./utils";
+import { Heading as HeadingType, parseTree, validateComponentName } from "./utils";
 
 interface DocumentJSXProps extends Omit<ContentProps, "tree" | "headings"> {
     raw: string;
@@ -23,21 +23,22 @@ export const DocumentJSX: React.FC<DocumentJSXProps> = ({ raw, components, ...ba
                 return <Document headings={headings} tree={tree} components={components} subtree {...baseProps} />;
             }
 
-            if (!("name" in domNode)) return;
+            if (!("name" in domNode)) return <></>;
 
-            const props = "attribs" in domNode ? attributesToProps(domNode.attribs) : {};
-            if (components && domNode.name in components) {
-                const Component = components[domNode.name];
-                const children = "children" in domNode ? domNode.children : null;
+            if (!validateComponentName(domNode.name)) return domNode;
 
-                return (
-                    <Component {...props}>
-                        {children ? domToReact(children as DOMNode[], parseOptions) : null}
-                    </Component>
-                );
+            if (!components || !(domNode.name in components)) {
+                console.log(`Unknown component: "${domNode.name}"`);
+                return <></>;
             }
 
-            return domNode;
+            const props = "attribs" in domNode ? attributesToProps(domNode.attribs) : {};
+            const Component = components[domNode.name];
+            const children = "children" in domNode ? domNode.children : null;
+
+            return (
+                <Component {...props}>{children ? domToReact(children as DOMNode[], parseOptions) : null}</Component>
+            );
         },
         htmlparser2: {
             lowerCaseTags: false,
@@ -71,21 +72,31 @@ export const Document: React.FC<ContentProps> = ({
 }) => {
     const { publicDirs } = config;
 
-    let robin: null | { props: RobinProps; childTokens: Token[]; componentName: string } = null;
-    const ArticleToken: React.FC<{ token: Token | Token[] }> = async ({ token }) => {
+    let robin:
+        | null
+        | { props: RobinProps; childTokens: Token[]; componentName: string; type: "base" }
+        | { type: "dummy" } = null;
+    const DocumentToken: React.FC<{ token: Token | Token[] }> = ({ token }) => {
         if (!token) return null;
 
         if (robin) {
             if (!Array.isArray(token) && token.type === "html" && token.raw.trim() === "<!---/robin-->") {
+                if (robin.type === "dummy") {
+                    robin = null;
+                    return null;
+                }
+
                 const { componentName, childTokens, props } = robin;
                 const RobinComponent = components![componentName];
                 robin = null;
                 return (
                     <RobinComponent {...props}>
-                        <ArticleToken token={childTokens} />
+                        <DocumentToken token={childTokens} />
                     </RobinComponent>
                 );
             } else {
+                if (robin.type === "dummy") return null;
+
                 if (Array.isArray(token)) {
                     robin.childTokens.push(...token);
                 } else {
@@ -96,7 +107,7 @@ export const Document: React.FC<ContentProps> = ({
         }
 
         if (Array.isArray(token))
-            return token.map((t, index) => <ArticleToken token={t} key={(t as Tokens.Text).raw || index} />);
+            return token.map((t, index) => <DocumentToken token={t} key={(t as Tokens.Text).raw || index} />);
 
         switch (token.type) {
             case "heading":
@@ -105,13 +116,13 @@ export const Document: React.FC<ContentProps> = ({
                 if (predefinedData?.id) {
                     return (
                         <Heading id={predefinedData?.id} component={Component}>
-                            {token.tokens ? <ArticleToken token={token.tokens} /> : token.raw}
+                            {token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}
                         </Heading>
                     );
                 } else {
                     return (
                         <Component className={`r-h${token.depth}`}>
-                            {token.tokens ? <ArticleToken token={token.tokens} /> : token.raw}
+                            {token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}
                         </Component>
                     );
                 }
@@ -123,7 +134,7 @@ export const Document: React.FC<ContentProps> = ({
                                 <tr className="r-tr">
                                     {token.header.map((t: Tokens.Text, index: number) => (
                                         <th key={t.text + index} className="r-th">
-                                            {t.tokens ? <ArticleToken token={t.tokens} /> : t.text}
+                                            {t.tokens ? <DocumentToken token={t.tokens} /> : t.text}
                                         </th>
                                     ))}
                                 </tr>
@@ -133,7 +144,7 @@ export const Document: React.FC<ContentProps> = ({
                                     <tr key={rowIndex} className="r-tr">
                                         {row.map((elem, elemIndex) => (
                                             <td key={elem.text + elemIndex} className="r-td">
-                                                {elem.tokens ? <ArticleToken token={elem.tokens} /> : elem.text}
+                                                {elem.tokens ? <DocumentToken token={elem.tokens} /> : elem.text}
                                             </td>
                                         ))}
                                     </tr>
@@ -149,7 +160,7 @@ export const Document: React.FC<ContentProps> = ({
 
                 return (
                     <NavLink link={link} href={token.href} className="r-a" {...additionalProps}>
-                        {token.tokens ? <ArticleToken token={token.tokens} /> : token.raw}
+                        {token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}
                     </NavLink>
                 );
             case "space":
@@ -168,19 +179,19 @@ export const Document: React.FC<ContentProps> = ({
                     />
                 );
             case "paragraph":
-                if (subtree) return token.tokens ? <ArticleToken token={token.tokens} /> : token.raw;
+                if (subtree) return token.tokens ? <DocumentToken token={token.tokens} /> : token.raw;
 
-                return <p className="r-p">{token.tokens ? <ArticleToken token={token.tokens} /> : token.raw}</p>;
+                return <p className="r-p">{token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}</p>;
             case "strong":
                 return (
                     <strong className="r-strong">
-                        {token.tokens ? <ArticleToken token={token.tokens} /> : token.raw}
+                        {token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}
                     </strong>
                 );
             case "del":
-                return <del className="r-del">{token.tokens ? <ArticleToken token={token.tokens} /> : token.raw}</del>;
+                return <del className="r-del">{token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}</del>;
             case "em":
-                return <em className="r-em">{token.tokens ? <ArticleToken token={token.tokens} /> : token.raw}</em>;
+                return <em className="r-em">{token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}</em>;
             case "codespan":
                 return <code className="r-code">{token.raw.replace(/^`|`$/g, "")}</code>;
             case "code":
@@ -190,7 +201,7 @@ export const Document: React.FC<ContentProps> = ({
             case "blockquote":
                 return (
                     <blockquote className="r-blockquote">
-                        {token.tokens ? <ArticleToken token={token.tokens} /> : token.raw}
+                        {token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}
                     </blockquote>
                 );
             case "list":
@@ -204,7 +215,7 @@ export const Document: React.FC<ContentProps> = ({
                                     <label className="r-label r-task-label">
                                         <input type="checkbox" defaultChecked={elem.checked} className="r-checkbox" />
                                         <span className="r-label-text">
-                                            {elem.tokens ? <ArticleToken token={elem.tokens} /> : elem.raw}
+                                            {elem.tokens ? <DocumentToken token={elem.tokens} /> : elem.raw}
                                         </span>
                                     </label>
                                 </li>
@@ -216,22 +227,34 @@ export const Document: React.FC<ContentProps> = ({
                     <ListComponent className={`r-${ListComponent}`}>
                         {token.items.map((elem: Tokens.ListItem, index: number) => (
                             <li key={elem.raw + index} className="r-li">
-                                {elem.tokens ? <ArticleToken token={elem.tokens} /> : elem.raw}
+                                {elem.tokens ? <DocumentToken token={elem.tokens} /> : elem.raw}
                             </li>
                         ))}
                     </ListComponent>
                 );
             case "html":
                 const text = token.raw.trim();
-                console.log(text);
 
                 if (text.startsWith("<!---robin") && text.endsWith("-->")) {
+                    const selfClosed = text.endsWith("/-->");
                     const componentName = text.match(/<!---robin ([\w]+)/)?.[1];
 
-                    if (!componentName) return null;
+                    if (!componentName) {
+                        if (!selfClosed) robin = { type: "dummy" };
+                        return null;
+                    }
+
+                    if (!validateComponentName(componentName)) {
+                        console.log(
+                            `"${componentName}" is using incorrect casing. Use PascalCase for Robin components`,
+                        );
+                        if (!selfClosed) robin = { type: "dummy" };
+                        return null;
+                    }
 
                     if (!components || !(componentName in components)) {
-                        console.log(`Unknown component: ${componentName}`);
+                        console.log(`Unknown component: "${componentName}"`);
+                        if (!selfClosed) robin = { type: "dummy" };
                         return null;
                     }
                     const propRows = text.split(/\r?\n/).slice(1, -1);
@@ -247,12 +270,12 @@ export const Document: React.FC<ContentProps> = ({
                         return acc;
                     }, {});
 
-                    if (text.endsWith("/-->")) {
+                    if (selfClosed) {
                         const Component = components[componentName as keyof typeof components];
                         return <Component {...props} />;
                     }
 
-                    robin = { props, componentName, childTokens: [] };
+                    robin = { props, componentName, childTokens: [], type: "base" };
                     return null;
                 }
 
@@ -268,7 +291,7 @@ export const Document: React.FC<ContentProps> = ({
                 );
             case "text":
                 if ("tokens" in token) {
-                    return <ArticleToken token={token.tokens || []} />;
+                    return <DocumentToken token={token.tokens || []} />;
                 }
                 return token.raw;
             default:
@@ -279,5 +302,5 @@ export const Document: React.FC<ContentProps> = ({
         }
     };
 
-    return <ArticleToken token={tree} />;
+    return <DocumentToken token={tree} />;
 };
