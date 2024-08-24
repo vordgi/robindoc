@@ -1,6 +1,7 @@
 import "./breadcrumbs.scss";
 import React from "react";
 import { type Breadcrumbs as BreadcrumbsType } from "../../types/content";
+import { NavLink } from "../nav-link";
 
 export type BreadcrumbsProps = {
     title: string;
@@ -8,14 +9,14 @@ export type BreadcrumbsProps = {
     link?: React.ElementType;
 };
 
-export const Breadcrumbs: React.FC<BreadcrumbsProps> = async ({ title, breadcrumbs, link: Link = "a" }) => {
+export const Breadcrumbs: React.FC<BreadcrumbsProps> = async ({ title, breadcrumbs, link }) => {
     return (
         <ul className="r-breadcrumbs">
             {breadcrumbs.map((breadcrumb) => (
                 <li key={breadcrumb.pathname} className="r-breadcrumb _previous">
-                    <Link href={breadcrumb.pathname} className="r-breadcrumb-link">
+                    <NavLink link={link} href={breadcrumb.pathname} className="r-breadcrumb-link">
                         {breadcrumb.title}
-                    </Link>
+                    </NavLink>
                 </li>
             ))}
             <li className="r-breadcrumb _target">

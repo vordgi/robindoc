@@ -1,3 +1,4 @@
+import { NavLink } from "../nav-link";
 import "./pagination.scss";
 import React from "react";
 
@@ -7,11 +8,11 @@ export type PaginationProps = {
     link?: React.ElementType;
 };
 
-export const Pagination: React.FC<PaginationProps> = async ({ prev, next, link: Link = "a" }) => {
+export const Pagination: React.FC<PaginationProps> = async ({ prev, next, link }) => {
     return (
         <div className="r-pagination">
             {prev ? (
-                <Link href={prev.pathname} className="r-pagination-item _prev">
+                <NavLink link={link} href={prev.pathname} className="r-pagination-item _prev">
                     <span className="r-pagination-icon _prev">
                         <svg
                             width="24"
@@ -31,12 +32,12 @@ export const Pagination: React.FC<PaginationProps> = async ({ prev, next, link: 
                         <br />
                         <span className="r-pagination-title">{prev.title}</span>
                     </span>
-                </Link>
+                </NavLink>
             ) : (
                 <span />
             )}
             {next ? (
-                <Link href={next.pathname} className="r-pagination-item _next">
+                <NavLink link={link} href={next.pathname} className="r-pagination-item _next">
                     <span className="r-pagination-icon _next">
                         <svg
                             width="24"
@@ -56,7 +57,7 @@ export const Pagination: React.FC<PaginationProps> = async ({ prev, next, link: 
                         <br />
                         <span className="r-pagination-title">{next.title}</span>
                     </span>
-                </Link>
+                </NavLink>
             ) : (
                 <span />
             )}

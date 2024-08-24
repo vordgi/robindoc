@@ -21,6 +21,7 @@ export type ContentProps = {
     hideContents?: boolean;
     link?: React.ElementType;
     editOnGitUri?: ContentsProps["editOnGitUri"];
+    pathname: string;
 } & ({ content: string; uri?: undefined } | { uri: string; content?: undefined });
 
 export type ArticleProps = Partial<PaginationProps> & Partial<BreadcrumbsProps> & ContentProps;
@@ -34,6 +35,7 @@ export const Article: React.FC<ArticleProps> = async ({
     hideContents,
     link,
     editOnGitUri,
+    pathname,
     title,
     breadcrumbs,
     prev,
@@ -66,6 +68,7 @@ export const Article: React.FC<ArticleProps> = async ({
                     config={config}
                     link={link}
                     targetProvider={targetProvider}
+                    pathname={pathname}
                     uri={uri}
                 />
             </div>

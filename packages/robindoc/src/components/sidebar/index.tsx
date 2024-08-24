@@ -74,19 +74,19 @@ const LinkBranch: React.FC<{ item: LinkItem; link?: React.ElementType; pathname?
     </li>
 );
 
-export const Sidebar: React.FC<SidebarProps> = ({ links, pathname, link: Link }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ links, pathname, link }) => {
     if (!links?.length) return <div className="r-sidebar" />;
 
     return (
         <SidebarMenu>
             <nav className="r-sidebar-nav">
                 <ul className="r-sidebar-list">
-                    {links.map((link) => (
+                    {links.map((item) => (
                         <LinkBranch
                             pathname={pathname?.replace(/\/$/, "")}
-                            item={link}
-                            link={Link}
-                            key={link.href + link.title}
+                            item={item}
+                            link={link}
+                            key={item.href + item.title}
                             depth={0}
                         />
                     ))}
