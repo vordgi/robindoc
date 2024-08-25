@@ -42,6 +42,27 @@ export class GithubProvider implements BaseProvider {
         this.filesPromise = this.loadTree(pathname);
     }
 
+    async getGitUri(uri: string) {
+        const segments = [...(this.pathname?.split("/") || []), ...uri.split("/")].filter(Boolean);
+        const fullUri = segments.join("/");
+        let pathname;
+
+        if (uri.endsWith(".md") || uri.endsWith(".mdx") || uri.endsWith(".json")) {
+            pathname = fullUri;
+        } else {
+            const files = await this.filesPromise;
+            const validFile = files.docs.find((file) => file.clientPath === uri);
+
+            if (validFile) {
+                pathname = this.pathname.replace(/^\/|\/$/, "") + validFile.origPath;
+            } else {
+                return null;
+            }
+        }
+
+        return `https://github.com/${this.owner}/${this.repo}/blob/${this.ref}/${pathname}`;
+    }
+
     async load(uri: string) {
         const segments = [...(this.pathname?.split("/") || []), ...uri.split("/")].filter(Boolean);
         const fullUri = segments.join("/");
@@ -54,7 +75,7 @@ export class GithubProvider implements BaseProvider {
             const validFile = files.docs.find((file) => file.clientPath === uri);
 
             if (validFile) {
-                pathname = this.pathname.replace(/\/$/, "") + validFile.origPath;
+                pathname = this.pathname.replace(/^\/|\/$/, "") + validFile.origPath;
             } else {
                 throw new Error(
                     `Can not find md file at "https://github.com/${this.owner}/${this.repo}/blob/${this.ref}/${fullUri}"`,

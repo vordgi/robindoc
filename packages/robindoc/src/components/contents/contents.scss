@@ -186,16 +186,20 @@
 .r-contents-actions {
   position: sticky;
   bottom: 0;
-  padding: 12px 0;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: 20px;
   background-color: var(--body);
 }
 
 .r-contents-git {
+  display: block;
+  width: 100%;
   position: relative;
   color: var(--neutral600);
   text-decoration: none;
-  padding-top: 4px;
-  padding-bottom: 4px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 14px;
   font-weight: 600;
 
