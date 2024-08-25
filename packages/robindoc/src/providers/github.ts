@@ -42,10 +42,10 @@ export class GithubProvider implements BaseProvider {
         this.filesPromise = this.loadTree(pathname);
     }
 
-    async getGitUri(uri: string) {
+    private async getPageSourcePathname(uri: string) {
         const segments = [...(this.pathname?.split("/") || []), ...uri.split("/")].filter(Boolean);
         const fullUri = segments.join("/");
-        let pathname;
+        let pathname = null;
 
         if (uri.endsWith(".md") || uri.endsWith(".mdx") || uri.endsWith(".json")) {
             pathname = fullUri;
@@ -55,32 +55,18 @@ export class GithubProvider implements BaseProvider {
 
             if (validFile) {
                 pathname = this.pathname.replace(/^\/|\/$/, "") + validFile.origPath;
-            } else {
-                return null;
             }
         }
 
-        return `https://github.com/${this.owner}/${this.repo}/blob/${this.ref}/${pathname}`;
+        return pathname;
     }
 
     async load(uri: string) {
-        const segments = [...(this.pathname?.split("/") || []), ...uri.split("/")].filter(Boolean);
-        const fullUri = segments.join("/");
-        let pathname;
-
-        if (uri.endsWith(".md") || uri.endsWith(".mdx") || uri.endsWith(".json")) {
-            pathname = fullUri;
-        } else {
-            const files = await this.filesPromise;
-            const validFile = files.docs.find((file) => file.clientPath === uri);
-
-            if (validFile) {
-                pathname = this.pathname.replace(/^\/|\/$/, "") + validFile.origPath;
-            } else {
-                throw new Error(
-                    `Can not find md file at "https://github.com/${this.owner}/${this.repo}/blob/${this.ref}/${fullUri}"`,
-                );
-            }
+        const pathname = await this.getPageSourcePathname(uri);
+        if (!pathname) {
+            throw new Error(
+                `Can not find md file for "${uri}" at "https://github.com/${this.owner}/${this.repo}/blob/${this.ref}"`,
+            );
         }
 
         const url = new URL(`https://api.github.com/repos/${this.owner}/${this.repo}/contents/${pathname}`);
@@ -93,7 +79,7 @@ export class GithubProvider implements BaseProvider {
         const resp = await this.fetcher(url.toString(), { headers });
         if (!resp.ok) {
             throw new Error(
-                `Can not load content from "https://github.com/${this.owner}/${this.repo}/blob/${this.ref}/${fullUri}": ${resp.statusText}`,
+                `Can not load "${uri}" content from "https://github.com/${this.owner}/${this.repo}/blob/${this.ref}": ${resp.statusText}`,
             );
         }
         const content = await resp.text();
@@ -149,7 +135,39 @@ export class GithubProvider implements BaseProvider {
         return groups || null;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async getGitUri(uri: string) {
+        const pathname = await this.getPageSourcePathname(uri);
+        if (!pathname) {
+            return null;
+        }
+
+        return `https://github.com/${this.owner}/${this.repo}/blob/${this.ref}/${pathname}`;
+    }
+
+    async getLastModifiedDate(uri: string) {
+        const pathname = await this.getPageSourcePathname(uri);
+        if (!pathname) {
+            return null;
+        }
+
+        const url = new URL(`https://api.github.com/repos/${this.owner}/${this.repo}/commits?page=1&per_page=1`);
+        url.searchParams.set("path", pathname);
+        url.searchParams.set("sha", this.ref);
+
+        const headers = new Headers();
+        if (this.token) headers.set("Authorization", `Bearer ${this.token}`);
+
+        const resp = await fetch(url, { headers });
+        if (!resp.ok) {
+            throw new Error(
+                `Can not load last modified date for "${uri}" from "https://github.com/${this.owner}/${this.repo}/blob/${this.ref}": ${resp.statusText}`,
+            );
+        }
+
+        const data = await resp.json();
+        return data[0].commit.committer.date;
+    }
+
     async getFileSrc(uri: string, href: string) {
         if (href.match(/https?:\/\//)) return href;
 

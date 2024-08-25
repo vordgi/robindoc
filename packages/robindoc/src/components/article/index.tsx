@@ -10,6 +10,7 @@ import { Breadcrumbs, type BreadcrumbsProps } from "../breadcrumbs";
 import { Pagination, type PaginationProps } from "../pagination";
 import { parseTree } from "./utils";
 import { Document } from "./document";
+import { LastModified } from "../last-modified";
 
 export type ContentProps = {
     title: string;
@@ -49,8 +50,8 @@ export const Article: React.FC<ArticleProps> = async ({
     }
 
     const { headings, tree } = parseTree(data);
-    const gitUri = uri && (await targetProvider?.getGitUri?.(uri));
-    console.log(gitUri);
+    const gitUri = uri && targetProvider && (await targetProvider.getGitUri(uri));
+    const lastModified = uri && targetProvider && (await targetProvider.getLastModifiedDate(uri));
 
     return (
         <AnchorProvider>
@@ -73,6 +74,7 @@ export const Article: React.FC<ArticleProps> = async ({
                     pathname={pathname}
                     uri={uri}
                 />
+                {lastModified && <LastModified date={lastModified}>Last modified on</LastModified>}
             </div>
             {(prev || next) && <Pagination prev={prev} next={next} link={link} />}
         </AnchorProvider>
