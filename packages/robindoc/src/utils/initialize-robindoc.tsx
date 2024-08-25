@@ -3,10 +3,10 @@ import { type Structure } from "../types/structure";
 import { parseStructure } from "./parse-structure";
 import { getConfiguration } from "./get-configuration";
 import { getMeta as getMetaBase } from "./get-meta";
-import { Document, type DocumentProps } from "../blocks/document";
+import { Page as PageBase, type PageProps as PagePropsBase } from "../blocks/page";
 import { normalizePathname } from "./path-tools";
 
-type PageProps = Omit<Partial<DocumentProps>, "uri" | "content" | "provider" | "pathname"> & {
+type PageProps = Omit<Partial<PagePropsBase>, "uri" | "content" | "provider" | "pathname"> & {
     pathname: string;
 };
 
@@ -43,7 +43,7 @@ export const initializeRobindoc = (structureTemplate: Structure | (() => Structu
         const breadcrumbs = pageData.crumbs.map((crumb) => ({ title: pages[crumb].title, pathname: crumb }));
 
         return (
-            <Document
+            <PageBase
                 pathname={pathnameClean}
                 links={tree}
                 provider={pageData.configuration.provider}
