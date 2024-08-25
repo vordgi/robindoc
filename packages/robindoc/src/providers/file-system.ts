@@ -49,6 +49,10 @@ export class FileSystemProvider implements BaseProvider {
         return null;
     }
 
+    async getLastModifiedDate() {
+        return null;
+    }
+
     async getFileSrc(uri: string, href: string, publicDirs?: string[]) {
         if (href.match(/https?:\/\//)) return href;
 
