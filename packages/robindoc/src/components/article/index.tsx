@@ -49,6 +49,8 @@ export const Article: React.FC<ArticleProps> = async ({
     }
 
     const { headings, tree } = parseTree(data);
+    const gitUri = uri && (await targetProvider?.getGitUri?.(uri));
+    console.log(gitUri);
 
     return (
         <AnchorProvider>
@@ -56,7 +58,7 @@ export const Article: React.FC<ArticleProps> = async ({
                 <Breadcrumbs breadcrumbs={breadcrumbs} title={title} link={link} />
             )}
             <Contents
-                editOnGitUri={editOnGitUri === null ? null : editOnGitUri || uri}
+                editOnGitUri={editOnGitUri === null ? null : editOnGitUri || gitUri}
                 hideContents={hideContents}
                 headings={headings}
             />

@@ -12,5 +12,7 @@ export abstract class BaseProvider {
 
     abstract load(uri: string): Promise<string>;
 
+    abstract getGitUri?(uri: string): Promise<string | null>;
+
     abstract getFileSrc(uri: string, href: string, publicDirs?: string[]): Promise<string>;
 }

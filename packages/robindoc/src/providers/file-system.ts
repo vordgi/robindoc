@@ -45,6 +45,10 @@ export class FileSystemProvider implements BaseProvider {
         return content;
     }
 
+    async getGitUri() {
+        return null;
+    }
+
     async getFileSrc(uri: string, href: string, publicDirs?: string[]) {
         if (href.match(/https?:\/\//)) return href;
 
