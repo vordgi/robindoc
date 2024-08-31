@@ -20,7 +20,7 @@ const loadStructure = async (structureTemplate: Structure | (() => Structure | P
 
 export const initializeRobindoc = (structureTemplate: Structure | (() => Structure | Promise<Structure>)) => {
     const pageDataPromise = loadStructure(structureTemplate).then((structure) =>
-        parseStructure(structure.items || [], getConfiguration(structure)),
+        parseStructure(structure.items || [], getConfiguration(structure.configuration || {})),
     );
 
     const Page: React.FC<PageProps> = async ({ pathname, ...props }) => {

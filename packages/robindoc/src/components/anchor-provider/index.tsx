@@ -30,24 +30,23 @@ export const AnchorProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         }
     }, []);
 
-    const effected = useRef(false);
     useEffect(() => {
-        if (effected.current) {
-            updateTargetSection();
+        let scheduledAnimationFrame = false;
+        const scrollHandler = () => {
+            if (!scheduledAnimationFrame && window.innerWidth > 1080) {
+                scheduledAnimationFrame = true;
+                setTimeout(() => {
+                    updateTargetSection();
+                    scheduledAnimationFrame = false;
+                }, 100);
+            }
+        };
 
-            let scheduledAnimationFrame = false;
-            window.addEventListener("scroll", () => {
-                if (!scheduledAnimationFrame && window.innerWidth > 1080) {
-                    scheduledAnimationFrame = true;
-                    setTimeout(() => {
-                        updateTargetSection();
-                        scheduledAnimationFrame = false;
-                    }, 100);
-                }
-            });
-        }
+        updateTargetSection();
+        window.addEventListener("scroll", scrollHandler);
+
         return () => {
-            effected.current = true;
+            window.removeEventListener("scroll", scrollHandler);
         };
     }, []);
 
