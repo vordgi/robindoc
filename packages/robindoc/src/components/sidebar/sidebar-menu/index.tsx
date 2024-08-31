@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavigateContext } from "../../../contexts/navigate-context";
 
 export const SidebarMenu: React.FC<React.PropsWithChildren> = ({ children }) => {
@@ -23,6 +23,10 @@ export const SidebarMenu: React.FC<React.PropsWithChildren> = ({ children }) => 
             openHandler();
         }
     };
+
+    useEffect(() => () => {
+        removeListener("closeSidebarMenu");
+    });
 
     return (
         <>

@@ -2,6 +2,7 @@ import "./sidebar.scss";
 import React from "react";
 import { SidebarMenu } from "./sidebar-menu";
 import { NavLink } from "../nav-link";
+import { SidebarDrop } from "./sidebar-drop";
 
 export type TreeItem = {
     title: string;
@@ -42,7 +43,7 @@ const LinkBranch: React.FC<{ item: TreeItem; link?: React.ElementType; pathname?
             <p className={`r-sidebar-p${item.type === "heading" ? " r-sidebar-heading" : ""}`}>{item.title}</p>
         )}
         {item.items && item.items.length > 0 && (
-            <details className="r-sidebar-drop" open={checkIsTargetSection(item, pathname)}>
+            <SidebarDrop defaultOpen={checkIsTargetSection(item, pathname)} key={item.href || item.title}>
                 <summary className="r-sidebar-drop-btn">
                     <svg
                         className="r-sidebar-drop-icon"
@@ -69,7 +70,7 @@ const LinkBranch: React.FC<{ item: TreeItem; link?: React.ElementType; pathname?
                         />
                     ))}
                 </ul>
-            </details>
+            </SidebarDrop>
         )}
     </li>
 );

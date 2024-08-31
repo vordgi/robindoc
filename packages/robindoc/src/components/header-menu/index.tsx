@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavigateContext } from "../../contexts/navigate-context";
 import "./header-menu.scss";
 
@@ -27,6 +27,10 @@ export const HeaderMenu: React.FC<React.PropsWithChildren> = ({ children }) => {
             openHandler();
         }
     };
+
+    useEffect(() => () => {
+        removeListener("closeHeaderMenu");
+    });
 
     return (
         <div className={`r-header-menu${opened ? " _opened" : ""}`}>
