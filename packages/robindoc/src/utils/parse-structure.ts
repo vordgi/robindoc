@@ -122,7 +122,7 @@ const parseStaticStructure = async (items: DocItem[], parentConfiguration: Confi
 
     for await (const item of items) {
         let subCrumbs = crumbs;
-        const configuration = getConfiguration(item, parentConfiguration);
+        const configuration = getConfiguration(item.configuration || {}, parentConfiguration);
         const sourceHref = item.href;
         const pathname = sourceHref && configuration.basePath ? configuration.basePath + sourceHref : sourceHref;
         const pathnameNormalized = normalizePathname(pathname);
