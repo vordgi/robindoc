@@ -54,7 +54,7 @@ export class GithubProvider implements BaseProvider {
             const validFile = files.docs.find((file) => file.clientPath === uri);
 
             if (validFile) {
-                pathname = this.pathname.replace(/^\/|\/$/, "") + validFile.origPath;
+                pathname = validFile.origPath;
             }
         }
 
@@ -105,17 +105,15 @@ export class GithubProvider implements BaseProvider {
         const fileTree = data.tree.reduce<BranchFiles>(
             (acc, item) => {
                 if (!pathnameClean || (pathnameClean && item.path.startsWith(pathnameClean))) {
-                    const origPath = normalizePathname(item.path.substring(pathnameClean?.length || 0));
-
                     if (item.path.match(/\.(md|mdx)$/)) {
                         const clientFileUrl = getFileUrl(item.path);
 
                         acc.docs.push({
-                            origPath,
+                            origPath: item.path,
                             clientPath: normalizePathname(clientFileUrl.substring(pathnameClean?.length || 0)),
                         });
-                    } else if (item.path.endsWith(".json")) {
-                        acc.structures.push(origPath);
+                    } else if (item.path.endsWith("structure.json")) {
+                        acc.structures.push(item.path);
                     }
                 }
                 return acc;
