@@ -1,6 +1,5 @@
 import { readFile } from "fs/promises";
 import { glob } from "glob";
-import { existsSync } from "fs";
 import path from "path";
 
 import { type BranchFiles } from "../types/content";
@@ -8,49 +7,29 @@ import { BaseProvider } from "./base";
 import { extensionsMap } from "../data/contents";
 import { getFileUrl, normalizePathname } from "../utils/path-tools";
 
-export class FileSystemProvider implements BaseProvider {
+export class FileSystemProvider extends BaseProvider {
     readonly type = "local";
 
     rootUri: string;
 
-    filesPromise: BaseProvider["filesPromise"];
-
     constructor(rootUri: string = process.cwd()) {
+        super(rootUri);
         this.rootUri = rootUri.replaceAll("\\", "/");
         this.filesPromise = this.loadFiles("");
     }
 
-    async load(uri: string) {
+    async getPageSourcePathname(uri: string) {
         const fullUri = path.posix.join(this.rootUri, uri).replaceAll("\\", "/").replace(/\/$/, "");
-        let pathname;
-        if (fullUri.endsWith(".md") || fullUri.endsWith(".mdx") || fullUri.endsWith(".json")) {
-            if (existsSync(fullUri)) {
-                pathname = fullUri;
-            } else {
-                throw new Error(`Can not find file "${fullUri}"`);
-            }
-        } else {
-            const files = await this.filesPromise;
-            const validFile = files.docs.find((file) => file.clientPath === uri);
-            if (validFile) {
-                pathname = validFile.origPath;
-            } else {
-                throw new Error(
-                    `Can not find md file at "${path.posix.join(this.rootUri, fullUri).replaceAll("\\", "/")}"`,
-                );
-            }
+        return super.getPageSourcePathname(uri, fullUri);
+    }
+
+    async load(uri: string) {
+        const filePath = await this.getPageSourcePathname(uri);
+        if (!filePath) {
+            throw new Error(`Can not find file for "${uri}"`);
         }
-
-        const content = await readFile(pathname, "utf-8");
+        const content = await readFile(filePath, "utf-8");
         return content;
-    }
-
-    async getGitUri() {
-        return null;
-    }
-
-    async getLastModifiedDate() {
-        return null;
     }
 
     async getFileSrc(uri: string, href: string, publicDirs?: string[]) {
