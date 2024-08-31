@@ -1,16 +1,12 @@
 import path from "path";
 
-import { type BaseProvider } from "./base";
 import { type BranchFiles, type Fetcher } from "../types/content";
+import { BaseProvider } from "./base";
 import { extensionsMap } from "../data/contents";
 import { getFileUrl, normalizePathname } from "../utils/path-tools";
 
-export class GithubProvider implements BaseProvider {
+export class GithubProvider extends BaseProvider {
     readonly type = "remote";
-
-    rootUri: string;
-
-    filesPromise: BaseProvider["filesPromise"];
 
     owner: string;
 
@@ -25,9 +21,9 @@ export class GithubProvider implements BaseProvider {
     fetcher: Fetcher;
 
     constructor(rootUri: string, fetcher: Fetcher = fetch, token?: string) {
-        this.rootUri = rootUri.replace(/\/$/, "");
-        const groups = this.testUri(rootUri);
+        super(rootUri);
 
+        const groups = this.testUri(rootUri);
         if (!groups) {
             throw new Error(`Invalid URI: "${rootUri}"`);
         }
@@ -42,23 +38,10 @@ export class GithubProvider implements BaseProvider {
         this.filesPromise = this.loadTree(pathname);
     }
 
-    private async getPageSourcePathname(uri: string) {
+    async getPageSourcePathname(uri: string) {
         const segments = [...(this.pathname?.split("/") || []), ...uri.split("/")].filter(Boolean);
         const fullUri = segments.join("/");
-        let pathname = null;
-
-        if (uri.endsWith(".md") || uri.endsWith(".mdx") || uri.endsWith(".json")) {
-            pathname = fullUri;
-        } else {
-            const files = await this.filesPromise;
-            const validFile = files.docs.find((file) => file.clientPath === uri);
-
-            if (validFile) {
-                pathname = validFile.origPath;
-            }
-        }
-
-        return pathname;
+        return super.getPageSourcePathname(uri, fullUri);
     }
 
     async load(uri: string) {
