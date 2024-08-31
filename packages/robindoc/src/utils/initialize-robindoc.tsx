@@ -3,12 +3,15 @@ import { type Structure } from "../types/structure";
 import { parseStructure } from "./parse-structure";
 import { getConfiguration } from "./get-configuration";
 import { getMeta as getMetaBase } from "./get-meta";
-import { Page as PageBase, type PageProps as PagePropsBase } from "../blocks/page";
+import { Article as ArticleBase, type ArticleProps as ArticlePropsBase } from "../blocks/article";
+import { Sidebar as SidebarBase, type SidebarProps as SidebarPropsBase } from "../blocks/sidebar";
 import { normalizePathname } from "./path-tools";
 
-type PageProps = Omit<Partial<PagePropsBase>, "uri" | "content" | "provider" | "pathname" | "pages"> & {
+type PageProps = Omit<Partial<ArticlePropsBase>, "uri" | "content" | "provider" | "pathname" | "pages"> & {
     pathname: string;
 };
+
+type SidebarProps = Omit<SidebarPropsBase, "tree">;
 
 const loadStructure = async (structureTemplate: Structure | (() => Structure | Promise<Structure>)) => {
     if (typeof structureTemplate === "function") {
@@ -24,7 +27,7 @@ export const initializeRobindoc = (structureTemplate: Structure | (() => Structu
     );
 
     const Page: React.FC<PageProps> = async ({ pathname, ...props }) => {
-        const { pages, tree } = await pageDataPromise;
+        const { pages } = await pageDataPromise;
         const pathnameClean = normalizePathname(pathname);
         const pageData = pages[pathnameClean];
 
@@ -50,9 +53,8 @@ export const initializeRobindoc = (structureTemplate: Structure | (() => Structu
         );
 
         return (
-            <PageBase
+            <ArticleBase
                 pathname={pathnameClean}
-                tree={tree}
                 provider={pageData.configuration.provider}
                 uri={pageData.uri}
                 title={pageData.title}
@@ -63,6 +65,18 @@ export const initializeRobindoc = (structureTemplate: Structure | (() => Structu
                 {...props}
             />
         );
+    };
+
+    const Sidebar: React.FC<SidebarProps> = async ({ pathname, link }) => {
+        const { pages, tree } = await pageDataPromise;
+        const pathnameClean = normalizePathname(pathname);
+        const pageData = pages[pathnameClean];
+
+        if (!pageData) {
+            throw new Error(`Can not find data for "${pathnameClean}". Please check structure`);
+        }
+
+        return <SidebarBase pathname={pathnameClean} tree={tree} link={link} />;
     };
 
     const getPages = async (basePath?: string) => {
@@ -86,5 +100,5 @@ export const initializeRobindoc = (structureTemplate: Structure | (() => Structu
         return meta;
     };
 
-    return { Page, getPages, getMeta };
+    return { Page, Sidebar, getPages, getMeta };
 };

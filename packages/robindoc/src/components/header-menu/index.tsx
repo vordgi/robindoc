@@ -1,8 +1,8 @@
 "use client";
 
+import React, { useContext, useState } from "react";
 import { NavigateContext } from "../../contexts/navigate-context";
 import "./header-menu.scss";
-import React, { useContext, useState } from "react";
 
 export const HeaderMenu: React.FC<React.PropsWithChildren> = ({ children }) => {
     const { addListener, removeListener } = useContext(NavigateContext);
@@ -11,13 +11,13 @@ export const HeaderMenu: React.FC<React.PropsWithChildren> = ({ children }) => {
     const openHandler = () => {
         document.documentElement.classList.add("body-mobile-lock");
         setOpened(true);
-        addListener("closeMenu", () => setOpened(false));
+        addListener("closeHeaderMenu", closeHandler);
     };
 
     const closeHandler = () => {
         document.documentElement.classList.remove("body-mobile-lock");
         setOpened(false);
-        removeListener("closeMenu");
+        removeListener("closeHeaderMenu");
     };
 
     const toggleHandler = () => {
