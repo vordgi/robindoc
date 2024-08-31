@@ -9,12 +9,12 @@ export type Heading = {
     token: Token;
 };
 
-export const parseTree = (content: string) => {
+export const parseMarkdown = (content: string) => {
     const { content: matterContent } = matter(content);
-    const markedTree = lexer(matterContent.trim());
+    const tokens = lexer(matterContent.trim());
 
     const slugger = new GithubSlugger();
-    const headings = markedTree.reduce<Heading[]>((acc, token) => {
+    const headings = tokens.reduce<Heading[]>((acc, token) => {
         if (token.type === "heading" && (token.depth === 2 || token.depth === 3)) {
             const title = parseTokenText(token);
             acc.push({
@@ -27,7 +27,7 @@ export const parseTree = (content: string) => {
         return acc;
     }, []);
 
-    return { tree: markedTree, headings };
+    return { tokens, headings };
 };
 
 export const parseTokenText = (token: Token): string => {

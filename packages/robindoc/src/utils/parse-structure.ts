@@ -1,6 +1,6 @@
 import { type DocItem } from "../types/structure";
 import { type Pages, type Crumbs, type Configuration } from "../types/content";
-import { type LinkItem } from "../components/sidebar";
+import { type TreeItem } from "../components/sidebar";
 import { getConfiguration } from "./get-configuration";
 import { getMeta } from "./get-meta";
 import { generatePseudoTitle, normalizePathname } from "./path-tools";
@@ -12,7 +12,7 @@ const parseJSONStructure = async (
     crumbs: Crumbs = [],
 ) => {
     const pages: Pages = {};
-    const tree: LinkItem[] = [];
+    const tree: TreeItem[] = [];
 
     if (!parentConfiguration.provider) return { pages, tree };
 
@@ -30,14 +30,19 @@ const parseJSONStructure = async (
                 const pathname = (parentConfiguration.basePath || "") + clientPath;
                 const pathnameNormalized = normalizePathname(pathname);
 
+                const origPath = await parentConfiguration.provider?.getPageSourcePathname(
+                    clientPath,
+                    pathnameNormalized,
+                );
                 pages[pathnameNormalized] = {
                     title: data.title,
                     uri: clientPath,
                     configuration: parentConfiguration,
+                    origPath,
                     crumbs,
                 };
 
-                let subTree: LinkItem[] | undefined;
+                let subTree: TreeItem[] | undefined;
                 if (segment !== "index") {
                     const subItemsData = await parseAutoStructure(parentConfiguration, clientPath, [
                         ...crumbs,
@@ -67,7 +72,7 @@ const parseAutoStructure = async (
     crumbs: Crumbs = [],
 ) => {
     const pages: Pages = {};
-    const tree: LinkItem[] = [];
+    const tree: TreeItem[] = [];
 
     if (!parentConfiguration.provider) return { pages, tree };
 
@@ -95,10 +100,12 @@ const parseAutoStructure = async (
 
         const meta = await getMeta({ provider: parentConfiguration.provider, uri: clientPath });
         const title = meta.title || generatePseudoTitle(pathnameNormalized);
+        const origPath = await parentConfiguration.provider?.getPageSourcePathname(clientPath, pathnameNormalized);
         pages[pathnameNormalized] = {
             title,
             uri: clientPath,
             configuration: parentConfiguration,
+            origPath,
             crumbs,
         };
 
@@ -118,26 +125,28 @@ const parseAutoStructure = async (
 
 const parseStaticStructure = async (items: DocItem[], parentConfiguration: Configuration = {}, crumbs: Crumbs = []) => {
     const pages: Pages = {};
-    const tree: LinkItem[] = [];
+    const tree: TreeItem[] = [];
 
     for await (const item of items) {
         let subCrumbs = crumbs;
         const configuration = getConfiguration(item.configuration || {}, parentConfiguration);
-        const sourceHref = item.href;
-        const pathname = sourceHref && configuration.basePath ? configuration.basePath + sourceHref : sourceHref;
+        const clientPath = item.href;
+        const pathname = clientPath && configuration.basePath ? configuration.basePath + clientPath : clientPath;
         const pathnameNormalized = normalizePathname(pathname);
 
-        if (sourceHref) {
+        if (clientPath) {
+            const origPath = await configuration.provider?.getPageSourcePathname(clientPath, pathnameNormalized);
             pages[pathnameNormalized] = {
                 title: item.title || "",
-                uri: sourceHref,
+                uri: clientPath,
                 configuration,
+                origPath,
                 crumbs,
             };
             subCrumbs = [...crumbs, pathnameNormalized];
         }
 
-        let subTree: LinkItem[] = [];
+        let subTree: TreeItem[] = [];
         if (item.items) {
             const subItemsData = await parseStructure(item.items, configuration, subCrumbs);
             subTree = subItemsData.tree;

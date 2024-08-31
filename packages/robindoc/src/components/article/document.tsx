@@ -4,12 +4,14 @@ import { type TokensList, type Token, type Tokens } from "marked";
 
 import { type RobinProps, type Components } from "../../types/content";
 import { type BaseProvider } from "../../providers/base";
+import { parseMarkdown, validateComponentName, type Heading as HeadingType } from "./utils";
 import { Heading } from "../heading";
 import { Shiki } from "../code";
-import { Anchor, Img } from "./elements";
-import { Heading as HeadingType, parseTree, validateComponentName } from "./utils";
+import { Img } from "./elements";
+import { NavLink } from "../nav-link";
+import { dirname, join } from "path";
 
-interface DocumentJSXProps extends Omit<ContentProps, "tree" | "headings"> {
+interface DocumentJSXProps extends Omit<ContentProps, "tokens" | "headings"> {
     raw: string;
 }
 
@@ -17,9 +19,9 @@ export const DocumentJSX: React.FC<DocumentJSXProps> = ({ raw, components, ...ba
     const parseOptions: HTMLReactParserOptions = {
         replace(domNode) {
             if (domNode instanceof Text && domNode.data) {
-                const { headings, tree } = parseTree(domNode.data);
+                const { headings, tokens } = parseMarkdown(domNode.data);
 
-                return <Document headings={headings} tree={tree} components={components} subtree {...baseProps} />;
+                return <Document headings={headings} tokens={tokens} components={components} subtree {...baseProps} />;
             }
 
             if (!("name" in domNode)) return <></>;
@@ -54,10 +56,11 @@ export type ContentProps = {
     };
     uri?: string;
     targetProvider?: BaseProvider | null;
-    tree: TokensList;
+    tokens: TokensList;
     headings: HeadingType[];
     subtree?: boolean;
     link?: React.ElementType;
+    pages?: { clientPath: string; origPath: string }[];
 };
 
 export const Document: React.FC<ContentProps> = ({
@@ -65,11 +68,12 @@ export const Document: React.FC<ContentProps> = ({
     components,
     uri,
     targetProvider,
-    tree,
+    tokens,
     headings,
     config = {},
     subtree,
     link,
+    pages,
 }) => {
     const { publicDirs } = config;
 
@@ -158,11 +162,25 @@ export const Document: React.FC<ContentProps> = ({
                 const additionalProps = token.href.match(/^https?:\/\//)
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {};
+                let finalHref: string = token.href;
+
+                if (pages && !/^(https?:\/\/|\/)/.test(token.href)) {
+                    const currentPageData = pages.find((item) => item.clientPath === pathname);
+
+                    if (currentPageData) {
+                        const linkOrigPath = join(dirname(currentPageData.origPath), token.href).replace(/\\/g, "/");
+                        const linkData = pages.find((item) => item.origPath === linkOrigPath);
+
+                        if (linkData) {
+                            finalHref = linkData?.clientPath;
+                        }
+                    }
+                }
 
                 return (
-                    <Anchor link={link} href={token.href} targetPathname={pathname} {...additionalProps}>
+                    <NavLink link={link} href={finalHref} className="r-a" {...additionalProps}>
                         {token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}
-                    </Anchor>
+                    </NavLink>
                 );
             case "space":
                 return <br />;
@@ -303,5 +321,5 @@ export const Document: React.FC<ContentProps> = ({
         }
     };
 
-    return <DocumentToken token={tree} />;
+    return <DocumentToken token={tokens} />;
 };

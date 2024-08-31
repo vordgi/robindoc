@@ -3,27 +3,27 @@ import React from "react";
 import { SidebarMenu } from "./sidebar-menu";
 import { NavLink } from "../nav-link";
 
-export type LinkItem = {
+export type TreeItem = {
     title: string;
     href?: string;
     type?: "row" | "heading";
-    items?: LinkItem[] | null;
+    items?: TreeItem[] | null;
 };
 
 export type SidebarProps = {
-    links?: LinkItem[] | null;
+    tree?: TreeItem[] | null;
     link?: React.ElementType;
     pathname?: string;
 };
 
-const checkIsTargetSection = (item: LinkItem, pathname?: string) => {
+const checkIsTargetSection = (item: TreeItem, pathname?: string) => {
     if (!pathname) return false;
     if (item.href && pathname === new URL(item.href, "http://r").pathname?.replace(/\/$/, "")) return true;
     if (item.items?.find((el) => checkIsTargetSection(el, pathname))) return true;
     return false;
 };
 
-const LinkBranch: React.FC<{ item: LinkItem; link?: React.ElementType; pathname?: string; depth: number }> = ({
+const LinkBranch: React.FC<{ item: TreeItem; link?: React.ElementType; pathname?: string; depth: number }> = ({
     item,
     link: Link,
     pathname,
@@ -74,14 +74,14 @@ const LinkBranch: React.FC<{ item: LinkItem; link?: React.ElementType; pathname?
     </li>
 );
 
-export const Sidebar: React.FC<SidebarProps> = ({ links, pathname, link }) => {
-    if (!links?.length) return <div className="r-sidebar" />;
+export const Sidebar: React.FC<SidebarProps> = ({ tree, pathname, link }) => {
+    if (!tree?.length) return <div className="r-sidebar" />;
 
     return (
         <SidebarMenu>
             <nav className="r-sidebar-nav">
                 <ul className="r-sidebar-list">
-                    {links.map((item) => (
+                    {tree.map((item) => (
                         <LinkBranch
                             pathname={pathname?.replace(/\/$/, "")}
                             item={item}
