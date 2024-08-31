@@ -33,7 +33,7 @@ export class FileSystemProvider implements BaseProvider {
             const files = await this.filesPromise;
             const validFile = files.docs.find((file) => file.clientPath === uri);
             if (validFile) {
-                pathname = this.rootUri + validFile.origPath;
+                pathname = validFile.origPath;
             } else {
                 throw new Error(
                     `Can not find md file at "${path.posix.join(this.rootUri, fullUri).replaceAll("\\", "/")}"`,
@@ -80,7 +80,9 @@ export class FileSystemProvider implements BaseProvider {
         const fileTree = filesSorted.reduce<BranchFiles>(
             (acc, item) => {
                 if (!pathnameClean || (pathnameClean && item.startsWith(pathnameClean))) {
-                    const origPath = normalizePathname("/" + item.substring(pathnameClean?.length || 0));
+                    const origPath = path
+                        .relative(process.cwd(), (this.rootUri || ".") + "/" + item)
+                        .replace(/\\/g, "/");
 
                     if (item.match(/\.mdx?$/)) {
                         const clientFileUrl = getFileUrl("/" + item);
