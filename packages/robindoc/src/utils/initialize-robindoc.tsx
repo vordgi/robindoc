@@ -6,7 +6,7 @@ import { getMeta as getMetaBase } from "./get-meta";
 import { Page as PageBase, type PageProps as PagePropsBase } from "../blocks/page";
 import { normalizePathname } from "./path-tools";
 
-type PageProps = Omit<Partial<PagePropsBase>, "uri" | "content" | "provider" | "pathname"> & {
+type PageProps = Omit<Partial<PagePropsBase>, "uri" | "content" | "provider" | "pathname" | "pages"> & {
     pathname: string;
 };
 
@@ -41,17 +41,25 @@ export const initializeRobindoc = (structureTemplate: Structure | (() => Structu
         const next = nextPagePathname && { pathname: nextPagePathname, title: pages[nextPagePathname].title };
 
         const breadcrumbs = pageData.crumbs.map((crumb) => ({ title: pages[crumb].title, pathname: crumb }));
+        const clientPages = Object.entries(pages).reduce<{ clientPath: string; origPath: string }[]>(
+            (acc, [clientPath, { origPath }]) => {
+                if (origPath) acc.push({ clientPath, origPath });
+                return acc;
+            },
+            [],
+        );
 
         return (
             <PageBase
                 pathname={pathnameClean}
-                links={tree}
+                tree={tree}
                 provider={pageData.configuration.provider}
                 uri={pageData.uri}
                 title={pageData.title}
                 breadcrumbs={breadcrumbs}
                 prev={prev || undefined}
                 next={next || undefined}
+                pages={clientPages}
                 {...props}
             />
         );

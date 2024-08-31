@@ -25,7 +25,13 @@ export type Configuration = {
 
 export type Crumbs = string[];
 
-export type Page = { title: string; uri: string; configuration: Configuration; crumbs: Crumbs };
+export type Page = {
+    title: string;
+    uri: string;
+    configuration: Configuration;
+    crumbs: Crumbs;
+    origPath?: string | null;
+};
 
 export type Pages = { [key: string]: Page };
 

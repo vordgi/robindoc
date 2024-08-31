@@ -8,7 +8,7 @@ import { AnchorProvider } from "../anchor-provider";
 import { Contents, type ContentsProps } from "../contents";
 import { Breadcrumbs, type BreadcrumbsProps } from "../breadcrumbs";
 import { Pagination, type PaginationProps } from "../pagination";
-import { parseTree } from "./utils";
+import { parseMarkdown } from "./utils";
 import { Document } from "./document";
 import { LastModified } from "../last-modified";
 
@@ -23,6 +23,7 @@ export type ContentProps = {
     link?: React.ElementType;
     editOnGitUri?: ContentsProps["editOnGitUri"];
     pathname: string;
+    pages?: { clientPath: string; origPath: string }[];
 } & ({ content: string; uri?: undefined } | { uri: string; content?: undefined });
 
 export type ArticleProps = Partial<PaginationProps> & Partial<BreadcrumbsProps> & ContentProps;
@@ -41,6 +42,7 @@ export const Article: React.FC<ArticleProps> = async ({
     breadcrumbs,
     prev,
     next,
+    pages = [],
 }) => {
     const { data, provider: targetProvider } =
         content || !uri ? { data: content, provider: null } : await loadContent(uri, provider);
@@ -49,7 +51,7 @@ export const Article: React.FC<ArticleProps> = async ({
         throw new Error("Robindoc: Please provide content or valid uri");
     }
 
-    const { headings, tree } = parseTree(data);
+    const { headings, tokens } = parseMarkdown(data);
     const gitUri = uri && targetProvider && (await targetProvider.getGitUri(uri));
     const lastModified = uri && targetProvider && (await targetProvider.getLastModifiedDate(uri));
 
@@ -66,7 +68,8 @@ export const Article: React.FC<ArticleProps> = async ({
             <div className="r-article">
                 <Document
                     headings={headings}
-                    tree={tree}
+                    tokens={tokens}
+                    pages={pages}
                     components={components}
                     config={config}
                     link={link}

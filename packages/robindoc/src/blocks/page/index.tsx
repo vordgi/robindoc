@@ -5,10 +5,10 @@ import { Article, type ArticleProps } from "../../components/article";
 
 export type PageProps = ArticleProps & SidebarProps;
 
-export const Page: React.FC<PageProps> = ({ link, pathname, links, ...articleProps }) => {
+export const Page: React.FC<PageProps> = ({ link, pathname, tree, ...articleProps }) => {
     return (
         <Main>
-            <Sidebar links={links} link={link} pathname={pathname} />
+            <Sidebar tree={tree} link={link} pathname={pathname} />
             <Article link={link} pathname={pathname} {...articleProps} />
         </Main>
     );
