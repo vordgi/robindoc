@@ -20,12 +20,12 @@ export class GithubProvider extends BaseProvider {
 
     fetcher: Fetcher;
 
-    constructor(rootUri: string, fetcher: Fetcher = fetch, token?: string) {
-        super(rootUri);
+    constructor(sourceRoot: string, fetcher: Fetcher = fetch, token?: string) {
+        super(sourceRoot);
 
-        const groups = this.testUri(rootUri);
+        const groups = this.testUri(sourceRoot);
         if (!groups) {
-            throw new Error(`Invalid URI: "${rootUri}"`);
+            throw new Error(`Invalid URI: "${sourceRoot}"`);
         }
 
         const { owner, repo, ref = "main", pathname = "" } = groups;

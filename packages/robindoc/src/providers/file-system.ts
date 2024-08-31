@@ -10,16 +10,16 @@ import { getFileUrl, normalizePathname } from "../utils/path-tools";
 export class FileSystemProvider extends BaseProvider {
     readonly type = "local";
 
-    rootUri: string;
+    sourceRoot: string;
 
-    constructor(rootUri: string = process.cwd()) {
-        super(rootUri);
-        this.rootUri = rootUri.replaceAll("\\", "/");
+    constructor(sourceRoot: string = process.cwd()) {
+        super(sourceRoot);
+        this.sourceRoot = sourceRoot.replaceAll("\\", "/");
         this.filesPromise = this.loadFiles("");
     }
 
     async getPageSourcePathname(uri: string) {
-        const fullUri = path.posix.join(this.rootUri, uri).replaceAll("\\", "/").replace(/\/$/, "");
+        const fullUri = path.posix.join(this.sourceRoot, uri).replaceAll("\\", "/").replace(/\/$/, "");
         return super.getPageSourcePathname(uri, fullUri);
     }
 
@@ -53,14 +53,14 @@ export class FileSystemProvider extends BaseProvider {
 
     private async loadFiles(pathname?: string) {
         const pathnameClean = pathname?.replace(/^\//, "");
-        const files = await glob(["**/*.{md,mdx}", "**/structure.json"], { cwd: this.rootUri, posix: true });
+        const files = await glob(["**/*.{md,mdx}", "**/structure.json"], { cwd: this.sourceRoot, posix: true });
         const filesSorted = files.sort();
 
         const fileTree = filesSorted.reduce<BranchFiles>(
             (acc, item) => {
                 if (!pathnameClean || (pathnameClean && item.startsWith(pathnameClean))) {
                     const origPath = path
-                        .relative(process.cwd(), (this.rootUri || ".") + "/" + item)
+                        .relative(process.cwd(), (this.sourceRoot || ".") + "/" + item)
                         .replace(/\\/g, "/");
 
                     if (item.match(/\.mdx?$/)) {

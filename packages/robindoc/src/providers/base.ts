@@ -4,12 +4,12 @@ import { type BranchFiles } from "../types/content";
 export class BaseProvider {
     type: "local" | "remote" = "local";
 
-    rootUri: string;
+    sourceRoot: string;
 
     filesPromise: Promise<BranchFiles> | BranchFiles;
 
-    constructor(rootUri: string) {
-        this.rootUri = rootUri.replaceAll("\\", "/").replace(/\/$/, "");
+    constructor(sourceRoot: string) {
+        this.sourceRoot = sourceRoot.replaceAll("\\", "/").replace(/\/$/, "");
         this.filesPromise = { docs: [], structures: [] };
     }
 
