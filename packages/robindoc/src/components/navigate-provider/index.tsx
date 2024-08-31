@@ -4,7 +4,6 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { NavigateContext, NavigateListener, NavigateContextType } from "../../contexts/navigate-context";
 
 export const NavigateProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-    const readyRef = useRef(false);
     const listenersRef = useRef<NavigateListener[]>([]);
 
     const addListener: NavigateContextType["addListener"] = useCallback((key, listener) => {
@@ -23,14 +22,13 @@ export const NavigateProvider: React.FC<React.PropsWithChildren> = ({ children }
     }, []);
 
     useEffect(() => {
-        if (readyRef.current) {
-            window.addEventListener("popstate", () => {
-                listenersRef.current.forEach((el) => el.listener());
-            });
-        }
+        const popStateHandler = () => {
+            listenersRef.current.forEach((el) => el.listener());
+        };
+        window.addEventListener("popstate", popStateHandler);
 
         return () => {
-            readyRef.current = true;
+            window.removeEventListener("popstate", popStateHandler);
         };
     }, []);
 

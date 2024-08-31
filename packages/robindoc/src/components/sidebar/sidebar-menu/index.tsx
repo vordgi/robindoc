@@ -1,16 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { NavigateContext } from "../../../contexts/navigate-context";
 
 export const SidebarMenu: React.FC<React.PropsWithChildren> = ({ children }) => {
+    const { addListener, removeListener } = useContext(NavigateContext);
     const [opened, setOpened] = useState(false);
     const openHandler = () => {
         document.documentElement.classList.add("body-mobile-lock");
         setOpened(true);
+        addListener("closeSidebarMenu", closeHandler);
     };
     const closeHandler = () => {
         document.documentElement.classList.remove("body-mobile-lock");
         setOpened(false);
+        removeListener("closeSidebarMenu");
     };
     const toggleHandler = () => {
         if (opened) {

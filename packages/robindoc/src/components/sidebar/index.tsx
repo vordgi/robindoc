@@ -29,7 +29,7 @@ const LinkBranch: React.FC<{ item: TreeItem; link?: React.ElementType; pathname?
     pathname,
     depth,
 }) => (
-    <li className={`r-sidebar-li ${item.items && item.items.length > 0 ? " _droppable" : ""}`}>
+    <li className={`r-sidebar-li${item.items && item.items.length > 0 ? " _droppable" : ""}`}>
         {item.href ? (
             <NavLink
                 link={Link}
