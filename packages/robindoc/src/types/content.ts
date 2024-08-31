@@ -16,11 +16,11 @@ export type BranchFiles = { docs: DocsTree; structures: string[] };
 export type Fetcher<T = Response> = (input: RequestInfo | URL, init?: RequestInit) => Promise<T>;
 
 export type Configuration = {
-    sourceUri?: string;
+    sourceRoot?: string;
+    gitToken?: string;
     provider?: BaseProvider;
     basePath?: string;
-    gitToken?: string;
-    fetcher?: Fetcher | null;
+    fetcher?: Fetcher;
 };
 
 export type Crumbs = string[];
