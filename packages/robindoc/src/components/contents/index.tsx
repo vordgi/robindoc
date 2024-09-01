@@ -2,7 +2,7 @@
 
 import "./contents.scss";
 import React, { useContext } from "react";
-import { CurrentSectionContext } from "../anchor-provider";
+import { CurrentSectionContext } from "../../contexts/anchor-context";
 import { detectGitType } from "../../utils/git-data";
 
 export interface ContentsProps extends React.PropsWithChildren {

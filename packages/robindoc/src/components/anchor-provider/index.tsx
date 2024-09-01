@@ -1,9 +1,7 @@
 "use client";
 
-import React, { createContext, useCallback, useEffect, useRef, useState } from "react";
-
-export const RegisterContext = createContext<((ref: HTMLHeadingElement) => void) | null>(null);
-export const CurrentSectionContext = createContext<number | null>(null);
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { CurrentSectionContext, RegisterContext } from "../../contexts/anchor-context";
 
 export const AnchorProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
