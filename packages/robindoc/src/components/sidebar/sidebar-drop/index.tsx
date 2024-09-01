@@ -3,26 +3,24 @@
 import React, { useContext, useEffect } from "react";
 import { SidebarContext } from "../../../contexts/sidebar-context";
 
-export const SidebarDrop: React.FC<React.PropsWithChildren<{ defaultOpen?: boolean; key: string }>> = ({
+export const SidebarDrop: React.FC<React.PropsWithChildren<{ defaultOpen?: boolean; id: string }>> = ({
     children,
-    key,
+    id,
     defaultOpen,
 }) => {
     const { openedSections } = useContext(SidebarContext);
 
     const closeHandler = () => {
-        if (openedSections.includes(key)) {
-            openedSections.splice(openedSections.indexOf(key), 1);
+        if (openedSections.includes(id)) {
+            openedSections.splice(openedSections.indexOf(id), 1);
         }
     };
     const openHandler = () => {
-        if (!openedSections.includes(key)) {
-            openedSections.push(key);
+        if (!openedSections.includes(id)) {
+            openedSections.push(id);
         }
     };
     const toggle = (e: React.MouseEvent<HTMLDetailsElement>) => {
-        console.log("toggle");
-
         if (e.currentTarget.open) {
             closeHandler();
         } else {
@@ -35,7 +33,7 @@ export const SidebarDrop: React.FC<React.PropsWithChildren<{ defaultOpen?: boole
     }, [defaultOpen]);
 
     return (
-        <details className="r-sidebar-drop" open={openedSections.includes(key) || defaultOpen} onClick={toggle}>
+        <details className="r-sidebar-drop" open={openedSections.includes(id) || defaultOpen} onClick={toggle}>
             {children}
         </details>
     );
