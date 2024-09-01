@@ -43,7 +43,7 @@ const LinkBranch: React.FC<{ item: TreeItem; link?: React.ElementType; pathname?
             <p className={`r-sidebar-p${item.type === "heading" ? " r-sidebar-heading" : ""}`}>{item.title}</p>
         )}
         {item.items && item.items.length > 0 && (
-            <SidebarDrop defaultOpen={checkIsTargetSection(item, pathname)} key={item.href || item.title}>
+            <SidebarDrop defaultOpen={checkIsTargetSection(item, pathname)} id={item.href + item.title}>
                 <summary className="r-sidebar-drop-btn">
                     <svg
                         className="r-sidebar-drop-icon"

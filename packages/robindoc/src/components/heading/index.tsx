@@ -2,6 +2,7 @@
 
 import React, { useContext } from "react";
 import { RegisterContext } from "../../contexts/anchor-context";
+import "./heading.scss";
 
 interface HeadingProps extends React.PropsWithChildren {
     id: string;
