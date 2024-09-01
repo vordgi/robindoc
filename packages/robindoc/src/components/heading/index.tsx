@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useContext } from "react";
-import { RegisterContext } from "../anchor-provider";
+import { RegisterContext } from "../../contexts/anchor-context";
 
 interface HeadingProps extends React.PropsWithChildren {
     id: string;
