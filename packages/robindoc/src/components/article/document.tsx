@@ -183,7 +183,7 @@ export const Document: React.FC<ContentProps> = ({
                     </NavLink>
                 );
             case "space":
-                return <br />;
+                return null;
             case "hr":
                 return <hr className="r-hr" />;
             case "image":
