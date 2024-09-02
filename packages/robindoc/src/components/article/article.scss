@@ -14,7 +14,6 @@
 }
 
 .r-p {
-  margin: 0;
   line-height: 1.8;
 }
 
@@ -59,7 +58,7 @@
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
   font: inherit;
-  margin: 0;
+  margin-inline: 0;
 }
 
 .r-checkbox {
@@ -76,13 +75,18 @@
 
 .r-ul,
 .r-ol {
-  padding-inline-start: 12px;
+  padding-inline-start: 0;
+  list-style-position: inside;
+}
+
+.r-li > .r-ul,
+.r-li > .r-ol {
+  padding-inline-start: 20px;
 }
 
 .r-task-ol,
 .r-task-ul {
   list-style: none;
-  padding-inline-start: 16px;
 }
 
 .r-task-label {
@@ -99,8 +103,8 @@
 }
 
 .r-task-li {
-  margin-top: 2px;
-  margin-bottom: 2px;
+  margin-block-start: 2px;
+  margin-block-end: 2px;
 }
 
 .r-label-text {
@@ -112,8 +116,8 @@
 }
 
 .r-li:not(.r-task-li) {
-  margin-top: 6px;
-  margin-bottom: 6px;
+  margin-block-start: 6px;
+  margin-block-end: 6px;
 }
 
 .r-box {
