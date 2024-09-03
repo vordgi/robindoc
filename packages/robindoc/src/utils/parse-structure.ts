@@ -148,7 +148,7 @@ const parseStaticStructure = async (items: DocItem[], parentConfiguration: Confi
 
         let subTree: TreeItem[] = [];
         if (item.items) {
-            const subItemsData = await parseStructure(item.items, configuration, subCrumbs);
+            const subItemsData = await parseStructure(item.items, configuration, subCrumbs, item.href);
             subTree = subItemsData.tree;
             Object.assign(pages, subItemsData.pages);
         }
@@ -170,9 +170,10 @@ export const parseStructure = async (
     items: DocItem[] | "auto",
     parentConfiguration: Configuration = {},
     crumbs: Crumbs = [],
+    pathname: string = "",
 ) => {
     if (items === "auto") {
-        const structureData = await parseAutoStructure(parentConfiguration, "", crumbs);
+        const structureData = await parseAutoStructure(parentConfiguration, pathname, crumbs);
         return structureData;
     }
 
