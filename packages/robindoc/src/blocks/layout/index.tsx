@@ -15,12 +15,21 @@ export const Layout: React.FC<LayoutProps> = ({
     links,
     hidePoweredBy,
     copyright,
+    searchApiUri,
     children,
 }) => {
     return (
         <RobinProvider>
             <NavigateProvider>
-                <Header logo={logo} links={links} link={link} git={git} locales={locales} versions={versions} />
+                <Header
+                    logo={logo}
+                    links={links}
+                    link={link}
+                    git={git}
+                    locales={locales}
+                    versions={versions}
+                    searchApiUri={searchApiUri}
+                />
                 {children}
                 <Footer copyright={copyright} hidePoweredBy={hidePoweredBy} />
             </NavigateProvider>

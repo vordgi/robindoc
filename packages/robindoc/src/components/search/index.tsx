@@ -104,6 +104,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ closeHandler, link, opened, i
 
 interface SearchProps {
     link?: React.ElementType;
+    apiUri: string;
 }
 
 export const Search: React.FC<SearchProps> = ({ link }) => {
