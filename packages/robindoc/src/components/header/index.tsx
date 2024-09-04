@@ -30,9 +30,18 @@ export type HeaderProps = {
     git?: string | { uri: string; logo: React.ElementType };
     versions?: SectionType;
     locales?: SectionType;
+    searchApiUri?: string;
 };
 
-export const Header: React.FC<HeaderProps> = ({ logo, versions, locales, link: Link = "a", links = [], git }) => {
+export const Header: React.FC<HeaderProps> = ({
+    logo,
+    versions,
+    locales,
+    link: Link = "a",
+    links = [],
+    git,
+    searchApiUri,
+}) => {
     const targetVersion = versions?.list.find((version) => version.key === versions.target);
     const versionPrefix = !targetVersion || targetVersion.key === versions?.default ? "" : `/${targetVersion.key}`;
     const targetLocale = locales?.list.find((locale) => locale.key === locales.target);
@@ -85,7 +94,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, versions, locales, link: L
                                 />
                             )}
                         </div>
-                        <Search link={Link} />
+                        {searchApiUri && <Search link={Link} apiUri={searchApiUri} />}
                     </div>
                 </HeaderMenu>
                 {git && <HeaderSocial git={git} />}
