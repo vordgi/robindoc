@@ -9,7 +9,6 @@ import { NavLink } from "../nav-link";
 
 type SectionOption = {
     key: string;
-    hrefKey?: string;
     href?: string;
     title: string;
     shortTitle?: string;
@@ -35,13 +34,9 @@ export type HeaderProps = {
 
 export const Header: React.FC<HeaderProps> = ({ logo, versions, locales, link: Link = "a", links = [], git }) => {
     const targetVersion = versions?.list.find((version) => version.key === versions.target);
-    const versionPrefix =
-        !targetVersion || targetVersion.key === versions?.default
-            ? ""
-            : `/${targetVersion.hrefKey || targetVersion.key}`;
+    const versionPrefix = !targetVersion || targetVersion.key === versions?.default ? "" : `/${targetVersion.key}`;
     const targetLocale = locales?.list.find((locale) => locale.key === locales.target);
-    const localePrefix =
-        !targetLocale || targetLocale.key === locales?.default ? "" : `/${targetLocale.hrefKey || targetLocale.key}`;
+    const localePrefix = !targetLocale || targetLocale.key === locales?.default ? "" : `/${targetLocale.key}`;
 
     return (
         <header className="r-header">
@@ -67,7 +62,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, versions, locales, link: L
                                     options={versions.list.map((version) => ({
                                         href:
                                             version.href ||
-                                            `${localePrefix}${version.key === versions.default ? "" : `/${version.hrefKey || version.key}`}/`,
+                                            `${localePrefix}${version.key === versions.default ? "" : `/${version.key}`}/`,
                                         key: version.key,
                                         title: version.title,
                                         shortTitle: version.shortTitle,
@@ -81,7 +76,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, versions, locales, link: L
                                     options={locales.list.map((locale) => ({
                                         href:
                                             locale.href ||
-                                            `${locale.key === locales.default ? "" : `/${locale.hrefKey || locale.key}`}${versionPrefix}/`,
+                                            `${locale.key === locales.default ? "" : `/${locale.key}`}${versionPrefix}/`,
                                         key: locale.key,
                                         title: locale.title,
                                         shortTitle: locale.shortTitle,
