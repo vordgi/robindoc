@@ -6,6 +6,7 @@ import { getMeta as getMetaBase } from "./get-meta";
 import { Article as ArticleBase, type ArticleProps as ArticlePropsBase } from "../blocks/article";
 import { Sidebar as SidebarBase, type SidebarProps as SidebarPropsBase } from "../blocks/sidebar";
 import { normalizePathname } from "./path-tools";
+import { loadContent } from "./load-content";
 
 type PageProps = Omit<Partial<ArticlePropsBase>, "uri" | "content" | "provider" | "pathname" | "pages"> & {
     pathname: string;
@@ -100,5 +101,20 @@ export const initializeRobindoc = (structureTemplate: Structure | (() => Structu
         return meta;
     };
 
-    return { Page, Sidebar, getPages, getMeta };
+    const getPageContent = async (pathname: string) => {
+        const { pages } = await pageDataPromise;
+        const pathnameClean = normalizePathname(pathname);
+        const pageData = pages[pathnameClean];
+
+        if (!pageData) {
+            throw new Error(`Can not find data for "${pathnameClean}". Please check structure`);
+        }
+
+        const title = pageData.title;
+        const { data } = await loadContent(pageData.uri, pageData.configuration.provider);
+
+        return { title, content: data };
+    };
+
+    return { Page, Sidebar, getPages, getMeta, getPageContent };
 };

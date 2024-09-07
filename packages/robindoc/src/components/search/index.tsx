@@ -13,7 +13,7 @@ interface SearchModalProps {
 
 const SearchModal: React.FC<SearchModalProps> = ({ closeHandler, link, opened, inputHandler }) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
-    const [results, setResults] = useState<{ title: string; href: string; match: string }[] | null>(null);
+    const [results, setResults] = useState<{ title: string; href: string; description?: string }[] | null>(null);
     const debounceRef = useRef<NodeJS.Timeout | null>(null);
     const abortControllerRef = useRef<AbortController | null>(null);
 
@@ -88,7 +88,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ closeHandler, link, opened, i
                                         className="r-search-item"
                                     >
                                         <p className="r-search-item-title">{item.title}</p>
-                                        <p className="r-search-item-desc">{item.match}</p>
+                                        {item.description && <p className="r-search-item-desc">{item.description}</p>}
                                     </NavLink>
                                 </li>
                             ))
