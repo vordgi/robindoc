@@ -1,113 +1,17 @@
 "use client";
 
-import { NavLink } from "../nav-link";
 import "./search.scss";
+
 import React, { useEffect, useRef, useState } from "react";
+import { type Searcher } from "./types";
+import { SearchModal } from "./search-modal";
 
-interface SearchModalProps {
-    closeHandler(): void;
+export interface SearchProps {
     link?: React.ElementType;
-    opened: boolean;
-    inputHandler(text: string): void;
+    searcher: Searcher;
 }
 
-const SearchModal: React.FC<SearchModalProps> = ({ closeHandler, link, opened, inputHandler }) => {
-    const inputRef = useRef<HTMLInputElement | null>(null);
-    const [results, setResults] = useState<{ title: string; href: string; description?: string }[] | null>(null);
-    const debounceRef = useRef<NodeJS.Timeout | null>(null);
-    const abortControllerRef = useRef<AbortController | null>(null);
-
-    const searchHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (debounceRef.current) clearTimeout(debounceRef.current);
-        const value = e.currentTarget.value;
-        inputHandler(value);
-
-        if (!value) {
-            setResults(null);
-            return;
-        }
-
-        debounceRef.current = setTimeout(() => {
-            if (abortControllerRef.current) abortControllerRef.current.abort();
-
-            abortControllerRef.current = new AbortController();
-            fetch(`/api/search?s=${value}`, { signal: abortControllerRef.current.signal })
-                .then((response) => response.json())
-                .then((data) => {
-                    setResults(data);
-                })
-                .catch((error) => {
-                    if (error.name !== "AbortError") {
-                        throw error;
-                    }
-                })
-                .finally(() => {
-                    abortControllerRef.current = null;
-                });
-        }, 100);
-    };
-
-    useEffect(() => {
-        return () => {
-            if (debounceRef.current) clearTimeout(debounceRef.current);
-            if (abortControllerRef.current) abortControllerRef.current.abort();
-        };
-    });
-
-    useEffect(() => {
-        if (opened) inputRef.current?.focus();
-    }, [opened]);
-
-    return (
-        <>
-            <div onClick={closeHandler} className={`r-search-backdrop${opened ? " _visible" : ""}`} />
-            <div className={`r-search-popup${opened ? " _visible" : ""}`}>
-                <div className="r-search-popup-header">
-                    <input
-                        type="text"
-                        name="search"
-                        placeholder="Type something..."
-                        className="r-search-input"
-                        autoFocus={opened}
-                        onChange={searchHandler}
-                        ref={inputRef}
-                    />
-                    <kbd className="r-search-kbd r-search-popup-kbd" onClick={closeHandler}>
-                        <kbd className="r-search-key">ESC</kbd>
-                    </kbd>
-                </div>
-                {results && (
-                    <ul className="r-search-results">
-                        {results.length > 0 ? (
-                            results.map((item) => (
-                                <li key={item.href}>
-                                    <NavLink
-                                        link={link}
-                                        href={item.href}
-                                        onClick={closeHandler}
-                                        className="r-search-item"
-                                    >
-                                        <p className="r-search-item-title">{item.title}</p>
-                                        {item.description && <p className="r-search-item-desc">{item.description}</p>}
-                                    </NavLink>
-                                </li>
-                            ))
-                        ) : (
-                            <p>Nothing found</p>
-                        )}
-                    </ul>
-                )}
-            </div>
-        </>
-    );
-};
-
-interface SearchProps {
-    link?: React.ElementType;
-    apiUri: string;
-}
-
-export const Search: React.FC<SearchProps> = ({ link }) => {
+export const Search: React.FC<SearchProps> = ({ link, searcher }) => {
     const titleRef = useRef<HTMLSpanElement>(null);
     const [system, setSystem] = useState<"none" | "other" | "apple">("none");
     const [opened, setOpened] = useState(false);
@@ -186,7 +90,13 @@ export const Search: React.FC<SearchProps> = ({ link }) => {
                     </kbd>
                 )}
             </button>
-            <SearchModal closeHandler={closeHandler} link={link} opened={opened} inputHandler={inputHandler} />
+            <SearchModal
+                searcher={searcher}
+                closeHandler={closeHandler}
+                link={link}
+                opened={opened}
+                inputHandler={inputHandler}
+            />
         </>
     );
 };
