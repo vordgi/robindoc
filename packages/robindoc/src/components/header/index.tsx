@@ -1,7 +1,7 @@
 import "./header.scss";
 import React from "react";
 import { HeaderMenu } from "../header-menu";
-import { Search } from "../search";
+import { Search, type SearchProps } from "../search";
 import { SectionDropdown } from "../section-dropdown";
 import { HeaderSocial } from "../header-social";
 import { Container } from "../container";
@@ -30,7 +30,7 @@ export type HeaderProps = {
     git?: string | { uri: string; logo: React.ElementType };
     versions?: SectionType;
     locales?: SectionType;
-    searchApiUri?: string;
+    searcher?: SearchProps["searcher"];
 };
 
 export const Header: React.FC<HeaderProps> = ({
@@ -40,7 +40,7 @@ export const Header: React.FC<HeaderProps> = ({
     link: Link = "a",
     links = [],
     git,
-    searchApiUri,
+    searcher,
 }) => {
     const targetVersion = versions?.list.find((version) => version.key === versions.target);
     const versionPrefix = !targetVersion || targetVersion.key === versions?.default ? "" : `/${targetVersion.key}`;
@@ -94,7 +94,7 @@ export const Header: React.FC<HeaderProps> = ({
                                 />
                             )}
                         </div>
-                        {searchApiUri && <Search link={Link} apiUri={searchApiUri} />}
+                        {searcher && <Search link={Link} searcher={searcher} />}
                     </div>
                 </HeaderMenu>
                 {git && <HeaderSocial git={git} />}

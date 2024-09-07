@@ -15,7 +15,7 @@ export const Layout: React.FC<LayoutProps> = ({
     links,
     hidePoweredBy,
     copyright,
-    searchApiUri,
+    searcher,
     children,
 }) => {
     return (
@@ -28,7 +28,7 @@ export const Layout: React.FC<LayoutProps> = ({
                     git={git}
                     locales={locales}
                     versions={versions}
-                    searchApiUri={searchApiUri}
+                    searcher={searcher}
                 />
                 {children}
                 <Footer copyright={copyright} hidePoweredBy={hidePoweredBy} />
