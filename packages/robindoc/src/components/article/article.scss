@@ -44,6 +44,8 @@
   border: 1px solid var(--neutral800);
   font-size: 16px;
   overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--neutral200) transparent;
 }
 
 .r-code {

@@ -6,7 +6,7 @@ export type RobinProps = {
 
 export type Components = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [key: string]: (props: Record<string, any>) => JSX.Element;
+    [key: string]: (props: Record<string, any>) => JSX.Element | React.ReactNode;
 };
 
 export type DocsTree = { origPath: string; clientPath: string }[];
