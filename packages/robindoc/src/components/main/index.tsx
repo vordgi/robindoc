@@ -3,5 +3,9 @@ import React from "react";
 import { Container } from "../container";
 
 export const Main: React.FC<React.PropsWithChildren> = ({ children }) => {
-    return <Container className="r-main">{children}</Container>;
+    return (
+        <Container component="main" className="r-main">
+            {children}
+        </Container>
+    );
 };

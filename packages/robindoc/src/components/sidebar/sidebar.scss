@@ -220,6 +220,12 @@
     background-color: var(--neutral300);
     color: var(--primary500);
   }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
+  }
 }
 
 .r-sidebar-drop-icon {

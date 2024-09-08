@@ -8,7 +8,7 @@ import { SearchModal } from "./search-modal";
 
 export interface SearchProps {
     link?: React.ElementType;
-    searcher: Searcher;
+    searcher: Searcher | string;
 }
 
 export const Search: React.FC<SearchProps> = ({ link, searcher }) => {

@@ -120,13 +120,13 @@ export const Document: React.FC<ContentProps> = ({
                 const predefinedData = headings.find((heading) => heading.token === token);
                 if (predefinedData?.id) {
                     return (
-                        <Heading id={predefinedData?.id} component={Component}>
+                        <Heading id={predefinedData.id} component={Component}>
                             {token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}
                         </Heading>
                     );
                 } else {
                     return (
-                        <Component className={`r-h${token.depth}`}>
+                        <Component id={token.depth === 1 ? "main-content" : undefined} className={`r-h${token.depth}`}>
                             {token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}
                         </Component>
                     );
