@@ -12,8 +12,9 @@ interface HeadingProps extends React.PropsWithChildren {
 export const Heading: React.FC<HeadingProps> = ({ component: Component, id, children }) => {
     const register = useContext(RegisterContext);
     return (
-        <Component id={id} className={`r-${Component}`} ref={register}>
-            {children}
+        <Component id={id} className={`r-h r-${Component}`} ref={register}>
+            {children}&nbsp;
+            <a href={`#${id}`} className="r-h-anchor" />
         </Component>
     );
 };
