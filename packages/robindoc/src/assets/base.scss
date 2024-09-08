@@ -23,11 +23,27 @@ body {
   background-color: var(--body);
   color: var(--neutral950);
 }
+
 *,
 *:before,
 *:after {
   box-sizing: inherit;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    background-attachment: initial !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+    transition-delay: -1ms !important;
+  }
+}
+
 svg {
   display: block;
 }

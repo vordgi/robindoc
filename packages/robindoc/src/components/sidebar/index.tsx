@@ -44,7 +44,7 @@ const LinkBranch: React.FC<{ item: TreeItem; link?: React.ElementType; pathname?
         )}
         {item.items && item.items.length > 0 && (
             <SidebarDrop defaultOpen={checkIsTargetSection(item, pathname)} id={item.href + item.title}>
-                <summary className="r-sidebar-drop-btn">
+                <summary className="r-sidebar-drop-btn" aria-label={`Expand ${item.title}`}>
                     <svg
                         className="r-sidebar-drop-icon"
                         width="16"
@@ -80,7 +80,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ tree, pathname, link }) => {
 
     return (
         <SidebarMenu>
-            <nav className="r-sidebar-nav">
+            <nav className="r-sidebar-nav" id="navigation">
                 <ul className="r-sidebar-list">
                     {tree.map((item) => (
                         <LinkBranch
