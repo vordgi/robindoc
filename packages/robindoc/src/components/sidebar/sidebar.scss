@@ -18,6 +18,10 @@
   }
 }
 
+.r-sidebar-top-mock {
+  position: absolute;
+}
+
 .r-sidebar:not(._opened) .r-sidebar-nav {
   @media screen and (width < $sm) {
     display: none;

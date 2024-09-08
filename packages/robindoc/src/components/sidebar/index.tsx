@@ -79,20 +79,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ tree, pathname, link }) => {
     if (!tree?.length) return <div className="r-sidebar" />;
 
     return (
-        <SidebarMenu>
-            <nav className="r-sidebar-nav" id="navigation">
-                <ul className="r-sidebar-list">
-                    {tree.map((item) => (
-                        <LinkBranch
-                            pathname={pathname?.replace(/\/$/, "")}
-                            item={item}
-                            link={link}
-                            key={item.href + item.title}
-                            depth={0}
-                        />
-                    ))}
-                </ul>
-            </nav>
-        </SidebarMenu>
+        <>
+            <div className="r-sidebar-top-mock" />
+            <SidebarMenu>
+                <nav className="r-sidebar-nav" id="navigation">
+                    <ul className="r-sidebar-list">
+                        {tree.map((item) => (
+                            <LinkBranch
+                                pathname={pathname?.replace(/\/$/, "")}
+                                item={item}
+                                link={link}
+                                key={item.href + item.title}
+                                depth={0}
+                            />
+                        ))}
+                    </ul>
+                </nav>
+            </SidebarMenu>
+        </>
     );
 };

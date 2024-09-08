@@ -29,3 +29,22 @@
   font-size: 16px;
   line-height: 1.4;
 }
+
+.r-h:hover {
+  .r-h-anchor {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.r-h-anchor {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s allow-discrete;
+  padding-inline: 8px;
+  margin-inline-start: -4px;
+
+  &::after {
+    content: "#";
+  }
+}
