@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
-import { NavigateContext } from "../../contexts/navigate-context";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "../../contexts/navigate/use-navigate";
 import "./header-menu.scss";
 
 export const HeaderMenu: React.FC<React.PropsWithChildren> = ({ children }) => {
-    const { addListener, removeListener } = useContext(NavigateContext);
+    const { addListener, removeListener } = useNavigate();
     const [opened, setOpened] = useState(false);
 
     const openHandler = () => {
@@ -28,9 +28,12 @@ export const HeaderMenu: React.FC<React.PropsWithChildren> = ({ children }) => {
         }
     };
 
-    useEffect(() => () => {
-        removeListener("closeHeaderMenu");
-    });
+    useEffect(
+        () => () => {
+            closeHandler();
+        },
+        [],
+    );
 
     return (
         <div className={`r-header-menu${opened ? " _opened" : ""}`}>

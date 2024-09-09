@@ -1,18 +1,17 @@
 "use client";
 
-import React, { useContext } from "react";
-import { NavigateContext } from "../../contexts/navigate-context";
+import React from "react";
+import { useNavigate } from "../../contexts/navigate/use-navigate";
 
 interface NavLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
     link?: React.ElementType;
 }
 
 export const NavLink: React.FC<NavLinkProps> = ({ link: Link = "a", onClick, ...props }) => {
-    const navigateListeners = useContext(NavigateContext);
+    const { listeners } = useNavigate();
 
     const clickHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        const listenersClone = [...navigateListeners.listeners];
-        listenersClone.forEach((el) => el.listener());
+        listeners.forEach((el) => el.listener());
         if (onClick) onClick(e);
     };
 
