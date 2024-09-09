@@ -1,39 +1,28 @@
 "use client";
 
-import React, { useContext, useEffect } from "react";
-import { SidebarContext } from "../../../contexts/sidebar-context";
+import React, { useEffect } from "react";
+import { useSidebarStore } from "../../../contexts/sidebar/use-sidebar-store";
 
 export const SidebarDrop: React.FC<React.PropsWithChildren<{ defaultOpen?: boolean; id: string }>> = ({
     children,
     id,
     defaultOpen,
 }) => {
-    const { openedSections } = useContext(SidebarContext);
-
-    const closeHandler = () => {
-        if (openedSections.includes(id)) {
-            openedSections.splice(openedSections.indexOf(id), 1);
-        }
-    };
-    const openHandler = () => {
-        if (!openedSections.includes(id)) {
-            openedSections.push(id);
-        }
-    };
-    const toggle = (e: React.MouseEvent<HTMLDetailsElement>) => {
+    const { add, remove, has } = useSidebarStore();
+    const toggleHandler = (e: React.MouseEvent<HTMLDetailsElement>) => {
         if (e.currentTarget.open) {
-            closeHandler();
+            remove(id);
         } else {
-            openHandler();
+            add(id);
         }
     };
 
     useEffect(() => {
-        if (defaultOpen) openHandler();
+        if (defaultOpen) add(id);
     }, [defaultOpen]);
 
     return (
-        <details className="r-sidebar-drop" open={openedSections.includes(id) || defaultOpen} onClick={toggle}>
+        <details className="r-sidebar-drop" open={has(id) || defaultOpen} onClick={toggleHandler}>
             {children}
         </details>
     );
