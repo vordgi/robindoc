@@ -1,8 +1,8 @@
 "use client";
 
 import "./contents.scss";
-import React, { useContext } from "react";
-import { CurrentSectionContext } from "../../contexts/anchor-context";
+import React from "react";
+import { useHeadingIndex } from "../../contexts/contents/use-heading-index";
 import { detectGitType } from "../../utils/git-data";
 
 export interface ContentsProps extends React.PropsWithChildren {
@@ -12,7 +12,7 @@ export interface ContentsProps extends React.PropsWithChildren {
 }
 
 export const Contents: React.FC<ContentsProps> = ({ headings, hideContents, editOnGitUri }) => {
-    const currentSection = useContext(CurrentSectionContext);
+    const headingIndex = useHeadingIndex();
 
     return (
         <div className="r-contents">
@@ -42,7 +42,7 @@ export const Contents: React.FC<ContentsProps> = ({ headings, hideContents, edit
                                     <a
                                         href={`#${heading.id}`}
                                         key={heading.id}
-                                        className={`r-contents-link${heading.nested ? " _nested" : ""}${currentSection !== null && index <= currentSection ? " _passed" : ""}${currentSection === index ? " _active" : ""}`}
+                                        className={`r-contents-link${heading.nested ? " _nested" : ""}${headingIndex !== null && index <= headingIndex ? " _passed" : ""}${headingIndex === index ? " _active" : ""}`}
                                     >
                                         {heading.title}
                                     </a>

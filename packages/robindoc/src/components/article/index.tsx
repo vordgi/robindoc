@@ -4,7 +4,7 @@ import React from "react";
 import { type Components } from "../../types/content";
 import { type BaseProvider } from "../../providers/base";
 import { loadContent } from "../../utils/load-content";
-import { AnchorProvider } from "../anchor-provider";
+import { ContentsProvider } from "../../contexts/contents/provider";
 import { Contents, type ContentsProps } from "../contents";
 import { Breadcrumbs, type BreadcrumbsProps } from "../breadcrumbs";
 import { Pagination, type PaginationProps } from "../pagination";
@@ -56,7 +56,7 @@ export const Article: React.FC<ArticleProps> = async ({
     const lastModified = uri && targetProvider && (await targetProvider.getLastModifiedDate(uri));
 
     return (
-        <AnchorProvider>
+        <ContentsProvider>
             {breadcrumbs && breadcrumbs.length > 0 && (
                 <Breadcrumbs breadcrumbs={breadcrumbs} title={title} link={link} />
             )}
@@ -80,6 +80,6 @@ export const Article: React.FC<ArticleProps> = async ({
                 {lastModified && <LastModified date={lastModified}>Last modified on</LastModified>}
             </div>
             {(prev || next) && <Pagination prev={prev} next={next} link={link} />}
-        </AnchorProvider>
+        </ContentsProvider>
     );
 };
