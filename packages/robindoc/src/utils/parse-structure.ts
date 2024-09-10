@@ -34,13 +34,15 @@ const parseJSONStructure = async (
                     clientPath,
                     pathnameNormalized,
                 );
-                pages[pathnameNormalized] = {
-                    title: data.title,
-                    uri: clientPath,
-                    configuration: parentConfiguration,
-                    origPath,
-                    crumbs,
-                };
+                if (origPath) {
+                    pages[pathnameNormalized] = {
+                        title: data.title,
+                        uri: clientPath,
+                        configuration: parentConfiguration,
+                        origPath,
+                        crumbs,
+                    };
+                }
 
                 let subTree: TreeItem[] | undefined;
                 if (segment !== "index") {
@@ -101,13 +103,15 @@ const parseAutoStructure = async (
         const meta = await getMeta({ provider: parentConfiguration.provider, uri: clientPath });
         const title = meta.title || generatePseudoTitle(pathnameNormalized);
         const origPath = await parentConfiguration.provider?.getPageSourcePathname(clientPath, pathnameNormalized);
-        pages[pathnameNormalized] = {
-            title,
-            uri: clientPath,
-            configuration: parentConfiguration,
-            origPath,
-            crumbs,
-        };
+        if (origPath) {
+            pages[pathnameNormalized] = {
+                title,
+                uri: clientPath,
+                configuration: parentConfiguration,
+                origPath,
+                crumbs,
+            };
+        }
 
         const subItemsData = await parseAutoStructure(parentConfiguration, clientPath, [...crumbs, pathnameNormalized]);
         Object.assign(pages, subItemsData.pages);
@@ -136,14 +140,17 @@ const parseStaticStructure = async (items: DocItem[], parentConfiguration: Confi
 
         if (clientPath) {
             const origPath = await configuration.provider?.getPageSourcePathname(clientPath, pathnameNormalized);
-            pages[pathnameNormalized] = {
-                title: item.title || "",
-                uri: clientPath,
-                configuration,
-                origPath,
-                crumbs,
-            };
-            subCrumbs = [...crumbs, pathnameNormalized];
+
+            if (origPath) {
+                pages[pathnameNormalized] = {
+                    title: item.title || "",
+                    uri: clientPath,
+                    configuration,
+                    origPath,
+                    crumbs,
+                };
+                subCrumbs = [...crumbs, pathnameNormalized];
+            }
         }
 
         let subTree: TreeItem[] = [];

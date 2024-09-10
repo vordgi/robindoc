@@ -21,7 +21,7 @@ export type ContentProps = {
     provider?: BaseProvider;
     hideContents?: boolean;
     link?: React.ElementType;
-    editOnGitUri?: ContentsProps["editOnGitUri"];
+    gitUri?: ContentsProps["gitUri"];
     pathname: string;
     pages?: { clientPath: string; origPath: string }[];
 } & ({ content: string; uri?: undefined } | { uri: string; content?: undefined });
@@ -36,7 +36,7 @@ export const Article: React.FC<ArticleProps> = async ({
     provider,
     hideContents,
     link,
-    editOnGitUri,
+    gitUri: gitUriProp,
     pathname,
     title,
     breadcrumbs,
@@ -61,7 +61,7 @@ export const Article: React.FC<ArticleProps> = async ({
                 <Breadcrumbs breadcrumbs={breadcrumbs} title={title} link={link} />
             )}
             <Contents
-                editOnGitUri={editOnGitUri === null ? null : editOnGitUri || gitUri}
+                gitUri={gitUriProp === null ? null : gitUriProp || gitUri}
                 hideContents={hideContents}
                 headings={headings}
             />

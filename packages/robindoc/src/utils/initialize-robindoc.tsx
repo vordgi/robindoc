@@ -116,5 +116,17 @@ export const initializeRobindoc = (structureTemplate: Structure | (() => Structu
         return { title, content: data };
     };
 
-    return { Page, Sidebar, getPages, getMeta, getPageContent };
+    const getPageData = async (pathname: string) => {
+        const { pages } = await pageDataPromise;
+        const pathnameClean = normalizePathname(pathname);
+        const pageData = pages[pathnameClean];
+
+        if (!pageData) {
+            throw new Error(`Can not find data for "${pathnameClean}". Please check structure`);
+        }
+
+        return pageData;
+    };
+
+    return { Page, Sidebar, getPages, getMeta, getPageContent, getPageData };
 };
