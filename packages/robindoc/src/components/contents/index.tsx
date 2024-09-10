@@ -8,10 +8,10 @@ import { detectGitType } from "../../utils/git-data";
 export interface ContentsProps extends React.PropsWithChildren {
     headings: { id: string; nested: boolean; title: string | JSX.Element }[];
     hideContents?: boolean;
-    editOnGitUri?: string | null;
+    gitUri?: string | null;
 }
 
-export const Contents: React.FC<ContentsProps> = ({ headings, hideContents, editOnGitUri }) => {
+export const Contents: React.FC<ContentsProps> = ({ headings, hideContents, gitUri }) => {
     const headingIndex = useHeadingIndex();
 
     return (
@@ -51,10 +51,10 @@ export const Contents: React.FC<ContentsProps> = ({ headings, hideContents, edit
                         </div>
                     </>
                 )}
-                {editOnGitUri?.match(/^https?:\/\//) && (
+                {gitUri?.match(/^https?:\/\//) && (
                     <div className="r-contents-actions">
-                        <a href={editOnGitUri} target="_blank" rel="noopener noreferrer" className="r-contents-git">
-                            Edit on {detectGitType(editOnGitUri).name}
+                        <a href={gitUri} target="_blank" rel="noopener noreferrer" className="r-contents-git">
+                            Edit on {detectGitType(gitUri).name}
                         </a>
                     </div>
                 )}

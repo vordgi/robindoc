@@ -30,7 +30,7 @@ export type Page = {
     uri: string;
     configuration: Configuration;
     crumbs: Crumbs;
-    origPath?: string | null;
+    origPath: string;
 };
 
 export type Pages = { [key: string]: Page };
