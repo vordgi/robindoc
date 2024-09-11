@@ -1,0 +1,39 @@
+@import "../../../assets/vars";
+
+.r-footer {
+  border-top: 1px solid var(--neutral300);
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+.r-footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+}
+
+.r-footer-additional {
+  margin-top: 32px;
+  justify-content: flex-end;
+}
+
+.r-copyright {
+  color: var(--neutral800);
+}
+
+.r-powered {
+  font-size: 14px;
+  display: block;
+  color: var(--neutral600);
+}
+
+.r-powered-link {
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--neutral950);
+
+  &:hover {
+    color: var(--primary900);
+  }
+}

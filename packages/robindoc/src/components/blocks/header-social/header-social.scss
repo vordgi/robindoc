@@ -1,0 +1,22 @@
+@import "../../../assets/vars";
+
+.r-header-social {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+
+  @media screen and (width >= $md) {
+    flex: none;
+    justify-content: unset;
+  }
+}
+
+.r-header-social-git {
+  color: var(--neutral700);
+  transition: color 0.2s;
+
+  &:hover,
+  &:focus {
+    color: var(--neutral950);
+  }
+}
