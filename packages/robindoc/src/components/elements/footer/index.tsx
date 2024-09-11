@@ -1,6 +1,6 @@
 import "./footer.scss";
 import React from "react";
-import { Theme } from "../theme";
+import { Theme } from "../../blocks/theme";
 import { Container } from "../../ui/container";
 
 export type FooterProps = {
