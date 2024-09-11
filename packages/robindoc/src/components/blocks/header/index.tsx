@@ -5,7 +5,7 @@ import { Search, type SearchProps } from "../search";
 import { SectionDropdown } from "../section-dropdown";
 import { HeaderSocial } from "../header-social";
 import { Container } from "../../ui/container";
-import { NavLink } from "../../ui/nav-link";
+import { NavLink } from "../nav-link";
 
 type SectionOption = {
     key: string;

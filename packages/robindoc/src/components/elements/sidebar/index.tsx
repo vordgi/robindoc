@@ -1,7 +1,7 @@
 import "./sidebar.scss";
 import React from "react";
 import { SidebarMenu } from "./sidebar-menu";
-import { NavLink } from "../../ui/nav-link";
+import { NavLink } from "../../blocks/nav-link";
 import { SidebarDrop } from "./sidebar-drop";
 
 export type TreeItem = {

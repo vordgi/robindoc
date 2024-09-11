@@ -1,6 +1,6 @@
 import "./section-dropdown.scss";
 
-import { NavLink } from "../../ui/nav-link";
+import { NavLink } from "../nav-link";
 import React from "react";
 
 type SectionDropdownOption = {

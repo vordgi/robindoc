@@ -5,10 +5,10 @@ import { type TokensList, type Token, type Tokens } from "marked";
 import { type RobinProps, type Components } from "../../../core/types/content";
 import { type BaseProvider } from "../../../core/providers/base";
 import { parseMarkdown, validateComponentName, type Heading as HeadingType } from "./utils";
-import { Heading } from "../../ui/heading";
+import { Heading } from "../../blocks/heading";
 import { Shiki } from "../../ui/code";
 import { Img } from "./elements";
-import { NavLink } from "../../ui/nav-link";
+import { NavLink } from "../../blocks/nav-link";
 import { dirname, join } from "path";
 
 interface DocumentJSXProps extends Omit<ContentProps, "tokens" | "headings"> {

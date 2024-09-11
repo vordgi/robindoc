@@ -1,4 +1,4 @@
-.key-focus-link {
+.keylink {
   display: block;
   position: relative;
   padding: 8px 12px;
@@ -8,7 +8,7 @@
   background: var(--body);
 }
 
-.key-focus-link:not(:focus) {
+.keylink:not(:focus) {
   width: 1px !important;
   height: 1px !important;
   padding: 0 !important;

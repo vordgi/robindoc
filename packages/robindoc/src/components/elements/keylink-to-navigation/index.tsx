@@ -1,11 +1,11 @@
 import "./keylink-to-navigation.scss";
 import React from "react";
-import { KeyFocusLink } from "../../ui/key-focus-link";
+import { Keylink } from "../../ui/keylink";
 
 export const KeylinkToNavigation = () => {
     return (
-        <KeyFocusLink className="keylink-to-navigation" id="navigation">
+        <Keylink className="keylink-to-navigation" id="navigation">
             Return to navigation
-        </KeyFocusLink>
+        </Keylink>
     );
 };

@@ -1,4 +1,4 @@
-import { NavLink } from "../../ui/nav-link";
+import { NavLink } from "../nav-link";
 import "./pagination.scss";
 import React from "react";
 

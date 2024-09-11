@@ -1,7 +1,7 @@
 import "./breadcrumbs.scss";
 import React from "react";
 import { type Breadcrumbs as BreadcrumbsType } from "../../../core/types/content";
-import { NavLink } from "../../ui/nav-link";
+import { NavLink } from "../nav-link";
 
 export type BreadcrumbsProps = {
     title: string;

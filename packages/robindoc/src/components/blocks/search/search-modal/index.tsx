@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import { type Searcher, type SearchItem } from "../types";
-import { NavLink } from "../../../ui/nav-link";
+import { NavLink } from "../../nav-link";
 
 interface SearchModalProps {
     closeHandler(): void;
