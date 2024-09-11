@@ -1,5 +1,8 @@
 import React from "react";
 
+import { NavigateProvider } from "../../contexts/navigate/provider";
+import { SidebarProvider } from "../../contexts/sidebar/provider";
+
 export const RobinProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     return (
         <>
@@ -19,7 +22,9 @@ if (userTheme && ['light', 'dark'].includes(userTheme)) {
 }`,
                 }}
             />
-            {children}
+            <SidebarProvider>
+                <NavigateProvider>{children}</NavigateProvider>
+            </SidebarProvider>
         </>
     );
 };
