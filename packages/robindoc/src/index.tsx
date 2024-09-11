@@ -1,5 +1,5 @@
-export { initializeRobindoc } from "./utils/initialize-robindoc";
-export { Layout } from "./blocks/layout";
-export { Main } from "./blocks/main";
-export { KeylinkToContent } from "./blocks/keylink-to-content";
-export { KeylinkToNavigation } from "./blocks/keylink-to-navigation";
+export { initializeRobindoc } from "./core/utils/initialize-robindoc";
+export { Layout } from "./components/elements/layout";
+export { Main } from "./components/elements/main";
+export { KeylinkToContent } from "./components/elements/keylink-to-content";
+export { KeylinkToNavigation } from "./components/elements/keylink-to-navigation";
