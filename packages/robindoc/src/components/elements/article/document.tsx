@@ -29,7 +29,7 @@ export const DocumentJSX: React.FC<DocumentJSXProps> = ({ raw, components, ...ba
             if (!validateComponentName(domNode.name)) return domNode;
 
             if (!components || !(domNode.name in components)) {
-                console.log(`Unknown component: "${domNode.name}"`);
+                console.warn(`Unknown component: "${domNode.name}"`);
                 return <></>;
             }
 
@@ -263,7 +263,7 @@ export const Document: React.FC<ContentProps> = ({
                     }
 
                     if (!validateComponentName(componentName)) {
-                        console.log(
+                        console.warn(
                             `"${componentName}" is using incorrect casing. Use PascalCase for Robin components`,
                         );
                         if (!selfClosed) robin = { type: "dummy" };
@@ -271,7 +271,7 @@ export const Document: React.FC<ContentProps> = ({
                     }
 
                     if (!components || !(componentName in components)) {
-                        console.log(`Unknown component: "${componentName}"`);
+                        console.warn(`Unknown component: "${componentName}"`);
                         if (!selfClosed) robin = { type: "dummy" };
                         return null;
                     }
@@ -280,7 +280,7 @@ export const Document: React.FC<ContentProps> = ({
                         const [_match, key, value] = cur.match(/^([\w]+)(?:="(.+)")?$/) || [];
 
                         if (!_match) {
-                            console.log(`Invalid component attribute: "${cur}"`);
+                            console.warn(`Invalid component attribute: "${cur}"`);
                             return acc;
                         }
 
@@ -316,7 +316,7 @@ export const Document: React.FC<ContentProps> = ({
             default:
                 if (!token.type && "raw" in token) return token.raw;
 
-                console.log(`Unknown token ${token.type}`, token);
+                console.warn(`Unknown token ${token.type}`, token);
                 return null;
         }
     };

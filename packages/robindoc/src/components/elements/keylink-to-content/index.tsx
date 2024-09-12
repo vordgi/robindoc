@@ -1,11 +1,22 @@
-import "./keylink-to-content.scss";
 import React from "react";
+
 import { Keylink } from "../../ui/keylink";
 
-export const KeylinkToContent: React.FC = () => {
+import "./keylink-to-content.scss";
+
+export type KeylinkToContentProps = {
+    translations?: {
+        /** Skip to main content */
+        skipToMainContent?: string;
+    };
+};
+
+export const KeylinkToContent: React.FC<KeylinkToContentProps> = ({ translations }) => {
+    const { skipToMainContent = "Skip to main content" } = translations || {};
+
     return (
-        <Keylink className="keylink-to-content" id="main-content">
-            Skip to main content
+        <Keylink className="keylink-to-content" toId="main-content">
+            {skipToMainContent}
         </Keylink>
     );
 };

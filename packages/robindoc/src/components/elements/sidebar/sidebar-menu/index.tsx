@@ -1,9 +1,17 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+
 import { useNavigate } from "../../../contexts/navigate/use-navigate";
 
-export const SidebarMenu: React.FC<React.PropsWithChildren> = ({ children }) => {
+export type SidebarMenuProps = React.PropsWithChildren<{
+    translations?: {
+        menu?: string;
+    };
+}>;
+
+export const SidebarMenu: React.FC<SidebarMenuProps> = ({ children, translations }) => {
+    const { menu = "Menu" } = translations || {};
     const { addListener, removeListener } = useNavigate();
     const [opened, setOpened] = useState(false);
 
@@ -52,7 +60,7 @@ export const SidebarMenu: React.FC<React.PropsWithChildren> = ({ children }) => 
                     >
                         <path d="m9 18 6-6-6-6" />
                     </svg>
-                    <span>Menu</span>
+                    <span>{menu}</span>
                 </button>
                 {children}
             </div>

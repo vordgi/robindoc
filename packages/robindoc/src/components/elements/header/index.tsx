@@ -1,6 +1,6 @@
 import "./header.scss";
 import React from "react";
-import { HeaderMenu } from "../../blocks/header-menu";
+import { HeaderMenu, HeaderMenuProps } from "../../blocks/header-menu";
 import { Search, type SearchProps } from "../../blocks/search";
 import { SectionDropdown } from "../../blocks/section-dropdown";
 import { HeaderSocial } from "../../blocks/header-social";
@@ -30,8 +30,8 @@ export type HeaderProps = {
     git?: string | { uri: string; logo: React.ElementType };
     versions?: SectionType;
     locales?: SectionType;
-    searcher?: SearchProps["searcher"];
-};
+} & HeaderMenuProps &
+    SearchProps;
 
 export const Header: React.FC<HeaderProps> = ({
     logo,
@@ -41,7 +41,9 @@ export const Header: React.FC<HeaderProps> = ({
     links = [],
     git,
     searcher,
+    translations,
 }) => {
+    const { menu, ...searchTranslations } = translations || {};
     const targetVersion = versions?.list.find((version) => version.key === versions.target);
     const versionPrefix = !targetVersion || targetVersion.key === versions?.default ? "" : `/${targetVersion.key}`;
     const targetLocale = locales?.list.find((locale) => locale.key === locales.target);
@@ -55,7 +57,7 @@ export const Header: React.FC<HeaderProps> = ({
                         {logo}
                     </NavLink>
                 </div>
-                <HeaderMenu>
+                <HeaderMenu translations={{ menu }}>
                     <nav className="r-header-nav">
                         {links.map((link) => (
                             <NavLink href={link.href} link={Link} className="r-header-link" key={link.title}>
@@ -94,7 +96,7 @@ export const Header: React.FC<HeaderProps> = ({
                                 />
                             )}
                         </div>
-                        {searcher && <Search link={Link} searcher={searcher} />}
+                        {searcher && <Search link={Link} searcher={searcher} translations={searchTranslations} />}
                     </div>
                 </HeaderMenu>
                 {git && <HeaderSocial git={git} />}

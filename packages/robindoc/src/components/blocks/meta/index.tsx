@@ -29,7 +29,7 @@ export const Meta: React.FC<MetaProps> = ({ meta }) => {
             {(other["twitter:title"] || title) && (
                 <meta name="twitter:title" content={other["twitter:title"] || title} />
             )}
-            {keywords && <meta name="keywords" content="your, tags" />}
+            {keywords && <meta name="keywords" content={keywords} />}
             {description && <meta name="description" content={description} />}
             {(other["og:description"] || description) && (
                 <meta name="og:description" content={other["og:description"] || description} />

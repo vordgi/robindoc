@@ -1,7 +1,8 @@
 "use client";
 
-import "./last-modified.scss";
 import React, { useEffect, useState } from "react";
+
+import "./last-modified.scss";
 
 export interface LastModifiedProps extends React.HTMLAttributes<HTMLDivElement> {
     date: string;

@@ -1,18 +1,27 @@
 "use client";
 
-import "./contents.scss";
 import React from "react";
+
 import { useHeadingIndex } from "../../contexts/contents/use-heading-index";
 import { detectGitType } from "../../../core/utils/git-data";
+
+import "./contents.scss";
 
 export interface ContentsProps extends React.PropsWithChildren {
     headings: { id: string; nested: boolean; title: string | JSX.Element }[];
     hideContents?: boolean;
     gitUri?: string | null;
+    translations?: {
+        /** On this page */
+        onThisPage?: string;
+        /** Edit on {service} */
+        editOnService?: string;
+    };
 }
 
-export const Contents: React.FC<ContentsProps> = ({ headings, hideContents, gitUri }) => {
+export const Contents: React.FC<ContentsProps> = ({ headings, hideContents, gitUri, translations }) => {
     const headingIndex = useHeadingIndex();
+    const { onThisPage = "On this page", editOnService = "Edit on {service}" } = translations || {};
 
     return (
         <div className="r-contents">
@@ -22,7 +31,7 @@ export const Contents: React.FC<ContentsProps> = ({ headings, hideContents, gitU
                         <input type="checkbox" className="r-contents-control" id="r-contents" />
                         <div className="r-contents-details">
                             <label className="r-contents-title" htmlFor="r-contents">
-                                On this page
+                                {onThisPage}
                                 <svg
                                     width="16"
                                     height="16"
@@ -54,7 +63,7 @@ export const Contents: React.FC<ContentsProps> = ({ headings, hideContents, gitU
                 {gitUri?.match(/^https?:\/\//) && (
                     <div className="r-contents-actions">
                         <a href={gitUri} target="_blank" rel="noopener noreferrer" className="r-contents-git">
-                            Edit on {detectGitType(gitUri).name}
+                            {editOnService.replace("{service}", detectGitType(gitUri).name)}
                         </a>
                     </div>
                 )}
