@@ -5,12 +5,18 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { type Searcher, type SearchItem } from "../types";
 import { NavLink } from "../../nav-link";
 
-interface SearchModalProps {
+export interface SearchModalProps {
     closeHandler(): void;
     link?: React.ElementType;
     opened: boolean;
     inputHandler(text: string): void;
     searcher: Searcher | string;
+    translations?: {
+        /** Type something... */
+        typeSomething?: string;
+        /** Nothing found */
+        nothingFound?: string;
+    };
 }
 
 const createBaseSearcher =
@@ -26,7 +32,15 @@ const createBaseSearcher =
             });
     };
 
-export const SearchModal: React.FC<SearchModalProps> = ({ closeHandler, link, opened, inputHandler, searcher }) => {
+export const SearchModal: React.FC<SearchModalProps> = ({
+    closeHandler,
+    link,
+    opened,
+    inputHandler,
+    searcher,
+    translations,
+}) => {
+    const { typeSomething = "Type something...", nothingFound = "Nothing found" } = translations || {};
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [results, setResults] = useState<SearchItem[] | null>(null);
     const debounceRef = useRef<NodeJS.Timeout | null>(null);
@@ -78,7 +92,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ closeHandler, link, op
                     <input
                         type="text"
                         name="search"
-                        placeholder="Type something..."
+                        placeholder={typeSomething}
                         className="r-search-input"
                         autoFocus={opened}
                         onChange={searchHandler}
@@ -105,7 +119,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ closeHandler, link, op
                                 </li>
                             ))
                         ) : (
-                            <p>Nothing found</p>
+                            <p>{nothingFound}</p>
                         )}
                     </ul>
                 )}

@@ -1,7 +1,9 @@
-import "./header-social.scss";
 import React from "react";
+
 import { detectGitType } from "../../../core/utils/git-data";
 import { GithubLogo, GitlabLogo, GitLogo } from "../../ui/git-logos";
+
+import "./header-social.scss";
 
 const gitLogos = {
     github: GithubLogo,

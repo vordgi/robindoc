@@ -19,14 +19,19 @@ export type ContentProps = {
         publicDirs?: string[];
     };
     provider?: BaseProvider;
-    hideContents?: boolean;
     link?: React.ElementType;
-    gitUri?: ContentsProps["gitUri"];
     pathname: string;
     pages?: { clientPath: string; origPath: string }[];
+    translations?: {
+        /** Last modified on */
+        lastModifiedOn?: string;
+    };
 } & ({ content: string; uri?: undefined } | { uri: string; content?: undefined });
 
-export type ArticleProps = Partial<PaginationProps> & Partial<BreadcrumbsProps> & ContentProps;
+export type ArticleProps = Partial<PaginationProps> &
+    Partial<BreadcrumbsProps> &
+    Omit<ContentsProps, "headings"> &
+    ContentProps;
 
 export const Article: React.FC<ArticleProps> = async ({
     components,
@@ -43,7 +48,15 @@ export const Article: React.FC<ArticleProps> = async ({
     prev,
     next,
     pages = [],
+    translations,
 }) => {
+    const {
+        lastModifiedOn = "Last modified on",
+        editOnService,
+        onThisPage,
+        next: nextTranslation,
+        previous,
+    } = translations || {};
     const { data, provider: targetProvider } =
         content || !uri ? { data: content, provider: null } : await loadContent(uri, provider);
 
@@ -64,6 +77,7 @@ export const Article: React.FC<ArticleProps> = async ({
                 gitUri={gitUriProp === null ? null : gitUriProp || gitUri}
                 hideContents={hideContents}
                 headings={headings}
+                translations={{ editOnService, onThisPage }}
             />
             <div className="r-article">
                 <Document
@@ -77,9 +91,11 @@ export const Article: React.FC<ArticleProps> = async ({
                     pathname={pathname}
                     uri={uri}
                 />
-                {lastModified && <LastModified date={lastModified}>Last modified on</LastModified>}
+                {lastModified && <LastModified date={lastModified}>{lastModifiedOn}</LastModified>}
             </div>
-            {(prev || next) && <Pagination prev={prev} next={next} link={link} />}
+            {(prev || next) && (
+                <Pagination prev={prev} next={next} link={link} translations={{ next: nextTranslation, previous }} />
+            )}
         </ContentsProvider>
     );
 };

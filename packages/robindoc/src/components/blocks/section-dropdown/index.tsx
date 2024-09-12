@@ -1,7 +1,8 @@
-import "./section-dropdown.scss";
+import React from "react";
 
 import { NavLink } from "../nav-link";
-import React from "react";
+
+import "./section-dropdown.scss";
 
 type SectionDropdownOption = {
     key: string;
@@ -20,8 +21,7 @@ export const SectionDropdown: React.FC<SectionDropdownProps> = ({ defaultOption,
     const defaultOptionDetailed = options.find((option) => option.key === defaultOption);
 
     if (!defaultOptionDetailed) {
-        console.error("Invalid default option");
-        return <></>;
+        throw new Error("Invalid default option");
     }
 
     return (

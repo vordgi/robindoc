@@ -3,15 +3,20 @@
 import "./search.scss";
 
 import React, { useEffect, useRef, useState } from "react";
-import { type Searcher } from "./types";
-import { SearchModal } from "./search-modal";
+
+import { SearchModal, type SearchModalProps } from "./search-modal";
 
 export interface SearchProps {
     link?: React.ElementType;
-    searcher: Searcher | string;
+    searcher: SearchModalProps["searcher"];
+    translations?: {
+        /** Search... */
+        search?: string;
+    } & SearchModalProps["translations"];
 }
 
-export const Search: React.FC<SearchProps> = ({ link, searcher }) => {
+export const Search: React.FC<SearchProps> = ({ link, searcher, translations }) => {
+    const { search = "Search...", ...modalTranslations } = translations || {};
     const titleRef = useRef<HTMLSpanElement>(null);
     const [system, setSystem] = useState<"none" | "other" | "apple">("none");
     const [opened, setOpened] = useState(false);
@@ -64,7 +69,7 @@ export const Search: React.FC<SearchProps> = ({ link, searcher }) => {
 
     const inputHandler = (text: string) => {
         if (titleRef.current) {
-            titleRef.current.innerText = text || "Search...";
+            titleRef.current.innerText = text || search;
         }
     };
 
@@ -72,7 +77,7 @@ export const Search: React.FC<SearchProps> = ({ link, searcher }) => {
         <>
             <button type="button" className="r-search-btn" onClick={toggleHandler} onKeyDown={keyDownHandler}>
                 <span className="r-search-title" ref={titleRef}>
-                    Search...
+                    {search}
                 </span>
                 {system !== "none" && (
                     <kbd className="r-search-kbd">
@@ -96,6 +101,7 @@ export const Search: React.FC<SearchProps> = ({ link, searcher }) => {
                 link={link}
                 opened={opened}
                 inputHandler={inputHandler}
+                translations={modalTranslations}
             />
         </>
     );

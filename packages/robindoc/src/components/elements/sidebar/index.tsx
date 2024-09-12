@@ -1,20 +1,16 @@
-import "./sidebar.scss";
 import React from "react";
+
 import { SidebarMenu } from "./sidebar-menu";
 import { NavLink } from "../../blocks/nav-link";
 import { SidebarDrop } from "./sidebar-drop";
+
+import "./sidebar.scss";
 
 export type TreeItem = {
     title: string;
     href?: string;
     type?: "row" | "heading";
     items?: TreeItem[] | null;
-};
-
-export type SidebarProps = {
-    tree?: TreeItem[] | null;
-    link?: React.ElementType;
-    pathname?: string;
 };
 
 const checkIsTargetSection = (item: TreeItem, pathname?: string) => {
@@ -24,58 +20,76 @@ const checkIsTargetSection = (item: TreeItem, pathname?: string) => {
     return false;
 };
 
-const LinkBranch: React.FC<{ item: TreeItem; link?: React.ElementType; pathname?: string; depth: number }> = ({
-    item,
-    link: Link,
-    pathname,
-    depth,
-}) => (
-    <li className={`r-sidebar-li${item.items && item.items.length > 0 ? " _droppable" : ""}`}>
-        {item.href ? (
-            <NavLink
-                link={Link}
-                href={item.href}
-                className={`r-sidebar-link${item.type === "heading" ? " r-sidebar-heading" : ""}${pathname && item.href && pathname === new URL(item.href, "http://r").pathname?.replace(/\/$/, "") ? " _active" : ""}${checkIsTargetSection(item, pathname) ? " _target" : ""}`}
-            >
-                {item.title}
-            </NavLink>
-        ) : (
-            <p className={`r-sidebar-p${item.type === "heading" ? " r-sidebar-heading" : ""}`}>{item.title}</p>
-        )}
-        {item.items && item.items.length > 0 && (
-            <SidebarDrop defaultOpen={checkIsTargetSection(item, pathname)} id={item.href + item.title}>
-                <summary className="r-sidebar-drop-btn" aria-label={`Expand ${item.title}`}>
-                    <svg
-                        className="r-sidebar-drop-icon"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    >
-                        <path d="m9 18 6-6-6-6" />
-                    </svg>
-                </summary>
-                <ul className="r-sidebar-list r-sidebar-sublist">
-                    {item.items.map((link) => (
-                        <LinkBranch
-                            item={link}
-                            link={Link}
-                            key={link.href + link.title}
-                            depth={depth >= 4 ? 4 : depth + 1}
-                            pathname={pathname}
-                        />
-                    ))}
-                </ul>
-            </SidebarDrop>
-        )}
-    </li>
-);
+type LinkBranchProps = {
+    branch: TreeItem;
+    link?: React.ElementType;
+    pathname?: string;
+    depth: number;
+    translations?: {
+        /** Expand {title} */
+        expandTitle?: string;
+    };
+};
 
-export const Sidebar: React.FC<SidebarProps> = ({ tree, pathname, link }) => {
+const LinkBranch: React.FC<LinkBranchProps> = ({ branch, link, pathname, depth, translations }) => {
+    const { expandTitle = "Expand {title}" } = translations || {};
+
+    return (
+        <li className={`r-sidebar-li${branch.items && branch.items.length > 0 ? " _droppable" : ""}`}>
+            {branch.href ? (
+                <NavLink
+                    link={link}
+                    href={branch.href}
+                    className={`r-sidebar-link${branch.type === "heading" ? " r-sidebar-heading" : ""}${pathname && branch.href && pathname === new URL(branch.href, "http://r").pathname?.replace(/\/$/, "") ? " _active" : ""}${checkIsTargetSection(branch, pathname) ? " _target" : ""}`}
+                >
+                    {branch.title}
+                </NavLink>
+            ) : (
+                <p className={`r-sidebar-p${branch.type === "heading" ? " r-sidebar-heading" : ""}`}>{branch.title}</p>
+            )}
+            {branch.items && branch.items.length > 0 && (
+                <SidebarDrop defaultOpen={checkIsTargetSection(branch, pathname)} id={branch.href + branch.title}>
+                    <summary className="r-sidebar-drop-btn" aria-label={expandTitle.replace("{title}", branch.title)}>
+                        <svg
+                            className="r-sidebar-drop-icon"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <path d="m9 18 6-6-6-6" />
+                        </svg>
+                    </summary>
+                    <ul className="r-sidebar-list r-sidebar-sublist">
+                        {branch.items.map((item) => (
+                            <LinkBranch
+                                branch={item}
+                                link={link}
+                                key={item.href + item.title}
+                                depth={depth >= 4 ? 4 : depth + 1}
+                                pathname={pathname}
+                                translations={translations}
+                            />
+                        ))}
+                    </ul>
+                </SidebarDrop>
+            )}
+        </li>
+    );
+};
+
+export type SidebarProps = {
+    tree?: TreeItem[] | null;
+    link?: React.ElementType;
+    pathname?: string;
+    translations?: LinkBranchProps["translations"];
+};
+
+export const Sidebar: React.FC<SidebarProps> = ({ tree, pathname, link, translations }) => {
     if (!tree?.length) return <div className="r-sidebar" />;
 
     return (
@@ -87,10 +101,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ tree, pathname, link }) => {
                         {tree.map((item) => (
                             <LinkBranch
                                 pathname={pathname?.replace(/\/$/, "")}
-                                item={item}
+                                branch={item}
                                 link={link}
                                 key={item.href + item.title}
                                 depth={0}
+                                translations={translations}
                             />
                         ))}
                     </ul>

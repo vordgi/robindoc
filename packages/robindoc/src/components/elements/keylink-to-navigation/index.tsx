@@ -1,11 +1,22 @@
-import "./keylink-to-navigation.scss";
 import React from "react";
+
 import { Keylink } from "../../ui/keylink";
 
-export const KeylinkToNavigation: React.FC = () => {
+import "./keylink-to-navigation.scss";
+
+export type KeylinkToNavigationProps = {
+    translations?: {
+        /** Return to navigation */
+        returnToNavigation?: string;
+    };
+};
+
+export const KeylinkToNavigation: React.FC<KeylinkToNavigationProps> = ({ translations }) => {
+    const { returnToNavigation = "Return to navigation" } = translations || {};
+
     return (
-        <Keylink className="keylink-to-navigation" id="navigation">
-            Return to navigation
+        <Keylink className="keylink-to-navigation" toId="navigation">
+            {returnToNavigation}
         </Keylink>
     );
 };
