@@ -1,0 +1,12 @@
+@import "../../../../assets/vars";
+
+.r-kbd-container {
+  display: flex;
+  gap: 4px;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--neutral950);
+  }
+}
