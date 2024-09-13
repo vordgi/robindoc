@@ -7,6 +7,7 @@ import { createBaseSearcher } from "../../../../core/utils/create-base-searcher"
 import { NavLink } from "../../nav-link";
 import { useDebouncer } from "../../../../core/hooks/use-debouncer";
 import { KbdContainer, KbdKey } from "../../../ui/kbd";
+import { Modal } from "../../../ui/modal";
 
 export interface SearchModalProps {
     onClose(): void;
@@ -46,39 +47,36 @@ export const SearchModal: React.FC<SearchModalProps> = ({ translations, link, se
     }, [open]);
 
     return (
-        <>
-            <div onClick={onClose} className={`r-search-backdrop${open ? " _visible" : ""}`} />
-            <div className={`r-search-popup${open ? " _visible" : ""}`}>
-                <div className="r-search-popup-header">
-                    <input
-                        type="text"
-                        name="search"
-                        placeholder={typeSomething}
-                        className="r-search-input"
-                        onChange={handler}
-                        ref={inputRef}
-                    />
-                    <KbdContainer className="r-search-kbd r-search-popup-kbd" onClick={onClose}>
-                        <KbdKey>ESC</KbdKey>
-                    </KbdContainer>
-                </div>
-                {results && (
-                    <ul className="r-search-results">
-                        {results.length > 0 ? (
-                            results.map((item) => (
-                                <li key={item.href}>
-                                    <NavLink link={link} href={item.href} onClick={onClose} className="r-search-item">
-                                        <p className="r-search-item-title">{item.title}</p>
-                                        {item.description && <p className="r-search-item-desc">{item.description}</p>}
-                                    </NavLink>
-                                </li>
-                            ))
-                        ) : (
-                            <p>{nothingFound}</p>
-                        )}
-                    </ul>
-                )}
+        <Modal open={open} onClose={onClose}>
+            <div className="r-search-popup-header">
+                <input
+                    type="text"
+                    name="search"
+                    placeholder={typeSomething}
+                    className="r-search-input"
+                    onChange={handler}
+                    ref={inputRef}
+                />
+                <KbdContainer className="r-search-kbd r-search-popup-kbd" onClick={onClose}>
+                    <KbdKey>ESC</KbdKey>
+                </KbdContainer>
             </div>
-        </>
+            {results && (
+                <ul className="r-search-results">
+                    {results.length > 0 ? (
+                        results.map((item) => (
+                            <li key={item.href}>
+                                <NavLink link={link} href={item.href} onClick={onClose} className="r-search-item">
+                                    <p className="r-search-item-title">{item.title}</p>
+                                    {item.description && <p className="r-search-item-desc">{item.description}</p>}
+                                </NavLink>
+                            </li>
+                        ))
+                    ) : (
+                        <p>{nothingFound}</p>
+                    )}
+                </ul>
+            )}
+        </Modal>
     );
 };

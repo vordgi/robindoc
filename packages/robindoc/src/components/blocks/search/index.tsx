@@ -2,11 +2,12 @@
 
 import "./search.scss";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 import { SearchModal, type SearchModalProps } from "./search-modal";
 import { useSystemType } from "../../../core/hooks/use-system-type";
 import { KbdContainer, KbdKey } from "../../ui/kbd";
+import { useModal } from "../../ui/modal/use-modal";
 
 export interface SearchProps {
     link?: React.ElementType;
@@ -20,24 +21,9 @@ export interface SearchProps {
 export const Search: React.FC<SearchProps> = ({ link, searcher, translations }) => {
     const { search = "Search...", ...modalTranslations } = translations || {};
     const titleRef = useRef<HTMLSpanElement>(null);
-    const [modalOpened, setModalOpened] = useState(false);
+    const { opened, closeHandler, openHandler } = useModal();
     const system = useSystemType();
 
-    const openHandler = () => {
-        document.documentElement.classList.add("body-lock");
-        setModalOpened(true);
-    };
-    const closeHandler = () => {
-        document.documentElement.classList.remove("body-lock");
-        setModalOpened(false);
-    };
-    const toggleHandler = () => {
-        if (modalOpened) {
-            closeHandler();
-        } else {
-            openHandler();
-        }
-    };
     const keyDownHandler = (e: React.KeyboardEvent<HTMLElement>) => {
         if (e.key.length === 1 && e.code !== "Space") {
             openHandler();
@@ -48,10 +34,7 @@ export const Search: React.FC<SearchProps> = ({ link, searcher, translations }) 
         const keyDown = (e: KeyboardEvent) => {
             if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
                 e.preventDefault();
-                setModalOpened(true);
-            } else if (e.key === "Escape") {
-                e.preventDefault();
-                setModalOpened(false);
+                openHandler();
             }
         };
         window.addEventListener("keydown", keyDown);
@@ -69,7 +52,7 @@ export const Search: React.FC<SearchProps> = ({ link, searcher, translations }) 
 
     return (
         <>
-            <button type="button" className="r-search-btn" onClick={toggleHandler} onKeyDown={keyDownHandler}>
+            <button type="button" className="r-search-btn" onClick={openHandler} onKeyDown={keyDownHandler}>
                 <span className="r-search-title" ref={titleRef}>
                     {search}
                 </span>
@@ -81,7 +64,7 @@ export const Search: React.FC<SearchProps> = ({ link, searcher, translations }) 
                 )}
             </button>
             <SearchModal
-                open={modalOpened}
+                open={opened}
                 translations={modalTranslations}
                 searcher={searcher}
                 link={link}
