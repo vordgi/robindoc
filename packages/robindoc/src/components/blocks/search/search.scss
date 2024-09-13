@@ -29,34 +29,19 @@
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .r-search-kbd {
   display: none;
-  gap: 4px;
-  font-size: 14px;
   position: absolute;
   right: 6px;
   top: 50%;
   transform: translateY(-50%);
-  cursor: pointer;
 
   @media screen and (width >= $sm) {
     display: flex;
   }
-
-  &:hover {
-    color: var(--neutral950);
-  }
-}
-
-.r-search-key {
-  background-color: var(--neutral200);
-  font-size: 12px;
-  border-radius: 4px;
-  padding: 5px 8px;
-  min-width: 24px;
-  text-align: center;
 }
 
 .r-search-backdrop {

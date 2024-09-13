@@ -5,6 +5,8 @@ import "./search.scss";
 import React, { useEffect, useRef, useState } from "react";
 
 import { SearchModal, type SearchModalProps } from "./search-modal";
+import { useSystemType } from "../../../core/hooks/use-system-type";
+import { KbdContainer, KbdKey } from "../../ui/kbd";
 
 export interface SearchProps {
     link?: React.ElementType;
@@ -18,19 +20,19 @@ export interface SearchProps {
 export const Search: React.FC<SearchProps> = ({ link, searcher, translations }) => {
     const { search = "Search...", ...modalTranslations } = translations || {};
     const titleRef = useRef<HTMLSpanElement>(null);
-    const [system, setSystem] = useState<"none" | "other" | "apple">("none");
-    const [opened, setOpened] = useState(false);
+    const [modalOpened, setModalOpened] = useState(false);
+    const system = useSystemType();
 
     const openHandler = () => {
         document.documentElement.classList.add("body-lock");
-        setOpened(true);
+        setModalOpened(true);
     };
     const closeHandler = () => {
         document.documentElement.classList.remove("body-lock");
-        setOpened(false);
+        setModalOpened(false);
     };
     const toggleHandler = () => {
-        if (opened) {
+        if (modalOpened) {
             closeHandler();
         } else {
             openHandler();
@@ -46,10 +48,10 @@ export const Search: React.FC<SearchProps> = ({ link, searcher, translations }) 
         const keyDown = (e: KeyboardEvent) => {
             if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
                 e.preventDefault();
-                setOpened(true);
+                setModalOpened(true);
             } else if (e.key === "Escape") {
                 e.preventDefault();
-                setOpened(false);
+                setModalOpened(false);
             }
         };
         window.addEventListener("keydown", keyDown);
@@ -57,14 +59,6 @@ export const Search: React.FC<SearchProps> = ({ link, searcher, translations }) 
         return () => {
             window.removeEventListener("keydown", keyDown);
         };
-    }, []);
-
-    useEffect(() => {
-        if (navigator.userAgent.includes("Macintosh")) {
-            setSystem("apple");
-        } else {
-            setSystem("other");
-        }
     }, []);
 
     const inputHandler = (text: string) => {
@@ -79,29 +73,20 @@ export const Search: React.FC<SearchProps> = ({ link, searcher, translations }) 
                 <span className="r-search-title" ref={titleRef}>
                     {search}
                 </span>
-                {system !== "none" && (
-                    <kbd className="r-search-kbd">
-                        {system === "apple" ? (
-                            <>
-                                <kbd className="r-search-key">⌘</kbd>
-                                <kbd className="r-search-key">K</kbd>
-                            </>
-                        ) : (
-                            <>
-                                <kbd className="r-search-key">CTRL</kbd>
-                                <kbd className="r-search-key">K</kbd>
-                            </>
-                        )}
-                    </kbd>
+                {system && (
+                    <KbdContainer className="r-search-kbd">
+                        <KbdKey>{system === "apple" ? "⌘" : "CTRL"}</KbdKey>
+                        <KbdKey>K</KbdKey>
+                    </KbdContainer>
                 )}
             </button>
             <SearchModal
-                searcher={searcher}
-                closeHandler={closeHandler}
-                link={link}
-                opened={opened}
-                inputHandler={inputHandler}
+                open={modalOpened}
                 translations={modalTranslations}
+                searcher={searcher}
+                link={link}
+                onClose={closeHandler}
+                onInput={inputHandler}
             />
         </>
     );

@@ -2,14 +2,17 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
-import { type Searcher, type SearchItem } from "../types";
+import { type Searcher, type SearchItem } from "../../../../core/types/search";
+import { createBaseSearcher } from "../../../../core/utils/create-base-searcher";
 import { NavLink } from "../../nav-link";
+import { useDebouncer } from "../../../../core/hooks/use-debouncer";
+import { KbdContainer, KbdKey } from "../../../ui/kbd";
 
 export interface SearchModalProps {
-    closeHandler(): void;
+    onClose(): void;
     link?: React.ElementType;
-    opened: boolean;
-    inputHandler(text: string): void;
+    open: boolean;
+    onInput(text: string): void;
     searcher: Searcher | string;
     translations?: {
         /** Type something... */
@@ -19,100 +22,52 @@ export interface SearchModalProps {
     };
 }
 
-const createBaseSearcher =
-    (searchUri: string): Searcher =>
-    (search: string, abortController: AbortController) => {
-        const qs = new URLSearchParams([["s", search]]);
-        return fetch(`${searchUri}?${qs.toString()}`, { signal: abortController.signal })
-            .then((response) => response.json())
-            .catch((error) => {
-                if (error.name !== "AbortError") {
-                    throw error;
-                }
-            });
-    };
-
-export const SearchModal: React.FC<SearchModalProps> = ({
-    closeHandler,
-    link,
-    opened,
-    inputHandler,
-    searcher,
-    translations,
-}) => {
+export const SearchModal: React.FC<SearchModalProps> = ({ translations, link, searcher, open, onClose, onInput }) => {
     const { typeSomething = "Type something...", nothingFound = "Nothing found" } = translations || {};
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [results, setResults] = useState<SearchItem[] | null>(null);
-    const debounceRef = useRef<NodeJS.Timeout | null>(null);
-    const abortControllerRef = useRef<AbortController | null>(null);
     const targetSearcher = useMemo(
         () => (typeof searcher === "string" ? createBaseSearcher(searcher) : searcher),
         [searcher],
     );
 
-    const searchHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (debounceRef.current) clearTimeout(debounceRef.current);
-        const value = e.currentTarget.value;
-        inputHandler(value);
-
-        if (!value) {
-            setResults(null);
-            return;
+    const { handler } = useDebouncer(async (abortController, e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        onInput(value);
+        let newResults = null;
+        if (value) {
+            newResults = await targetSearcher(value, abortController);
         }
-
-        debounceRef.current = setTimeout(() => {
-            if (abortControllerRef.current) abortControllerRef.current.abort();
-
-            abortControllerRef.current = new AbortController();
-
-            targetSearcher(value, abortControllerRef.current)
-                .then(setResults)
-                .finally(() => {
-                    abortControllerRef.current = null;
-                });
-        }, 100);
-    };
-
-    useEffect(() => {
-        return () => {
-            if (debounceRef.current) clearTimeout(debounceRef.current);
-            if (abortControllerRef.current) abortControllerRef.current.abort();
-        };
+        setResults(newResults);
     });
 
     useEffect(() => {
-        if (opened) inputRef.current?.focus();
-    }, [opened]);
+        if (open) inputRef.current?.focus();
+    }, [open]);
 
     return (
         <>
-            <div onClick={closeHandler} className={`r-search-backdrop${opened ? " _visible" : ""}`} />
-            <div className={`r-search-popup${opened ? " _visible" : ""}`}>
+            <div onClick={onClose} className={`r-search-backdrop${open ? " _visible" : ""}`} />
+            <div className={`r-search-popup${open ? " _visible" : ""}`}>
                 <div className="r-search-popup-header">
                     <input
                         type="text"
                         name="search"
                         placeholder={typeSomething}
                         className="r-search-input"
-                        autoFocus={opened}
-                        onChange={searchHandler}
+                        onChange={handler}
                         ref={inputRef}
                     />
-                    <kbd className="r-search-kbd r-search-popup-kbd" onClick={closeHandler}>
-                        <kbd className="r-search-key">ESC</kbd>
-                    </kbd>
+                    <KbdContainer className="r-search-kbd r-search-popup-kbd" onClick={onClose}>
+                        <KbdKey>ESC</KbdKey>
+                    </KbdContainer>
                 </div>
                 {results && (
                     <ul className="r-search-results">
                         {results.length > 0 ? (
                             results.map((item) => (
                                 <li key={item.href}>
-                                    <NavLink
-                                        link={link}
-                                        href={item.href}
-                                        onClick={closeHandler}
-                                        className="r-search-item"
-                                    >
+                                    <NavLink link={link} href={item.href} onClick={onClose} className="r-search-item">
                                         <p className="r-search-item-title">{item.title}</p>
                                         {item.description && <p className="r-search-item-desc">{item.description}</p>}
                                     </NavLink>
