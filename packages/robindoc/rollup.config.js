@@ -19,6 +19,7 @@ module.exports = {
     external: [
         "react",
         "react-dom",
+        "html-react-parser",
         "gray-matter",
         "marked",
         "dot-prop",

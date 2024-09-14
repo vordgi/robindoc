@@ -1,7 +1,7 @@
 import React from "react";
 
-import { NavigateProvider } from "../../contexts/navigate/provider";
-import { SidebarProvider } from "../../contexts/sidebar/provider";
+import { NavigateProvider } from "@src/components/contexts/navigate/provider";
+import { SidebarProvider } from "@src/components/contexts/sidebar/provider";
 
 export const RobinProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     return (

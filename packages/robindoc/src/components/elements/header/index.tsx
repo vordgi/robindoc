@@ -1,11 +1,11 @@
 import "./header.scss";
 import React from "react";
-import { HeaderMenu, HeaderMenuProps } from "../../blocks/header-menu";
-import { Search, type SearchProps } from "../../blocks/search";
-import { SectionDropdown } from "../../blocks/section-dropdown";
-import { HeaderSocial } from "../../blocks/header-social";
-import { Container } from "../../ui/container";
-import { NavLink } from "../../blocks/nav-link";
+import { HeaderMenu, HeaderMenuProps } from "@src/components/blocks/header-menu";
+import { Search, type SearchProps } from "@src/components/blocks/search";
+import { SectionDropdown } from "@src/components/blocks/section-dropdown";
+import { HeaderSocial } from "@src/components/blocks/header-social";
+import { Container } from "@src/components/ui/container";
+import { NavLink } from "@src/components/blocks/nav-link";
 
 type SectionOption = {
     key: string;

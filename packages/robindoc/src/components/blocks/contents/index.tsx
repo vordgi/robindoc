@@ -2,8 +2,8 @@
 
 import React from "react";
 
-import { useHeadingIndex } from "../../contexts/contents/use-heading-index";
-import { detectGitType } from "../../../core/utils/git-data";
+import { useHeadingIndex } from "@src/components/contexts/contents/use-heading-index";
+import { detectGitType } from "@src/core/utils/git-data";
 
 import "./contents.scss";
 

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { SidebarMenu } from "./sidebar-menu";
-import { NavLink } from "../../blocks/nav-link";
+import { NavLink } from "@src/components/blocks/nav-link";
 import { SidebarDrop } from "./sidebar-drop";
 
 import "./sidebar.scss";

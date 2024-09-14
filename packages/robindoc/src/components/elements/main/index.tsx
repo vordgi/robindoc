@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Container } from "../../ui/container";
+import { Container } from "@src/components/ui/container";
 
 import "./main.scss";
 

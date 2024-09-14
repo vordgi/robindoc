@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { useNavigate } from "../../contexts/navigate/use-navigate";
+import { useNavigate } from "@src/components/contexts/navigate/use-navigate";
 
 interface NavLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
     link?: React.ElementType;

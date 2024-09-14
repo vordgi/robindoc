@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useSidebarStore } from "../../../contexts/sidebar/use-sidebar-store";
+import { useSidebarStore } from "@src/components/contexts/sidebar/use-sidebar-store";
 
 export const SidebarDrop: React.FC<React.PropsWithChildren<{ defaultOpen?: boolean; id: string }>> = ({
     children,
