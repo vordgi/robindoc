@@ -32,7 +32,7 @@ module.exports = {
     ],
     plugins: [
         commonjs(),
-        typescript(),
+        typescript({ tsconfig: "./tsconfig.json" }),
         scss({
             outputStyle: "compressed",
             output: true,
