@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 
 import { NavLink } from "../nav-link";
 
@@ -48,7 +49,7 @@ export const SectionDropdown: React.FC<SectionDropdownProps> = ({ defaultOption,
                         <NavLink
                             link={link}
                             href={option.href}
-                            className={`r-dropdown-link${option.key === defaultOption ? " _active" : ""}`}
+                            className={clsx("r-dropdown-link", option.key === defaultOption && "_active")}
                         >
                             {option.title}
                         </NavLink>

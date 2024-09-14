@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-
+import clsx from "clsx";
 import { useHeadingIndex } from "@src/components/contexts/contents/use-heading-index";
 import { detectGitType } from "@src/core/utils/git-data";
 
@@ -51,7 +51,12 @@ export const Contents: React.FC<ContentsProps> = ({ headings, hideContents, gitU
                                     <a
                                         href={`#${heading.id}`}
                                         key={heading.id}
-                                        className={`r-contents-link${heading.nested ? " _nested" : ""}${headingIndex !== null && index <= headingIndex ? " _passed" : ""}${headingIndex === index ? " _active" : ""}`}
+                                        className={clsx(
+                                            "r-contents-link",
+                                            heading.nested && "_nested",
+                                            headingIndex !== null && index <= headingIndex && "_passed",
+                                            headingIndex === index && "_active",
+                                        )}
                                     >
                                         {heading.title}
                                     </a>

@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-
 import { useNavigate } from "@src/components/contexts/navigate/use-navigate";
+import clsx from "clsx";
 
 export type SidebarMenuProps = React.PropsWithChildren<{
     translations?: {
@@ -45,7 +45,7 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ children, translations
     return (
         <>
             <span className="r-sidebar-space" />
-            <div className={`r-sidebar${opened ? " _opened" : ""}`}>
+            <div className={clsx("r-sidebar", opened && "_opened")}>
                 <button className="r-sidebar-btn" onClick={toggleHandler}>
                     <svg
                         className="r-sidebar-chevron"

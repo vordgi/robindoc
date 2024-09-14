@@ -1,7 +1,8 @@
 import React from "react";
+import clsx from "clsx";
+import { NavLink } from "@src/components/blocks/nav-link";
 
 import { SidebarMenu } from "./sidebar-menu";
-import { NavLink } from "@src/components/blocks/nav-link";
 import { SidebarDrop } from "./sidebar-drop";
 
 import "./sidebar.scss";
@@ -15,9 +16,18 @@ export type TreeItem = {
 
 const checkIsTargetSection = (item: TreeItem, pathname?: string) => {
     if (!pathname) return false;
+
     if (item.href && pathname === new URL(item.href, "http://r").pathname?.replace(/\/$/, "")) return true;
+
     if (item.items?.find((el) => checkIsTargetSection(el, pathname))) return true;
+
     return false;
+};
+
+const checkIsTargetPathname = (itemHref?: string, pathname?: string) => {
+    if (!pathname || !itemHref) return false;
+
+    return pathname === new URL(itemHref, "http://r").pathname?.replace(/\/$/, "");
 };
 
 type LinkBranchProps = {
@@ -35,17 +45,22 @@ const LinkBranch: React.FC<LinkBranchProps> = ({ branch, link, pathname, depth, 
     const { expandTitle = "Expand {title}" } = translations || {};
 
     return (
-        <li className={`r-sidebar-li${branch.items && branch.items.length > 0 ? " _droppable" : ""}`}>
+        <li className={clsx("r-sidebar-li", branch.items && branch.items.length > 0 && "_droppable")}>
             {branch.href ? (
                 <NavLink
                     link={link}
                     href={branch.href}
-                    className={`r-sidebar-link${branch.type === "heading" ? " r-sidebar-heading" : ""}${pathname && branch.href && pathname === new URL(branch.href, "http://r").pathname?.replace(/\/$/, "") ? " _active" : ""}${checkIsTargetSection(branch, pathname) ? " _target" : ""}`}
+                    className={clsx(
+                        "r-sidebar-link",
+                        branch.type === "heading" && "r-sidebar-heading",
+                        checkIsTargetPathname(branch.href, pathname) && "_active",
+                        checkIsTargetSection(branch, pathname) && "_target",
+                    )}
                 >
                     {branch.title}
                 </NavLink>
             ) : (
-                <p className={`r-sidebar-p${branch.type === "heading" ? " r-sidebar-heading" : ""}`}>{branch.title}</p>
+                <p className={clsx("r-sidebar-p", branch.type === "heading" && "r-sidebar-heading")}>{branch.title}</p>
             )}
             {branch.items && branch.items.length > 0 && (
                 <SidebarDrop defaultOpen={checkIsTargetSection(branch, pathname)} id={branch.href + branch.title}>

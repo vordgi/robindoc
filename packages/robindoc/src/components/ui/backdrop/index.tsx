@@ -1,8 +1,9 @@
 "use client";
 
-import "./backdrop.scss";
-
 import React from "react";
+import clsx from "clsx";
+
+import "./backdrop.scss";
 
 export interface BackdropProps {
     onClose(): void;
@@ -10,5 +11,5 @@ export interface BackdropProps {
 }
 
 export const Backdrop: React.FC<BackdropProps> = ({ open, onClose }) => {
-    return <div onClick={onClose} className={`r-backdrop${open ? " _visible" : ""}`} />;
+    return <div onClick={onClose} className={clsx("r-backdrop", open && "_visible")} />;
 };
