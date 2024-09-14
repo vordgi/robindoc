@@ -1,16 +1,16 @@
 import "./article.scss";
 import React from "react";
 
-import { type Components } from "../../../core/types/content";
-import { type BaseProvider } from "../../../core/providers/base";
-import { loadContent } from "../../../core/utils/load-content";
-import { ContentsProvider } from "../../contexts/contents/provider";
-import { Contents, type ContentsProps } from "../../blocks/contents";
-import { Breadcrumbs, type BreadcrumbsProps } from "../../blocks/breadcrumbs";
-import { Pagination, type PaginationProps } from "../../blocks/pagination";
+import { type Components } from "@src/core/types/content";
+import { type BaseProvider } from "@src/core/providers/base";
+import { loadContent } from "@src/core/utils/load-content";
+import { ContentsProvider } from "@src/components/contexts/contents/provider";
+import { Contents, type ContentsProps } from "@src/components/blocks/contents";
+import { Breadcrumbs, type BreadcrumbsProps } from "@src/components/blocks/breadcrumbs";
+import { Pagination, type PaginationProps } from "@src/components/blocks/pagination";
 import { parseMarkdown } from "./utils";
 import { Document } from "./document";
-import { LastModified } from "../../blocks/last-modified";
+import { LastModified } from "@src/components/blocks/last-modified";
 
 export type ContentProps = {
     title: string;

@@ -2,12 +2,12 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
-import { type Searcher, type SearchItem } from "../../../../core/types/search";
-import { createBaseSearcher } from "../../../../core/utils/create-base-searcher";
-import { NavLink } from "../../nav-link";
-import { useDebouncer } from "../../../../core/hooks/use-debouncer";
-import { KbdContainer, KbdKey } from "../../../ui/kbd";
-import { Modal } from "../../../ui/modal";
+import { type Searcher, type SearchItem } from "@src/core/types/search";
+import { createBaseSearcher } from "@src/core/utils/create-base-searcher";
+import { NavLink } from "@src/components/blocks/nav-link";
+import { useDebouncer } from "@src/core/hooks/use-debouncer";
+import { KbdContainer, KbdKey } from "@src/components/ui/kbd";
+import { Modal } from "@src/components/ui/modal";
 
 export interface SearchModalProps {
     onClose(): void;

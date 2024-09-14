@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Keylink } from "../../ui/keylink";
+import { Keylink } from "@src/components/ui/keylink";
 
 import "./keylink-to-content.scss";
 

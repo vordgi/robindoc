@@ -1,5 +1,5 @@
 import React from "react";
-import { type BaseProvider } from "../../../core/providers/base";
+import { type BaseProvider } from "@src/core/providers/base";
 
 export const Img: React.FC<{
     src: string;

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { type Breadcrumbs as BreadcrumbsType } from "../../../core/types/content";
+import { type Breadcrumbs as BreadcrumbsType } from "@src/core/types/content";
 import { NavLink } from "../nav-link";
 
 import "./breadcrumbs.scss";

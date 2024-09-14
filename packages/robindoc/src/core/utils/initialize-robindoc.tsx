@@ -1,10 +1,10 @@
 import React from "react";
+import { Article as ArticleBase, type ArticleProps as ArticlePropsBase } from "@src/components/elements/article";
+import { Sidebar as SidebarBase, type SidebarProps as SidebarPropsBase } from "@src/components/elements/sidebar";
 import { type Structure } from "../types/structure";
 import { parseStructure } from "./parse-structure";
 import { getConfiguration } from "./get-configuration";
 import { getMeta as getMetaBase } from "./get-meta";
-import { Article as ArticleBase, type ArticleProps as ArticlePropsBase } from "../../components/elements/article";
-import { Sidebar as SidebarBase, type SidebarProps as SidebarPropsBase } from "../../components/elements/sidebar";
 import { normalizePathname } from "./path-tools";
 import { loadContent } from "./load-content";
 

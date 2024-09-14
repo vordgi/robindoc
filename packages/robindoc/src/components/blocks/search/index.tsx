@@ -5,9 +5,9 @@ import "./search.scss";
 import React, { useEffect, useRef } from "react";
 
 import { SearchModal, type SearchModalProps } from "./search-modal";
-import { useSystemType } from "../../../core/hooks/use-system-type";
-import { KbdContainer, KbdKey } from "../../ui/kbd";
-import { useModal } from "../../ui/modal/use-modal";
+import { useSystemType } from "@src/core/hooks/use-system-type";
+import { KbdContainer, KbdKey } from "@src/components/ui/kbd";
+import { useModal } from "@src/components/ui/modal/use-modal";
 
 export interface SearchProps {
     link?: React.ElementType;

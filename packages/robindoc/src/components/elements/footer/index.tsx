@@ -1,7 +1,7 @@
 import "./footer.scss";
 import React from "react";
-import { Theme } from "../../blocks/theme";
-import { Container } from "../../ui/container";
+import { Theme } from "@src/components/blocks/theme";
+import { Container } from "@src/components/ui/container";
 
 export type FooterProps = {
     copyright: string;

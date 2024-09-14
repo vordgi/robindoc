@@ -10,7 +10,10 @@
     "outDir": "./lib",
     "rootDir": "src",
     "declaration": true,
-    "jsx": "react"
+    "jsx": "react",
+    "paths": {
+      "@src/*": ["./src/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules"]

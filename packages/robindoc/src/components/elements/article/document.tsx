@@ -1,14 +1,14 @@
 import React from "react";
 import parse, { attributesToProps, DOMNode, domToReact, HTMLReactParserOptions, Text } from "html-react-parser";
 import { type TokensList, type Token, type Tokens } from "marked";
+import { type RobinProps, type Components } from "@src/core/types/content";
+import { type BaseProvider } from "@src/core/providers/base";
+import { Heading } from "@src/components/blocks/heading";
+import { Shiki } from "@src/components/ui/code";
+import { NavLink } from "@src/components/blocks/nav-link";
 
-import { type RobinProps, type Components } from "../../../core/types/content";
-import { type BaseProvider } from "../../../core/providers/base";
 import { parseMarkdown, validateComponentName, type Heading as HeadingType } from "./utils";
-import { Heading } from "../../blocks/heading";
-import { Shiki } from "../../ui/code";
 import { Img } from "./elements";
-import { NavLink } from "../../blocks/nav-link";
 import { dirname, join } from "path";
 
 interface DocumentJSXProps extends Omit<ContentProps, "tokens" | "headings"> {
