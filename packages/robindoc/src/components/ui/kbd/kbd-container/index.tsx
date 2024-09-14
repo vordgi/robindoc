@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 
 import "./kbd-container.scss";
 
@@ -7,5 +8,5 @@ export interface KbdContainerProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 export const KbdContainer: React.FC<KbdContainerProps> = ({ className, ...props }) => (
-    <kbd className={`r-kbd-container${className ? ` ${className}` : ""}`} {...props} />
+    <kbd className={clsx("r-kbd-container", className)} {...props} />
 );

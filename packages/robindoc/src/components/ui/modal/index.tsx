@@ -1,8 +1,9 @@
-import "./modal.scss";
-
 import React from "react";
+import clsx from "clsx";
 
 import { Backdrop } from "../backdrop";
+
+import "./modal.scss";
 
 export interface ModalProps {
     onClose(): void;
@@ -13,7 +14,7 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({ open, onC
     return (
         <>
             <Backdrop open={open} onClose={onClose} />
-            <div className={`r-modal${open ? " _visible" : ""}`}>{children}</div>
+            <div className={clsx("r-modal", open && "_visible")}>{children}</div>
         </>
     );
 };

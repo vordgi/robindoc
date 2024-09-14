@@ -1,5 +1,7 @@
-import "./container.scss";
 import React from "react";
+import clsx from "clsx";
+
+import "./container.scss";
 
 export interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
     component?: React.ElementType;
@@ -12,7 +14,7 @@ export const Container: React.FC<ContainerProps> = ({
     className,
     ...props
 }) => (
-    <Component className={`r-container${className ? ` ${className}` : ""}`} {...props}>
+    <Component className={clsx("r-container", className)} {...props}>
         {children}
     </Component>
 );

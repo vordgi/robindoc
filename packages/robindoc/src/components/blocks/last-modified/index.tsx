@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import clsx from "clsx";
 
 import "./last-modified.scss";
 
@@ -16,7 +17,7 @@ export const LastModified: React.FC<LastModifiedProps> = ({ date, className, chi
     }, []);
 
     return (
-        <div className={`r-last-modified${className ? ` ${className}` : ""}`} {...props}>
+        <div className={clsx("r-last-modified", className)} {...props}>
             {children}{" "}
             <time dateTime={date} title={date}>
                 {formattedDate}
