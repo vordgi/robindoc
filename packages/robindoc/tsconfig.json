@@ -10,10 +10,15 @@
     "outDir": "./lib",
     "rootDir": "src",
     "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "./lib",
     "jsx": "react",
     "paths": {
       "@src/*": ["./src/*"]
-    }
+    },
+    "plugins": [
+      { "transform": "typescript-transform-paths", "afterDeclarations": true }
+    ]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules"]
