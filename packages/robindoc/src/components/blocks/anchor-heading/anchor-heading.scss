@@ -1,0 +1,20 @@
+@import "src/assets/_vars";
+
+.r-anchor-heading:hover {
+  .r-anchor-heading-link {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.r-anchor-heading-link {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s allow-discrete;
+  padding-inline: 8px;
+  margin-inline-start: -4px;
+
+  &::after {
+    content: "#";
+  }
+}

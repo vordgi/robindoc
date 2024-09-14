@@ -2,7 +2,7 @@ import GithubSlugger from "github-slugger";
 import matter from "gray-matter";
 import { lexer, type Token } from "marked";
 
-export type Heading = {
+export type AnchorData = {
     title: string;
     id: string;
     nested: boolean;
@@ -14,7 +14,7 @@ export const parseMarkdown = (content: string) => {
     const tokens = lexer(matterContent.trim());
 
     const slugger = new GithubSlugger();
-    const headings = tokens.reduce<Heading[]>((acc, token) => {
+    const headings = tokens.reduce<AnchorData[]>((acc, token) => {
         if (token.type === "heading" && (token.depth === 2 || token.depth === 3)) {
             const title = parseTokenText(token);
             acc.push({

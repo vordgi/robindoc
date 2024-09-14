@@ -1,0 +1,20 @@
+.r-content-link {
+  text-decoration: none;
+  color: var(--link-base);
+
+  &:hover {
+    color: var(--link-base-hovered);
+  }
+
+  &:visited {
+    color: var(--link-visited);
+  }
+
+  &:visited:hover {
+    color: var(--link-visited-hovered);
+  }
+
+  &:active {
+    color: var(--link-active);
+  }
+}

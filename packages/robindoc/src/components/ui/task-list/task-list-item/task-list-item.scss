@@ -1,0 +1,31 @@
+.r-task-li.r-task-li {
+  margin-block-start: 2px;
+  margin-block-end: 2px;
+}
+
+.r-task-label {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  padding-top: 2px;
+  padding-bottom: 2px;
+
+  &:hover {
+    .r-task-checkbox {
+      filter: brightness(0.8);
+    }
+  }
+}
+
+.r-task-checkbox {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  inset: -4px;
+  margin-inline-end: 8px;
+  vertical-align: middle;
+}
+
+.r-task-label-text {
+  vertical-align: middle;
+}
