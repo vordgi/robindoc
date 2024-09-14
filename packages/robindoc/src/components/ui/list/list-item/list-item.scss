@@ -1,0 +1,10 @@
+.r-li {
+  line-height: 1.8;
+  margin-block-start: 6px;
+  margin-block-end: 6px;
+}
+
+.r-li > .r-ul,
+.r-li > .r-ol {
+  padding-inline-start: 20px;
+}

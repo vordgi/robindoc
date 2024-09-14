@@ -29,6 +29,7 @@ module.exports = {
         "fs",
         "fs/promises",
         "glob",
+        "clsx",
     ],
     plugins: [
         commonjs(),

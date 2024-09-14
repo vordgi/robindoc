@@ -1,15 +1,27 @@
 import React from "react";
+import { dirname, join } from "path";
 import parse, { attributesToProps, DOMNode, domToReact, HTMLReactParserOptions, Text } from "html-react-parser";
 import { type TokensList, type Token, type Tokens } from "marked";
 import { type RobinProps, type Components } from "@src/core/types/content";
 import { type BaseProvider } from "@src/core/providers/base";
-import { Heading } from "@src/components/blocks/heading";
-import { Shiki } from "@src/components/ui/code";
-import { NavLink } from "@src/components/blocks/nav-link";
+import { Table, Thead, Tr, Th, Tbody, Td } from "@src/components/ui/table";
+import { AnchorHeading } from "@src/components/blocks/anchor-heading";
+import { CodeBlock } from "@src/components/ui/code-block";
+import { CodeSpan } from "@src/components/ui/code-span";
+import { Img } from "@src/components/ui/img";
+import { Block } from "@src/components/ui/block";
+import { Blockquote } from "@src/components/ui/blockquote";
+import { Paragraph } from "@src/components/ui/paragraph";
+import { Strong } from "@src/components/ui/strong";
+import { Del } from "@src/components/ui/del";
+import { Em } from "@src/components/ui/em";
+import { Hr } from "@src/components/ui/hr";
+import { Heading } from "@src/components/ui/heading";
+import { NavContentLink } from "@src/components/blocks/nav-content-link";
+import { ListItem, OrderedList, UnorderedList } from "@src/components/ui/list";
+import { TaskListItem, TaskOrderedList, TaskUnorderedList } from "@src/components/ui/task-list";
 
-import { parseMarkdown, validateComponentName, type Heading as HeadingType } from "./utils";
-import { Img } from "./elements";
-import { dirname, join } from "path";
+import { parseMarkdown, validateComponentName, type AnchorData } from "./utils";
 
 interface DocumentJSXProps extends Omit<ContentProps, "tokens" | "headings"> {
     raw: string;
@@ -57,7 +69,7 @@ export type ContentProps = {
     uri?: string;
     targetProvider?: BaseProvider | null;
     tokens: TokensList;
-    headings: HeadingType[];
+    headings: AnchorData[];
     subtree?: boolean;
     link?: React.ElementType;
     pages?: { clientPath: string; origPath: string }[];
@@ -120,43 +132,43 @@ export const Document: React.FC<ContentProps> = ({
                 const predefinedData = headings.find((heading) => heading.token === token);
                 if (predefinedData?.id) {
                     return (
-                        <Heading id={predefinedData.id} component={Component}>
+                        <AnchorHeading component={Component} id={predefinedData.id}>
                             {token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}
-                        </Heading>
+                        </AnchorHeading>
                     );
                 } else {
                     return (
-                        <Component id={token.depth === 1 ? "main-content" : undefined} className={`r-h${token.depth}`}>
+                        <Heading component={Component} id={token.depth === 1 ? "main-content" : undefined}>
                             {token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}
-                        </Component>
+                        </Heading>
                     );
                 }
             case "table":
                 return (
-                    <div className="r-box">
-                        <table className="r-table">
-                            <thead className="r-thead">
-                                <tr className="r-tr">
+                    <Block>
+                        <Table>
+                            <Thead>
+                                <Tr>
                                     {token.header.map((t: Tokens.Text, index: number) => (
-                                        <th key={t.text + index} className="r-th">
+                                        <Th key={t.text + index}>
                                             {t.tokens ? <DocumentToken token={t.tokens} /> : t.text}
-                                        </th>
+                                        </Th>
                                     ))}
-                                </tr>
-                            </thead>
-                            <tbody className="r-tbody">
+                                </Tr>
+                            </Thead>
+                            <Tbody>
                                 {token.rows.map((row: Tokens.Text[], rowIndex: number) => (
-                                    <tr key={rowIndex} className="r-tr">
+                                    <Tr key={rowIndex}>
                                         {row.map((elem, elemIndex) => (
-                                            <td key={elem.text + elemIndex} className="r-td">
+                                            <Td key={elem.text + elemIndex}>
                                                 {elem.tokens ? <DocumentToken token={elem.tokens} /> : elem.text}
-                                            </td>
+                                            </Td>
                                         ))}
-                                    </tr>
+                                    </Tr>
                                 ))}
-                            </tbody>
-                        </table>
-                    </div>
+                            </Tbody>
+                        </Table>
+                    </Block>
                 );
             case "link":
                 const additionalProps = token.href.match(/^https?:\/\//)
@@ -178,14 +190,14 @@ export const Document: React.FC<ContentProps> = ({
                 }
 
                 return (
-                    <NavLink link={link} href={finalHref} className="r-a" {...additionalProps}>
+                    <NavContentLink link={link} href={finalHref} {...additionalProps}>
                         {token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}
-                    </NavLink>
+                    </NavContentLink>
                 );
             case "space":
                 return null;
             case "hr":
-                return <hr className="r-hr" />;
+                return <Hr />;
             case "image":
                 return (
                     <Img
@@ -199,54 +211,43 @@ export const Document: React.FC<ContentProps> = ({
             case "paragraph":
                 if (subtree) return token.tokens ? <DocumentToken token={token.tokens} /> : token.raw;
 
-                return <p className="r-p">{token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}</p>;
+                return <Paragraph>{token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}</Paragraph>;
             case "strong":
-                return (
-                    <strong className="r-strong">
-                        {token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}
-                    </strong>
-                );
+                return <Strong>{token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}</Strong>;
             case "del":
-                return <del className="r-del">{token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}</del>;
+                return <Del>{token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}</Del>;
             case "em":
-                return <em className="r-em">{token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}</em>;
+                return <Em>{token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}</Em>;
+            case "blockquote":
+                return <Blockquote>{token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}</Blockquote>;
             case "codespan":
-                return <code className="r-code">{token.raw.replace(/^`|`$/g, "")}</code>;
+                return <CodeSpan>{token.raw.replace(/^`|`$/g, "")}</CodeSpan>;
             case "code":
-                return <Shiki lang={token.lang} code={token.text} className="r-pre" />;
+                return <CodeBlock lang={token.lang} code={token.text} />;
             case "escape":
                 return token.text;
-            case "blockquote":
-                return (
-                    <blockquote className="r-blockquote">
-                        {token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}
-                    </blockquote>
-                );
             case "list":
-                const ListComponent = token.ordered ? "ol" : "ul";
                 const isTaskList = token.items.every((i: Tokens.ListItem) => i.task);
                 if (isTaskList) {
+                    const ListComponent = token.ordered ? TaskOrderedList : TaskUnorderedList;
                     return (
-                        <ListComponent className={`r-${ListComponent} r-task-${ListComponent}`}>
+                        <ListComponent>
                             {token.items.map((elem: Tokens.ListItem, index: number) => (
-                                <li key={elem.raw + index} className="r-li r-task-li">
-                                    <label className="r-label r-task-label">
-                                        <input type="checkbox" defaultChecked={elem.checked} className="r-checkbox" />
-                                        <span className="r-label-text">
-                                            {elem.tokens ? <DocumentToken token={elem.tokens} /> : elem.raw}
-                                        </span>
-                                    </label>
-                                </li>
+                                <TaskListItem key={elem.raw + index} defaultChecked={elem.checked}>
+                                    {elem.tokens ? <DocumentToken token={elem.tokens} /> : elem.raw}
+                                </TaskListItem>
                             ))}
                         </ListComponent>
                     );
                 }
+
+                const ListComponent = token.ordered ? OrderedList : UnorderedList;
                 return (
-                    <ListComponent className={`r-${ListComponent}`}>
+                    <ListComponent>
                         {token.items.map((elem: Tokens.ListItem, index: number) => (
-                            <li key={elem.raw + index} className="r-li">
+                            <ListItem key={elem.raw + index}>
                                 {elem.tokens ? <DocumentToken token={elem.tokens} /> : elem.raw}
-                            </li>
+                            </ListItem>
                         ))}
                     </ListComponent>
                 );

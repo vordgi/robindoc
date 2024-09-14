@@ -1,0 +1,8 @@
+.r-block {
+  width: 100%;
+  overflow: auto;
+  margin-block-start: 12px;
+  margin-block-end: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--neutral200) transparent;
+}

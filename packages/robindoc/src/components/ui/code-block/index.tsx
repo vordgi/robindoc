@@ -1,8 +1,12 @@
 import React, { cache } from "react";
 import { createHighlighter, type BuiltinLanguage } from "shiki";
+import clsx from "clsx";
+
 import { githubDynamic } from "./theme";
 
-interface ShikiProps {
+import "./code-block.scss";
+
+interface CodeBlockProps {
     code: string;
     lang: BuiltinLanguage;
     className?: string;
@@ -27,7 +31,7 @@ const getHighlighter = cache(async (language: BuiltinLanguage) => {
     return highlighter;
 });
 
-export async function Shiki({ code, lang, className }: ShikiProps) {
+export const CodeBlock: React.FC<CodeBlockProps> = async ({ code, lang, className }) => {
     const highlighter = await getHighlighter(lang);
     await highlighter.loadTheme(githubDynamic);
 
@@ -37,5 +41,5 @@ export async function Shiki({ code, lang, className }: ShikiProps) {
         structure: "inline",
     });
 
-    return <pre className={className} dangerouslySetInnerHTML={{ __html: html }} />;
-}
+    return <pre className={clsx("r-code-block", className)} dangerouslySetInnerHTML={{ __html: html }} />;
+};
