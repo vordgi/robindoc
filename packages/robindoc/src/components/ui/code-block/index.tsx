@@ -6,7 +6,7 @@ import { githubDynamic } from "./theme";
 
 import "./code-block.scss";
 
-interface CodeBlockProps {
+export interface CodeBlockProps {
     code: string;
     lang: BuiltinLanguage;
     className?: string;

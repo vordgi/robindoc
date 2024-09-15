@@ -1,0 +1,22 @@
+.r-code-section {
+  margin-block-start: 1.5em;
+  margin-block-end: 1.75em;
+}
+
+.r-code-section-filename {
+  display: block;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  padding: 12px 20px;
+  background-color: var(--neutral100);
+  border: 1px solid var(--neutral300);
+  color: var(--neutral700);
+}
+
+.r-code-section-filename + .r-code-section-block {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top: 0;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
