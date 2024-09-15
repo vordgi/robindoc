@@ -6,7 +6,7 @@ import { type RobinProps, type Components } from "@src/core/types/content";
 import { type BaseProvider } from "@src/core/providers/base";
 import { Table, Thead, Tr, Th, Tbody, Td } from "@src/components/ui/table";
 import { AnchorHeading } from "@src/components/blocks/anchor-heading";
-import { CodeBlock } from "@src/components/ui/code-block";
+import { CodeSection } from "@src/components/blocks/code-section";
 import { CodeSpan } from "@src/components/ui/code-span";
 import { Img } from "@src/components/ui/img";
 import { Block } from "@src/components/ui/block";
@@ -223,7 +223,24 @@ export const Document: React.FC<ContentProps> = ({
             case "codespan":
                 return <CodeSpan>{token.raw.replace(/^`|`$/g, "")}</CodeSpan>;
             case "code":
-                return <CodeBlock lang={token.lang} code={token.text} />;
+                let lang = token.lang;
+                let configuration = {};
+                const match = token.lang.match(/[a-z]+=("[^"]+"|'[^']+'|[^ ]+)|[a-z]+/g);
+                if (Array.isArray(match)) {
+                    const [language, ...modifiers] = match as string[];
+                    lang = language;
+                    configuration = modifiers.reduce<{ [key: string]: string | boolean }>((acc, cur) => {
+                        const [key, ...value] = cur.split("=");
+                        if (value) {
+                            acc[key] = value.join("=").replace(/(^["']|['"]$)/g, "");
+                        } else {
+                            acc[key] = true;
+                        }
+                        return acc;
+                    }, {});
+                }
+
+                return <CodeSection lang={lang} code={token.text} {...configuration} />;
             case "escape":
                 return token.text;
             case "list":
