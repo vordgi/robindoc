@@ -1,0 +1,21 @@
+.copy-button {
+  padding: 8px;
+  background: none;
+  color: var(--neutral700);
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    color 0.3s,
+    background-color 0.3s;
+}
+
+.copy-button:hover {
+  color: var(--neutral950);
+  background-color: var(--neutral200);
+}
+
+.copy-button:active,
+.copy-button._active {
+  color: var(--success);
+}

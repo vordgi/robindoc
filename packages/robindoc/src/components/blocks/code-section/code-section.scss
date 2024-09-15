@@ -3,8 +3,10 @@
   margin-block-end: 1.75em;
 }
 
-.r-code-section-filename {
-  display: block;
+.r-code-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   padding: 12px 20px;
@@ -13,7 +15,7 @@
   color: var(--neutral700);
 }
 
-.r-code-section-filename + .r-code-section-block {
+.r-code-section-header + .r-code-section-block {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   border-top: 0;
