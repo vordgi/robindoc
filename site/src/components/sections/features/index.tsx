@@ -8,6 +8,7 @@ import { SourcesImg } from './images/sources';
 import { ToolsImg } from './images/tools';
 
 import './features.scss';
+import { VisibleWrapper } from '../../ui/visible-wrapper';
 
 export const Features: React.FC = () => {
     return (
@@ -46,12 +47,12 @@ export const Features: React.FC = () => {
                     Optimized for metrics and accessibility. Minimum data to client, minimum logic to server
                 </Paragraph>
             </div>
-            <div className='features-card features-card-5'>
+            <VisibleWrapper className='features-card features-card-5 features-sources'>
                 <Heading component='h2' className='features-heading'>
                     Load content from any sources
                 </Heading>
                 <SourcesImg className='features-img' />
-            </div>
+            </VisibleWrapper>
             <div className='features-card features-card-4'>
                 <Heading component='h2' className='features-heading'>
                     Easy to use
