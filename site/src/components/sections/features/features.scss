@@ -94,4 +94,48 @@
   width: 100%;
   height: auto;
   object-fit: contain;
+  overflow: unset;
+}
+
+.features-sources._visible {
+  .features-source {
+    stroke: var(--primary500);
+  }
+
+  .features-source-box {
+    fill: var(--primary500);
+  }
+}
+
+.features-sources._unvisible {
+  .features-source,
+  .features-source-box {
+    transition: all 0.3s !important;
+  }
+}
+
+.features-source {
+  stroke: var(--body);
+  transition: stroke 0.3s;
+}
+
+.features-source-box {
+  fill: var(--body);
+  transition: fill 0.3s;
+}
+
+.features-source-el-1 {
+  transition-delay: 0.5s;
+}
+
+.features-source-el-2 {
+  transition-delay: 1.5s;
+}
+
+.features-source-el-3 {
+  transition-delay: 2.5s;
+}
+
+.features-source-el-4 {
+  transition-delay: 3.5s;
 }
