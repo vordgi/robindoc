@@ -8,11 +8,11 @@
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(1px);
   transition:
-    background 0.2s,
+    background 0.05s,
     opacity 0.2s,
-    visibility 0.01s 0.2s;
+    visibility 0.01s 0.15s;
   z-index: 100;
 }
 
@@ -21,7 +21,7 @@
   background: rgba(0, 0, 0, 0.3);
   visibility: visible;
   transition:
-    background 0.2s,
-    opacity 0.1s;
+    background 0.05s,
+    opacity 0.2s;
   pointer-events: all;
 }

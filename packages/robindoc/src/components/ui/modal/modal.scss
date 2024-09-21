@@ -11,9 +11,9 @@
   visibility: hidden;
   pointer-events: none;
   transition:
-    opacity 0.2s,
-    transform 0.2s,
-    visibility 0.01s 0.2s;
+    opacity 0.2s 0.1s,
+    transform 0.2s 0.1s,
+    visibility 0.01s 0.2s 0.1s;
   z-index: 1000;
 
   @media screen and (width >= $sm) {
@@ -30,8 +30,8 @@
   opacity: 1;
   visibility: visible;
   transition:
-    opacity 0.2s,
-    transform 0.2s;
+    opacity 0.2s 0.1s,
+    transform 0.2s 0.1s;
   pointer-events: all;
 
   @media screen and (width >= $sm) {
