@@ -1,9 +1,14 @@
-import { Container } from 'robindoc/lib/components/ui/container'
+import { Features } from '../components/sections/features';
+import { Intro } from '../components/sections/intro';
+import './home.scss';
 
-export default async function Home() {
+const Home = () => {
     return (
-        <Container>
-            Home Page
-        </Container>
+        <>
+            <Intro />
+            <Features />
+        </>
     );
 }
+
+export default Home;
