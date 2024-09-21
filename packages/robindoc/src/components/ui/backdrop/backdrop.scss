@@ -4,19 +4,24 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: var(--body);
+  background: rgba(0, 0, 0, 0);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  backdrop-filter: blur(2px);
   transition:
-    opacity 0.3s,
-    visibility 0.3s 0.3s;
+    background 0.2s,
+    opacity 0.2s,
+    visibility 0.01s 0.2s;
   z-index: 100;
 }
 
 .r-backdrop._visible {
-  opacity: 0.9;
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.3);
   visibility: visible;
-  transition: opacity 0.3s;
+  transition:
+    background 0.2s,
+    opacity 0.1s;
   pointer-events: all;
 }

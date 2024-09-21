@@ -8,12 +8,12 @@ export const ContentsProvider: React.FC<React.PropsWithChildren> = ({ children }
     const headings = useRef<HTMLHeadingElement[]>([]);
 
     const updateTargetSection = useCallback(() => {
-        if (window.scrollY + 20 > document.body.scrollHeight - window.innerHeight) {
+        if (document.body.scrollTop + 20 > document.body.scrollHeight - window.innerHeight) {
             setActiveIndex(headings.current.length - 1);
         } else {
-            const headingIndex = headings.current.findLastIndex((el) => el.offsetTop < window.scrollY + 100);
+            const headingIndex = headings.current.findLastIndex((el) => el.offsetTop < document.body.scrollTop + 100);
             if (
-                window.scrollY + 100 > document.body.scrollHeight - window.innerHeight &&
+                document.body.scrollTop + 100 > document.body.scrollHeight - window.innerHeight &&
                 headingIndex < headings.current.length - 2
             ) {
                 setActiveIndex(headings.current.length - 2);
@@ -36,10 +36,10 @@ export const ContentsProvider: React.FC<React.PropsWithChildren> = ({ children }
         };
 
         updateTargetSection();
-        window.addEventListener("scroll", scrollHandler);
+        document.body.addEventListener("scroll", scrollHandler);
 
         return () => {
-            window.removeEventListener("scroll", scrollHandler);
+            document.body.removeEventListener("scroll", scrollHandler);
         };
     }, []);
 

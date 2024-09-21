@@ -1,7 +1,19 @@
 @import "./_vars";
 
 :root {
+  overflow: hidden;
+}
+
+body {
   --header-height: 60px;
+  padding: 0;
+  margin: 0;
+  accent-color: var(--primary600, #ea580c);
+  box-sizing: border-box;
+  background-color: var(--body);
+  color: var(--neutral950);
+  height: 100vh;
+  overflow: auto;
   scroll-padding-top: calc(var(--header-height) + 20px);
   scroll-behavior: smooth;
   scrollbar-color: var(--neutral400) var(--neutral200);
@@ -13,15 +25,6 @@
   @media screen and (width > $lg) {
     scrollbar-gutter: stable;
   }
-}
-
-body {
-  padding: 0;
-  margin: 0;
-  accent-color: var(--primary600, #ea580c);
-  box-sizing: border-box;
-  background-color: var(--body);
-  color: var(--neutral950);
 }
 
 *,
@@ -50,6 +53,12 @@ svg {
 
 .body-mobile-lock {
   @media screen and (width < $sm) {
+    overflow: hidden;
+  }
+}
+
+.body-tablet-lock {
+  @media screen and (width < $md) {
     overflow: hidden;
   }
 }

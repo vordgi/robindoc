@@ -16,13 +16,13 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ children, translations
     const [opened, setOpened] = useState(false);
 
     const openHandler = () => {
-        document.documentElement.classList.add("body-mobile-lock");
+        document.body.classList.add("body-mobile-lock");
         setOpened(true);
         addListener("closeSidebarMenu", closeHandler);
     };
 
     const closeHandler = () => {
-        document.documentElement.classList.remove("body-mobile-lock");
+        document.body.classList.remove("body-mobile-lock");
         setOpened(false);
         removeListener("closeSidebarMenu");
     };
@@ -44,7 +44,6 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ children, translations
 
     return (
         <>
-            <span className="r-sidebar-space" />
             <div className={clsx("r-sidebar", opened && "_opened")}>
                 <button className="r-sidebar-btn" onClick={toggleHandler}>
                     <svg
