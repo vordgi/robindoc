@@ -1,4 +1,4 @@
-import { Note } from "../../../components/note";
+import { Note } from "../../../components/ui/note";
 import { Page, Sidebar, getMeta, getPages, getPageData } from "./robindoc";
 import { KeylinkToNavigation } from "robindoc";
 import Link from "next/link";

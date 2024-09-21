@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import { Header, Footer, RobinProvider, KeylinkToContent } from 'robindoc';
 import Link from "next/link";
 
-import { Logo } from "../components/logo";
+import { Logo } from "../components/ui/logo";
 
 import "robindoc/lib/styles.css";
 import "./globals.css";
