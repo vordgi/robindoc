@@ -116,6 +116,7 @@
 }
 
 .r-sidebar-list {
+  color: var(--neutral700);
   list-style: none;
   padding: 0;
   margin: 0;
@@ -175,13 +176,19 @@
 }
 
 .r-sidebar-heading {
+  color: var(--neutral900);
   font-weight: 600;
+  margin-block-end: 4px;
+
+  &:not(:first-child) {
+    margin-block-start: 12px;
+  }
 }
 
 .r-sidebar-link {
   display: block;
   padding: 6px 10px;
-  color: var(--neutral700);
+  color: inherit;
   border-bottom: 2px solid transparent;
   border-radius: 2px;
   text-decoration: none;

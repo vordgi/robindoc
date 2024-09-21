@@ -19,28 +19,25 @@ export const { Page, Sidebar, getPages, getMeta, getPageContent, getPageData } =
             title: 'Getting Started',
             type: 'heading',
             href: '/getting-started',
+        },{
+            title: 'Installation',
+            href: '/getting-started/installation',
+        },
+        {
+            title: 'Writing MD',
+            href: '/getting-started/writing-md',
+        },
+        {
+            title: 'Initialization',
+            href: '/getting-started/initialization',
+        },
+        {
+            title: 'App Organization',
+            href: '/getting-started/app-organization',
             items: [
                 {
-                    title: 'Installation',
-                    href: '/getting-started/installation',
-                },
-                {
-                    title: 'Writing MD',
-                    href: '/getting-started/writing-md',
-                },
-                {
-                    title: 'Initialization',
-                    href: '/getting-started/initialization',
-                },
-                {
-                    title: 'App Organization',
-                    href: '/getting-started/app-organization',
-                    items: [
-                        {
-                            title: 'Next.js Organization',
-                            href: '/getting-started/app-organization/next-js',
-                        },
-                    ]
+                    title: 'Next.js Organization',
+                    href: '/getting-started/app-organization/next-js',
                 },
             ]
         },
@@ -48,61 +45,37 @@ export const { Page, Sidebar, getPages, getMeta, getPageContent, getPageData } =
             title: 'Structure',
             type: 'heading',
             href: '/structure',
-            items: [
-                {
-                    title: 'Configuration',
-                    href: '/structure/configuration',
-                },
-                {
-                    title: 'Items',
-                    href: '/structure/items',
-                },
-                {
-                    title: 'Data Source',
-                    href: '/structure/data-source',
-                },
-            ]
+        },
+        {
+            title: 'Configuration',
+            href: '/structure/configuration',
+        },
+        {
+            title: 'Items',
+            href: '/structure/items',
+        },
+        {
+            title: 'Data Source',
+            href: '/structure/data-source',
         },
         {
             title: 'Customization',
             type: 'heading',
             href: '/customization',
-            items: [
-                {
-                    title: 'Elements',
-                    href: '/customization/elements',
-                    items: 'auto',
-                },
-                {
-                    title: 'Tools',
-                    href: '/customization/tools',
-                    items: 'auto',
-                },
-                {
-                    title: 'Search',
-                    href: '/customization/search',
-                },
-            ]
+        },
+        {
+            title: 'Elements',
+            href: '/customization/elements',
+            items: 'auto',
+        },
+        {
+            title: 'Tools',
+            href: '/customization/tools',
+            items: 'auto',
+        },
+        {
+            title: 'Search',
+            href: '/customization/search',
         },
     ]
 }));
-
-// Introduction
-// Getting started
-//   installation
-//   initialization
-// Structure
-//   Basics
-//   Data source
-// Elements
-//   layout
-//   main
-//   page
-//   sidebar
-// Tools
-//   getPages
-//   getMetadata
-// How it works
-//   Markup
-// App organization
-//   next.js organization

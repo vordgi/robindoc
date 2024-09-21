@@ -45,14 +45,19 @@ const LinkBranch: React.FC<LinkBranchProps> = ({ branch, link, pathname, depth, 
     const { expandTitle = "Expand {title}" } = translations || {};
 
     return (
-        <li className={clsx("r-sidebar-li", branch.items && branch.items.length > 0 && "_droppable")}>
+        <li
+            className={clsx(
+                "r-sidebar-li",
+                branch.type === "heading" && "r-sidebar-heading",
+                branch.items && branch.items.length > 0 && "_droppable",
+            )}
+        >
             {branch.href ? (
                 <NavLink
                     link={link}
                     href={branch.href}
                     className={clsx(
                         "r-sidebar-link",
-                        branch.type === "heading" && "r-sidebar-heading",
                         checkIsTargetPathname(branch.href, pathname) && "_active",
                         checkIsTargetSection(branch, pathname) && "_target",
                     )}
