@@ -5,10 +5,11 @@
   grid-area: sidebar;
 
   @media screen and (width < $sm) {
-    position: fixed;
-    width: 100%;
+    position: sticky;
+    width: calc(100% + 24px);
     top: var(--header-height);
     left: 0;
+    margin: 0 -12px;
     background-color: var(--body);
     border-bottom: 1px solid var(--neutral200);
     z-index: 10;
@@ -19,7 +20,8 @@
 }
 
 .r-sidebar-top-mock {
-  position: absolute;
+  grid-row-start: 1;
+  grid-column-start: 1;
 }
 
 .r-sidebar:not(._opened) .r-sidebar-nav {
@@ -30,7 +32,7 @@
 
 .r-sidebar._opened {
   @media screen and (width < $sm) {
-    bottom: 0;
+    height: calc(100vh - var(--header-height));
   }
 }
 

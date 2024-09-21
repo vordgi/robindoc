@@ -32,7 +32,7 @@ export const Search: React.FC<SearchProps> = ({ link, searcher, translations }) 
 
     useEffect(() => {
         const keyDown = (e: KeyboardEvent) => {
-            if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+            if (e.key.toLowerCase() === "k" && (e.metaKey || e.ctrlKey)) {
                 e.preventDefault();
                 openHandler();
             }

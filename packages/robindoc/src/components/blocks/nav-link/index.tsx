@@ -12,7 +12,7 @@ export const NavLink: React.FC<NavLinkProps> = ({ link: Link = "a", onClick, ...
     const { listeners } = useNavigate();
 
     const clickHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        listeners.forEach((el) => el.listener());
+        [...listeners].forEach((el) => el.listener());
         if (onClick) onClick(e);
     };
 

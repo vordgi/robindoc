@@ -4,11 +4,9 @@ export const useModal = () => {
     const [opened, setOpened] = useState(false);
 
     const openHandler = () => {
-        document.documentElement.classList.add("body-lock");
         setOpened(true);
     };
     const closeHandler = () => {
-        document.documentElement.classList.remove("body-lock");
         setOpened(false);
     };
 
