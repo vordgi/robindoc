@@ -22,6 +22,28 @@ import { ListItem, OrderedList, UnorderedList } from "@src/components/ui/list";
 import { TaskListItem, TaskOrderedList, TaskUnorderedList } from "@src/components/ui/task-list";
 
 import { parseMarkdown, validateComponentName, type AnchorData } from "./utils";
+import { Tabs } from "../../ui/tabs";
+
+const parseCodeLang = (raw: string) => {
+    let configuration: { [key: string]: string | boolean } = {};
+    let lang: string = raw;
+
+    const match = raw.match(/[a-z]+=("[^"]+"|'[^']+'|[^ ]+)|[a-z]+/g);
+    const [language, ...modifiers] = match as string[];
+    if (Array.isArray(match)) {
+        lang = language;
+        configuration = modifiers.reduce<{ [key: string]: string | boolean }>((acc, cur) => {
+            const [key, ...value] = cur.split("=");
+            if (value) {
+                acc[key] = value.join("=").replace(/(^["']|['"]$)/g, "");
+            } else {
+                acc[key] = true;
+            }
+            return acc;
+        }, {});
+    }
+    return { lang, configuration };
+};
 
 interface DocumentJSXProps extends Omit<ContentProps, "tokens" | "headings"> {
     raw: string;
@@ -93,8 +115,39 @@ export const Document: React.FC<ContentProps> = ({
         | null
         | { props: RobinProps; childTokens: Token[]; componentName: string; type: "base" }
         | { type: "dummy" } = null;
+    let codeQueue: { [lang: string]: JSX.Element } = {};
+    const insertedTabsStyles: string[] = [];
     const DocumentToken: React.FC<{ token: Token | Token[] }> = ({ token }) => {
         if (!token) return null;
+
+        const isNewCodeToken = () => {
+            if (Array.isArray(token) || !Object.keys(codeQueue).length) return false;
+
+            if (token.type === "code") {
+                const { lang, configuration } = parseCodeLang(token.lang);
+                const tabKey = typeof configuration.tab === "string" ? configuration.tab : lang;
+                if (codeQueue[tabKey]) return true;
+            }
+
+            if (token.type !== "space" && token.type !== "code") return true;
+
+            return false;
+        };
+
+        if (isNewCodeToken()) {
+            const tabsData = codeQueue;
+            codeQueue = {};
+            const tabsKey = Object.keys(tabsData).sort().join("-");
+            const isInsertedKey = insertedTabsStyles.includes(tabsKey);
+            if (!isInsertedKey) insertedTabsStyles.push(tabsKey);
+
+            return (
+                <>
+                    <Tabs tabsData={tabsData} insertStyles={!isInsertedKey} blockKey={tabsKey} />
+                    <DocumentToken token={token} />
+                </>
+            );
+        }
 
         if (robin) {
             if (!Array.isArray(token) && token.type === "html" && token.raw.trim() === "<!---/robin-->") {
@@ -223,24 +276,11 @@ export const Document: React.FC<ContentProps> = ({
             case "codespan":
                 return <CodeSpan>{token.raw.replace(/^`|`$/g, "")}</CodeSpan>;
             case "code":
-                let lang = token.lang;
-                let configuration = {};
-                const match = token.lang.match(/[a-z]+=("[^"]+"|'[^']+'|[^ ]+)|[a-z]+/g);
-                if (Array.isArray(match)) {
-                    const [language, ...modifiers] = match as string[];
-                    lang = language;
-                    configuration = modifiers.reduce<{ [key: string]: string | boolean }>((acc, cur) => {
-                        const [key, ...value] = cur.split("=");
-                        if (value) {
-                            acc[key] = value.join("=").replace(/(^["']|['"]$)/g, "");
-                        } else {
-                            acc[key] = true;
-                        }
-                        return acc;
-                    }, {});
-                }
-
-                return <CodeSection lang={lang} code={token.text} {...configuration} />;
+                const { lang, configuration } = parseCodeLang(token.lang);
+                const tabKey = typeof configuration.tab === "string" ? configuration.tab : lang;
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                codeQueue[tabKey] = <CodeSection lang={lang as any} code={token.text} {...configuration} />;
+                return null;
             case "escape":
                 return token.text;
             case "list":
@@ -339,5 +379,6 @@ export const Document: React.FC<ContentProps> = ({
         }
     };
 
+    tokens.push({ type: "text", raw: "" });
     return <DocumentToken token={tokens} />;
 };
