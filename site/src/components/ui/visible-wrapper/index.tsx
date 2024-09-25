@@ -14,7 +14,7 @@ export const VisibleWrapper: React.FC<React.PropsWithChildren<{ className: strin
         observer.observe(ref.current as Element)
 
         return () => {
-            observer.unobserve(ref.current as Element)
+            if (ref.current) observer.unobserve(ref.current as Element)
         }
     }, []);
 
