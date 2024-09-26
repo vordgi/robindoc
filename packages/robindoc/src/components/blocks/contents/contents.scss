@@ -33,7 +33,7 @@
   .r-contents-list {
     @media screen and (width < $lg) {
       visibility: visible;
-      height: calc-size(auto);
+      height: var(--drop-height, auto);
     }
   }
 
@@ -49,7 +49,6 @@
 }
 
 .r-contents-list {
-  padding: 2px;
   overflow: hidden;
   transition:
     height 0.3s allow-discrete,
@@ -59,6 +58,10 @@
     visibility: hidden;
     height: 0;
   }
+}
+
+.r-contents-list-content {
+  padding: 2px;
 }
 
 .r-contents-details {
@@ -74,7 +77,7 @@
   top: 0;
   cursor: pointer;
   margin-top: 20px;
-  padding: 12px 12px 8px;
+  padding: 12px;
   color: var(--neutral600);
   z-index: 1;
 

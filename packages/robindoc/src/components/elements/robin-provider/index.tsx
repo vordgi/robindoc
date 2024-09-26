@@ -6,7 +6,7 @@ import { SidebarProvider } from "@src/components/contexts/sidebar/provider";
 const clientLogic = () => {
     const userTheme = localStorage.getItem("theme");
     if (userTheme && ["light", "dark"].includes(userTheme)) {
-        document.documentElement.classList.add(`theme-\${userTheme}`);
+        document.documentElement.classList.add(`theme-${userTheme}`);
     } else {
         document.documentElement.classList.add(`theme-system`);
         if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
