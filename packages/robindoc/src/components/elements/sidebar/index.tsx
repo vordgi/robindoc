@@ -68,34 +68,21 @@ const LinkBranch: React.FC<LinkBranchProps> = ({ branch, link, pathname, depth, 
                 <p className={clsx("r-sidebar-p", branch.type === "heading" && "r-sidebar-heading")}>{branch.title}</p>
             )}
             {branch.items && branch.items.length > 0 && (
-                <SidebarDrop defaultOpen={checkIsTargetSection(branch, pathname)} id={branch.href + branch.title}>
-                    <summary className="r-sidebar-drop-btn" aria-label={expandTitle.replace("{title}", branch.title)}>
-                        <svg
-                            className="r-sidebar-drop-icon"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        >
-                            <path d="m9 18 6-6-6-6" />
-                        </svg>
-                    </summary>
-                    <ul className="r-sidebar-list r-sidebar-sublist">
-                        {branch.items.map((item) => (
-                            <LinkBranch
-                                branch={item}
-                                link={link}
-                                key={item.href + item.title}
-                                depth={depth >= 4 ? 4 : depth + 1}
-                                pathname={pathname}
-                                translations={translations}
-                            />
-                        ))}
-                    </ul>
+                <SidebarDrop
+                    defaultOpen={checkIsTargetSection(branch, pathname)}
+                    id={branch.href + branch.title}
+                    label={expandTitle.replace("{title}", branch.title)}
+                >
+                    {branch.items.map((item) => (
+                        <LinkBranch
+                            branch={item}
+                            link={link}
+                            key={item.href + item.title}
+                            depth={depth >= 4 ? 4 : depth + 1}
+                            pathname={pathname}
+                            translations={translations}
+                        />
+                    ))}
                 </SidebarDrop>
             )}
         </li>
