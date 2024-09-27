@@ -20,6 +20,7 @@ export interface ContentsProps extends React.PropsWithChildren {
 }
 
 export const Contents: React.FC<ContentsProps> = ({ headings, hideContents, gitUri, translations }) => {
+    const containerRef = useRef<HTMLDivElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const dropdownContentRef = useRef<HTMLDivElement>(null);
     const headingIndex = useHeadingIndex();
@@ -33,7 +34,7 @@ export const Contents: React.FC<ContentsProps> = ({ headings, hideContents, gitU
 
     return (
         <div className="r-contents">
-            <div className="r-contents-sticky">
+            <div className="r-contents-sticky" ref={containerRef}>
                 {headings.length > 0 && !hideContents && (
                     <>
                         <input type="checkbox" className="r-contents-control" id="r-contents" />
@@ -66,6 +67,22 @@ export const Contents: React.FC<ContentsProps> = ({ headings, hideContents, gitU
                                                 headingIndex !== null && index <= headingIndex && "_passed",
                                                 headingIndex === index && "_active",
                                             )}
+                                            ref={(node) => {
+                                                if (
+                                                    node?.offsetTop &&
+                                                    containerRef.current &&
+                                                    containerRef.current.scrollHeight >
+                                                        containerRef.current.clientHeight &&
+                                                    headingIndex === index
+                                                ) {
+                                                    containerRef.current.scrollTo({
+                                                        top: Math.max(
+                                                            node.offsetTop - Math.ceil(window.innerHeight / 2),
+                                                            0,
+                                                        ),
+                                                    });
+                                                }
+                                            }}
                                         >
                                             {heading.title}
                                         </a>

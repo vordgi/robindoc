@@ -1,34 +1,13 @@
 import React from "react";
 import clsx from "clsx";
-import { NavLink } from "@src/components/blocks/nav-link";
 
+import { type TreeItem } from "./types";
 import { SidebarMenu } from "./sidebar-menu";
 import { SidebarDrop } from "./sidebar-drop";
+import { SidebarLink } from "./sidebar-link";
+import { checkIsTargetSection } from "./tools";
 
 import "./sidebar.scss";
-
-export type TreeItem = {
-    title: string;
-    href?: string;
-    type?: "row" | "heading";
-    items?: TreeItem[] | null;
-};
-
-const checkIsTargetSection = (item: TreeItem, pathname?: string) => {
-    if (!pathname) return false;
-
-    if (item.href && pathname === new URL(item.href, "http://r").pathname?.replace(/\/$/, "")) return true;
-
-    if (item.items?.find((el) => checkIsTargetSection(el, pathname))) return true;
-
-    return false;
-};
-
-const checkIsTargetPathname = (itemHref?: string, pathname?: string) => {
-    if (!pathname || !itemHref) return false;
-
-    return pathname === new URL(itemHref, "http://r").pathname?.replace(/\/$/, "");
-};
 
 type LinkBranchProps = {
     branch: TreeItem;
@@ -53,17 +32,7 @@ const LinkBranch: React.FC<LinkBranchProps> = ({ branch, link, pathname, depth, 
             )}
         >
             {branch.href ? (
-                <NavLink
-                    link={link}
-                    href={branch.href}
-                    className={clsx(
-                        "r-sidebar-link",
-                        checkIsTargetPathname(branch.href, pathname) && "_active",
-                        checkIsTargetSection(branch, pathname) && "_target",
-                    )}
-                >
-                    {branch.title}
-                </NavLink>
+                <SidebarLink link={link} branch={branch} pathname={pathname} />
             ) : (
                 <p className={clsx("r-sidebar-p", branch.type === "heading" && "r-sidebar-heading")}>{branch.title}</p>
             )}
