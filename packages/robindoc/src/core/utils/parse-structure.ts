@@ -1,6 +1,6 @@
 import { type DocItem } from "../types/structure";
 import { type Pages, type Crumbs, type Configuration } from "../types/content";
-import { type TreeItem } from "../../components/elements/sidebar";
+import { type TreeItem } from "../../components/elements/sidebar/types";
 import { getConfiguration } from "./get-configuration";
 import { getMeta } from "./get-meta";
 import { generatePseudoTitle, normalizePathname } from "./path-tools";
