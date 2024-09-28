@@ -224,12 +224,10 @@ export const Document: React.FC<ContentProps> = ({
                     </Block>
                 );
             case "link":
-                const additionalProps = token.href.match(/^https?:\/\//)
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {};
                 let finalHref: string = token.href;
+                const external = /^(https?:\/\/|\/)/.test(token.href);
 
-                if (pages && !/^(https?:\/\/|\/)/.test(token.href)) {
+                if (pages && !external) {
                     const currentPageData = pages.find((item) => item.clientPath === pathname);
 
                     if (currentPageData) {
@@ -243,7 +241,7 @@ export const Document: React.FC<ContentProps> = ({
                 }
 
                 return (
-                    <NavContentLink link={link} href={finalHref} {...additionalProps}>
+                    <NavContentLink link={link} href={finalHref} external={external}>
                         {token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}
                     </NavContentLink>
                 );

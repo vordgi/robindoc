@@ -18,3 +18,14 @@
     color: var(--link-active);
   }
 }
+
+.r-content-link-external {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-top: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+  vertical-align: text-top;
+  margin-left: -2px;
+  margin-right: 2px;
+}
