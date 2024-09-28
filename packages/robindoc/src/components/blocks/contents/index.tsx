@@ -10,7 +10,7 @@ import "./contents.scss";
 export interface ContentsProps extends React.PropsWithChildren {
     headings: { id: string; nested: boolean; title: string | JSX.Element }[];
     hideContents?: boolean;
-    gitUri?: string | null;
+    editUri?: string | null;
     translations?: {
         /** On this page */
         onThisPage?: string;
@@ -19,7 +19,7 @@ export interface ContentsProps extends React.PropsWithChildren {
     };
 }
 
-export const Contents: React.FC<ContentsProps> = ({ headings, hideContents, gitUri, translations }) => {
+export const Contents: React.FC<ContentsProps> = ({ headings, hideContents, editUri, translations }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const dropdownContentRef = useRef<HTMLDivElement>(null);
@@ -92,10 +92,10 @@ export const Contents: React.FC<ContentsProps> = ({ headings, hideContents, gitU
                         </div>
                     </>
                 )}
-                {gitUri?.match(/^https?:\/\//) && (
+                {editUri?.match(/^https?:\/\//) && (
                     <div className="r-contents-actions">
-                        <a href={gitUri} target="_blank" rel="noopener noreferrer" className="r-contents-git">
-                            {editOnService.replace("{service}", detectGitType(gitUri).name)}
+                        <a href={editUri} target="_blank" rel="noopener noreferrer" className="r-contents-git">
+                            {editOnService.replace("{service}", detectGitType(editUri).name)}
                         </a>
                     </div>
                 )}

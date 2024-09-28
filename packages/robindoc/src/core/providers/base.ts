@@ -31,7 +31,7 @@ export class BaseProvider {
         return "";
     }
 
-    async getGitUri(_uri: string): Promise<string | null> {
+    async getEditUri(_uri: string): Promise<string | null> {
         return null;
     }
 
