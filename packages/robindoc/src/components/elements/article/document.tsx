@@ -4,9 +4,10 @@ import parse, { attributesToProps, DOMNode, domToReact, HTMLReactParserOptions, 
 import { type TokensList, type Token, type Tokens } from "marked";
 import { type RobinProps, type Components } from "@src/core/types/content";
 import { type BaseProvider } from "@src/core/providers/base";
-import { Table, Thead, Tr, Th, Tbody, Td } from "@src/components/ui/table";
+import { NavContentLink } from "@src/components/blocks/nav-content-link";
 import { AnchorHeading } from "@src/components/blocks/anchor-heading";
 import { CodeSection } from "@src/components/blocks/code-section";
+import { Table, Thead, Tr, Th, Tbody, Td } from "@src/components/ui/table";
 import { CodeSpan } from "@src/components/ui/code-span";
 import { Img } from "@src/components/ui/img";
 import { Block } from "@src/components/ui/block";
@@ -17,33 +18,11 @@ import { Del } from "@src/components/ui/del";
 import { Em } from "@src/components/ui/em";
 import { Hr } from "@src/components/ui/hr";
 import { Heading } from "@src/components/ui/heading";
-import { NavContentLink } from "@src/components/blocks/nav-content-link";
+import { Tabs } from "@src/components/ui/tabs";
 import { ListItem, OrderedList, UnorderedList } from "@src/components/ui/list";
 import { TaskListItem, TaskOrderedList, TaskUnorderedList } from "@src/components/ui/task-list";
 
-import { parseMarkdown, validateComponentName, type AnchorData } from "./utils";
-import { Tabs } from "../../ui/tabs";
-
-const parseCodeLang = (raw: string) => {
-    let configuration: { [key: string]: string | boolean } = {};
-    let lang: string = raw;
-
-    const match = raw.match(/[a-z]+=("[^"]+"|'[^']+'|[^ ]+)|[a-z]+/g);
-    const [language, ...modifiers] = match as string[];
-    if (Array.isArray(match)) {
-        lang = language;
-        configuration = modifiers.reduce<{ [key: string]: string | boolean }>((acc, cur) => {
-            const [key, ...value] = cur.split("=");
-            if (value) {
-                acc[key] = value.join("=").replace(/(^["']|['"]$)/g, "");
-            } else {
-                acc[key] = true;
-            }
-            return acc;
-        }, {});
-    }
-    return { lang, configuration };
-};
+import { isNewCodeToken, parseCodeLang, parseMarkdown, validateComponentName, type AnchorData } from "./utils";
 
 interface DocumentJSXProps extends Omit<ContentProps, "tokens" | "headings"> {
     raw: string;
@@ -116,30 +95,16 @@ export const Document: React.FC<ContentProps> = ({
         | { props: RobinProps; childTokens: Token[]; componentName: string; type: "base" }
         | { type: "dummy" } = null;
     let codeQueue: { [lang: string]: JSX.Element } = {};
-    const insertedTabsStyles: string[] = [];
+    const insertedCodeKeys: string[] = [];
     const DocumentToken: React.FC<{ token: Token | Token[] }> = ({ token }) => {
         if (!token) return null;
 
-        const isNewCodeToken = () => {
-            if (Array.isArray(token) || !Object.keys(codeQueue).length) return false;
-
-            if (token.type === "code") {
-                const { lang, configuration } = parseCodeLang(token.lang);
-                const tabKey = typeof configuration.tab === "string" ? configuration.tab : lang;
-                if (codeQueue[tabKey]) return true;
-            }
-
-            if (token.type !== "space" && token.type !== "code") return true;
-
-            return false;
-        };
-
-        if (isNewCodeToken()) {
+        if (isNewCodeToken(token, codeQueue)) {
             const tabsData = codeQueue;
             codeQueue = {};
             const tabsKey = Object.keys(tabsData).sort().join("-");
-            const isInsertedKey = insertedTabsStyles.includes(tabsKey);
-            if (!isInsertedKey) insertedTabsStyles.push(tabsKey);
+            const isInsertedKey = insertedCodeKeys.includes(tabsKey);
+            if (!isInsertedKey) insertedCodeKeys.push(tabsKey);
 
             return (
                 <>
@@ -275,10 +240,15 @@ export const Document: React.FC<ContentProps> = ({
                 return <CodeSpan>{token.raw.replace(/^`|`$/g, "")}</CodeSpan>;
             case "code":
                 const { lang, configuration } = parseCodeLang(token.lang);
-                const tabKey = typeof configuration.tab === "string" ? configuration.tab : lang;
+                if (configuration.switcher) {
+                    const tabKey = typeof configuration.tab === "string" ? configuration.tab : lang;
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    codeQueue[tabKey] = <CodeSection lang={lang as any} code={token.text} {...configuration} />;
+                    return null;
+                }
+
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                codeQueue[tabKey] = <CodeSection lang={lang as any} code={token.text} {...configuration} />;
-                return null;
+                return <CodeSection lang={lang as any} code={token.text} {...configuration} />;
             case "escape":
                 return token.text;
             case "list":

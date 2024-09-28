@@ -47,3 +47,38 @@ export const parseTokenText = (token: Token): string => {
 export const validateComponentName = (name: string) => {
     return /^[A-Z][a-zA-Z0-9]+$/.test(name);
 };
+
+export const parseCodeLang = (raw: string) => {
+    let configuration: { [key: string]: string | boolean } = {};
+    let lang: string = raw;
+
+    const match = raw.match(/[a-z]+=("[^"]+"|'[^']+'|[^ ]+)|[a-z]+/g);
+    const [language, ...modifiers] = match as string[];
+    if (Array.isArray(match)) {
+        lang = language;
+        configuration = modifiers.reduce<{ [key: string]: string | boolean }>((acc, cur) => {
+            const [key, ...value] = cur.split("=");
+            if (value) {
+                acc[key] = value.length === 0 ? true : value.join("=").replace(/(^["']|['"]$)/g, "");
+            } else {
+                acc[key] = true;
+            }
+            return acc;
+        }, {});
+    }
+    return { lang, configuration };
+};
+
+export const isNewCodeToken = (token: Token | Token[], codeQueue: { [lang: string]: JSX.Element }) => {
+    if (Array.isArray(token) || !Object.keys(codeQueue).length) return false;
+
+    if (token.type === "code") {
+        const { lang, configuration } = parseCodeLang(token.lang);
+        const tabKey = typeof configuration.tab === "string" ? configuration.tab : lang;
+        if (codeQueue[tabKey] || !configuration.switcher) return true;
+    }
+
+    if (token.type !== "space" && token.type !== "code") return true;
+
+    return false;
+};
