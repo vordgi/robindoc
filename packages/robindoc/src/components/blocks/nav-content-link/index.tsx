@@ -3,9 +3,9 @@
 import React from "react";
 
 import { useNavigate } from "@src/components/contexts/navigate/use-navigate";
-import { ContentLink } from "@src/components/ui/content-link";
+import { ContentLink, type ContentLinkProps } from "@src/components/ui/content-link";
 
-interface NavContentLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+interface NavContentLinkProps extends ContentLinkProps {
     link?: React.ElementType;
 }
 
