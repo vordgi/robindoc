@@ -23,7 +23,7 @@ export class GithubProvider extends BaseProvider {
     constructor(sourceRoot: string, fetcher: Fetcher = fetch, token?: string) {
         super(sourceRoot);
 
-        const groups = this.testUri(sourceRoot);
+        const groups = this.parseUri(sourceRoot);
         if (!groups) {
             throw new Error(`Invalid URI: "${sourceRoot}"`);
         }
@@ -108,7 +108,7 @@ export class GithubProvider extends BaseProvider {
         return fileTree;
     }
 
-    private testUri(uri: string) {
+    private parseUri(uri: string) {
         const match = uri.match(
             /^https:\/\/github.com\/(?<owner>[^/]+)\/(?<repo>[^/]+)(?:\/(blob|tree)\/(?<ref>[^/]+)(?<pathname>\/.*)|\/)?$/,
         );
@@ -116,13 +116,13 @@ export class GithubProvider extends BaseProvider {
         return groups || null;
     }
 
-    async getGitUri(uri: string) {
+    async getEditUri(uri: string) {
         const pathname = await this.getPageSourcePathname(uri);
         if (!pathname) {
             return null;
         }
 
-        return `https://github.com/${this.owner}/${this.repo}/blob/${this.ref}/${pathname}`;
+        return `https://github.com/${this.owner}/${this.repo}/edit/${this.ref}/${pathname}`;
     }
 
     async getLastModifiedDate(uri: string) {

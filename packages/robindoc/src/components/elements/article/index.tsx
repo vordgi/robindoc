@@ -41,7 +41,7 @@ export const Article: React.FC<ArticleProps> = async ({
     provider,
     hideContents,
     link,
-    gitUri: gitUriProp,
+    editUri: editUriProp,
     pathname,
     title,
     breadcrumbs,
@@ -65,7 +65,7 @@ export const Article: React.FC<ArticleProps> = async ({
     }
 
     const { headings, tokens } = parseMarkdown(data);
-    const gitUri = uri && targetProvider && (await targetProvider.getGitUri(uri));
+    const editUri = uri && targetProvider && (await targetProvider.getEditUri(uri));
     const lastModified = uri && targetProvider && (await targetProvider.getLastModifiedDate(uri));
 
     return (
@@ -74,7 +74,7 @@ export const Article: React.FC<ArticleProps> = async ({
                 <Breadcrumbs breadcrumbs={breadcrumbs} title={title} link={link} />
             )}
             <Contents
-                gitUri={gitUriProp === null ? null : gitUriProp || gitUri}
+                editUri={editUriProp === null ? null : editUriProp || editUri}
                 hideContents={hideContents}
                 headings={headings}
                 translations={{ editOnService, onThisPage }}
