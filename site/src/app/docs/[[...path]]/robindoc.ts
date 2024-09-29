@@ -3,79 +3,11 @@ import { initializeRobindoc } from "robindoc";
 export const { Page, Sidebar, getPages, getMeta, getPageContent, getPageData } = initializeRobindoc(async () => ({
     configuration: {
         sourceRoot: '../docs',
+        // sourceRoot: 'https://github.com/vordgi/robindoc/tree/main/docs',
         basePath: '/docs',
+        // Shit happens
         gitToken: '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',
     },
-    items: [
-        {
-            title: 'Introduction',
-            type: 'heading',
-            href: '/',
-            configuration: {
-                sourceRoot: '..',
-            }
-        },
-        {
-            title: 'Getting Started',
-            type: 'heading',
-            href: '/getting-started',
-        },{
-            title: 'Installation',
-            href: '/getting-started/installation',
-        },
-        {
-            title: 'Writing MD',
-            href: '/getting-started/writing-md',
-        },
-        {
-            title: 'Initialization',
-            href: '/getting-started/initialization',
-        },
-        {
-            title: 'App Organization',
-            href: '/getting-started/app-organization',
-            items: [
-                {
-                    title: 'Next.js Organization',
-                    href: '/getting-started/app-organization/next-js',
-                },
-            ]
-        },
-        {
-            title: 'Structure',
-            type: 'heading',
-            href: '/structure',
-        },
-        {
-            title: 'Configuration',
-            href: '/structure/configuration',
-        },
-        {
-            title: 'Items',
-            href: '/structure/items',
-        },
-        {
-            title: 'Data Source',
-            href: '/structure/data-source',
-        },
-        {
-            title: 'Customization',
-            type: 'heading',
-            href: '/customization',
-        },
-        {
-            title: 'Elements',
-            href: '/customization/elements',
-            items: 'auto',
-        },
-        {
-            title: 'Tools',
-            href: '/customization/tools',
-            items: 'auto',
-        },
-        {
-            title: 'Search',
-            href: '/customization/search',
-        },
-    ]
+    items: "auto-spreaded",
+    // items: "auto",
 }));
