@@ -72,6 +72,7 @@ const parseAutoStructure = async (
     parentConfiguration: Configuration = {},
     parentPathname = "",
     crumbs: Crumbs = [],
+    spreadedLevel: number = 1,
 ) => {
     const pages: Pages = {};
     const tree: TreeItem[] = [];
@@ -88,8 +89,10 @@ const parseAutoStructure = async (
     }
 
     for await (const generatedItem of branchFiles.docs) {
+        const linkLevel = generatedItem.clientPath.split("/").filter(Boolean).length;
+        const topLevelLink = linkLevel <= spreadedLevel;
         if (
-            (!parentPathname && generatedItem.clientPath !== "/") ||
+            (!parentPathname && !topLevelLink) ||
             (parentPathname &&
                 !generatedItem.clientPath.match(new RegExp(`^${parentPathname.replace(/\/$/, "")}/[^/]+$`)))
         ) {
@@ -113,14 +116,21 @@ const parseAutoStructure = async (
             };
         }
 
-        const subItemsData = await parseAutoStructure(parentConfiguration, clientPath, [...crumbs, pathnameNormalized]);
-        Object.assign(pages, subItemsData.pages);
+        let subTree: TreeItem[] = [];
+        if (linkLevel >= spreadedLevel) {
+            const subItemsData = await parseAutoStructure(parentConfiguration, clientPath, [
+                ...crumbs,
+                pathnameNormalized,
+            ]);
+            subTree = subItemsData.tree;
+            Object.assign(pages, subItemsData.pages);
+        }
 
         tree.push({
             title,
             href: pathnameNormalized,
-            items: subItemsData.tree,
-            type: "row",
+            items: subTree,
+            type: linkLevel <= 1 ? "heading" : "row",
         });
     }
 
@@ -174,13 +184,18 @@ const parseStaticStructure = async (items: DocItem[], parentConfiguration: Confi
 };
 
 export const parseStructure = async (
-    items: DocItem[] | "auto",
+    items: DocItem[] | "auto" | "auto-spreaded",
     parentConfiguration: Configuration = {},
     crumbs: Crumbs = [],
     pathname: string = "",
 ) => {
     if (items === "auto") {
         const structureData = await parseAutoStructure(parentConfiguration, pathname, crumbs);
+        return structureData;
+    }
+
+    if (items === "auto-spreaded") {
+        const structureData = await parseAutoStructure(parentConfiguration, pathname, crumbs, 2);
         return structureData;
     }
 
