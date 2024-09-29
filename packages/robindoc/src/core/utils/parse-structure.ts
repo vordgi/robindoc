@@ -137,11 +137,24 @@ const parseAutoStructure = async (
     return { pages, tree };
 };
 
-const parseStaticStructure = async (items: DocItem[], parentConfiguration: Configuration = {}, crumbs: Crumbs = []) => {
+const parseStaticStructure = async (
+    items: DocItem[],
+    parentConfiguration: Configuration = {},
+    crumbs: Crumbs = [],
+): Promise<{
+    pages: Pages;
+    tree: TreeItem[];
+}> => {
     const pages: Pages = {};
     const tree: TreeItem[] = [];
 
     for await (const item of items) {
+        if (typeof item === "string") {
+            const subItemsData = await parseStructure(item, parentConfiguration, crumbs);
+            Object.assign(pages, subItemsData.pages);
+            tree.push(...subItemsData.tree);
+            continue;
+        }
         let subCrumbs = crumbs;
         const configuration = getConfiguration(item.configuration || {}, parentConfiguration);
         const clientPath = item.href;
