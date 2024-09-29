@@ -54,9 +54,8 @@ export class FileSystemProvider extends BaseProvider {
     private async loadFiles(pathname?: string) {
         const pathnameClean = pathname?.replace(/^\//, "");
         const files = await glob(["**/*.{md,mdx}", "**/structure.json"], { cwd: this.sourceRoot, posix: true });
-        const filesSorted = files.sort();
 
-        const fileTree = filesSorted.reduce<BranchFiles>(
+        const fileTree = files.reduce<BranchFiles>(
             (acc, item) => {
                 if (!pathnameClean || (pathnameClean && item.startsWith(pathnameClean))) {
                     const origPath = path
@@ -64,11 +63,14 @@ export class FileSystemProvider extends BaseProvider {
                         .replace(/\\/g, "/");
 
                     if (item.match(/\.mdx?$/)) {
-                        const clientFileUrl = getFileUrl("/" + item);
+                        const clientUrl = getFileUrl("/" + item);
+                        const origClientPath = normalizePathname(clientUrl.substring(pathnameClean?.length || 0));
+                        const clientPath = origClientPath.replace(/\/[0-9]+[-_](.)/g, "/$1");
 
                         acc.docs.push({
                             origPath,
-                            clientPath: normalizePathname(clientFileUrl.substring(pathnameClean?.length || 0)),
+                            clientPath,
+                            origClientPath,
                         });
                     } else {
                         acc.structures.push(origPath);
@@ -78,6 +80,7 @@ export class FileSystemProvider extends BaseProvider {
             },
             { docs: [], structures: [] },
         );
+        fileTree.docs.sort((a, b) => a.origClientPath.localeCompare(b.origClientPath));
         this.filesPromise = fileTree;
         return fileTree;
     }

@@ -89,11 +89,14 @@ export class GithubProvider extends BaseProvider {
             (acc, item) => {
                 if (!pathnameClean || (pathnameClean && item.path.startsWith(pathnameClean))) {
                     if (item.path.match(/\.(md|mdx)$/)) {
-                        const clientFileUrl = getFileUrl(item.path);
+                        const clientUrl = getFileUrl(item.path);
+                        const origClientPath = normalizePathname(clientUrl.substring(pathnameClean?.length || 0));
+                        const clientPath = origClientPath.replace(/\/[0-9]+[-_](.)/g, "/$1");
 
                         acc.docs.push({
                             origPath: item.path,
-                            clientPath: normalizePathname(clientFileUrl.substring(pathnameClean?.length || 0)),
+                            clientPath,
+                            origClientPath,
                         });
                     } else if (item.path.endsWith("structure.json")) {
                         acc.structures.push(item.path);
@@ -103,8 +106,8 @@ export class GithubProvider extends BaseProvider {
             },
             { docs: [], structures: [] },
         );
+        fileTree.docs.sort((a, b) => a.origClientPath.localeCompare(b.origClientPath));
         this.filesPromise = fileTree;
-
         return fileTree;
     }
 

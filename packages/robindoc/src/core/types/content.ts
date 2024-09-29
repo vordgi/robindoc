@@ -9,7 +9,7 @@ export type Components = {
     [key: string]: (props: Record<string, any>) => JSX.Element | React.ReactNode;
 };
 
-export type DocsTree = { origPath: string; clientPath: string }[];
+export type DocsTree = { origPath: string; clientPath: string; origClientPath: string }[];
 
 export type BranchFiles = { docs: DocsTree; structures: string[] };
 
