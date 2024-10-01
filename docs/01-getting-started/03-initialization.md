@@ -28,6 +28,6 @@ The location of the initialization file does not matter, as you will import the 
 
 However, it is recommended to place these files near the pages of the section for which Robindoc is used. For example, if you are using Robindoc for a documentation section (`/docs`), it is recommended to place the initialization file at `/pages/docs/robindoc.ts`.
 
-Initialization can be performed multiple times in different locations. If needed, you can create multiple structures within a single project—such as one configuration for documentation and a completely different one for a blog.
+Initialization can be performed multiple times in different locations. If needed, you can create multiple structures within a single project — such as one configuration for documentation and a completely different one for a blog.
 
 This way, you can combine multiple documentations from different sources into one site. For more on loading from different sources, read the "[Data Source](../structure/data-source.md)" page.

@@ -6,7 +6,7 @@ You can initialize Robindoc on any subpath of your site, as long as you specify 
 
 ## Page Setup
 
-Next.js supports dynamic pages, so it is recommended to set up one dynamic segment for all documentation pages.
+Next.js supports dynamic routes, so it is recommended to set up one [dynamic segment](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes#optional-catch-all-segments) for all documentation pages.
 
 ```tsx filename="app/docs/[[...path]]/page.tsx"
 import { Page, Sidebar, getMeta, getPages } from "./robindoc";
@@ -110,7 +110,21 @@ export const GET = async (request: Request) => {
 };
 ```
 
-```tsx filename="app/docs/layout.tsx"
+```tsx switcher filename="app/docs/layout.tsx" tab="TypeScript"
+import { Layout } from "robindoc";
+
+export const Layout = ({ children }) => {
+  return (
+    <RobinProvider>
+      <Header logo={<Logo />} searcher="/api/search" />
+      <Main>{children}</Main>
+      <Footer copyright="© 2024 All rights reserved" />
+    </RobinProvider>
+  );
+};
+```
+
+```js switcher filename="app/docs/layout.js" tab="JavaScript"
 import { Layout } from "robindoc";
 
 export const Layout = ({ children }) => {

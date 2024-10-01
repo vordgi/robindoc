@@ -25,7 +25,7 @@ Just specify the path to the data source (relative path or Git repository URL) i
 
 In the case of a remote Git repository, you can specify URLs for individual branches or commits. For both public and private projects. For private ones, you need to additionally provide a `gitToken`. It is also recommended to provide a `gitToken` for public projects, as GitHub has very low limits for anonymous requests.
 
-You can generate a token at https://github.com/settings/tokens?type=beta. It should have access to `contents`.
+You can generate a token at https://github.com/settings/tokens?type=beta. For private repositories it should have read-only access to `contents`.
 
 ```ts
 import { initializeRobindoc } from "robindoc";
