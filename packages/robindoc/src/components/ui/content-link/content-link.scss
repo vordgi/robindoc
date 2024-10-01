@@ -20,6 +20,7 @@
 }
 
 .r-content-link-external {
+  position: relative;
   display: inline-block;
   width: 6px;
   height: 6px;
@@ -28,4 +29,15 @@
   vertical-align: text-top;
   margin-left: -2px;
   margin-right: 2px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    width: 3px;
+    height: 3px;
+    background-color: currentColor;
+    border-radius: 0 0 0 4px;
+  }
 }
