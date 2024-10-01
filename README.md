@@ -1,7 +1,5 @@
----
-title: Introduction
-description: Robindoc is a framework for automatically creating documentation websites based on markdown files, built on React.js Server Components
----
+[robin.title]: # "Introduction"
+[robin.description]: # "Robindoc is a framework for automatically creating documentation websites based on markdown files, built on React.js Server Components"
 
 # Robindoc
 
@@ -10,6 +8,8 @@ description: Robindoc is a framework for automatically creating documentation we
 Read the documentation in a convenient interface at [robindoc.com/docs](https://robindoc.com/docs)
 
 <!---/robin-->
+
+<!---robin PackageLinks /-->
 
 Robindoc is a framework for automatically creating documentation websites based on markdown files, built on React.js Server Components.
 

@@ -1,7 +1,9 @@
-import { Note } from "../../../components/ui/note";
-import { Page, Sidebar, getMeta, getPages, getPageData } from "./robindoc";
-import { KeylinkToNavigation } from "robindoc";
 import Link from "next/link";
+import { KeylinkToNavigation } from "robindoc";
+
+import { Page, Sidebar, getMeta, getPages, getPageData } from "./robindoc";
+import { Note } from "../../../components/ui/note";
+import { PackageLinks } from "../../../components/ui/package-links";
 
 export default async function Docs({params}: {params: {path?: string[]}}) {
     const path = '/docs/' + (params.path?.join('/') || '');
@@ -15,6 +17,7 @@ export default async function Docs({params}: {params: {path?: string[]}}) {
                 link={Link}
                 components={{
                     Note,
+                    PackageLinks,
                 }}
                 config={{
                     publicDirs: ['public']
