@@ -19,6 +19,9 @@ export class FileSystemProvider extends BaseProvider {
     }
 
     async getPageSourcePathname(uri: string) {
+        if (this.sourceRoot.endsWith(".md") || this.sourceRoot.endsWith(".mdx")) {
+            return this.sourceRoot;
+        }
         const fullUri = path.posix.join(this.sourceRoot, uri).replaceAll("\\", "/").replace(/\/$/, "");
         return super.getPageSourcePathname(uri, fullUri);
     }
