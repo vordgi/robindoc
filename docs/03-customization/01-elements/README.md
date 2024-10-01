@@ -24,4 +24,4 @@ The documentation layout consists of several elements: `Layout`, `Main`, `Keylin
 
 `Page` and `Sidebar` are dynamic elements and should be added to each page.
 
-The specific usage of the elements depends on the chosen framework. For more details on using these elements, refer to the section [App organization](../../getting-started/app-organization/README.md).
+The specific usage of the elements depends on the chosen framework. For more details on using these elements, refer to the section [App organization](../../01-getting-started/04-app-organization/README.md).

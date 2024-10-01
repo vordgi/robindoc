@@ -4,9 +4,9 @@
 
 ## Usage
 
-`getPages` is obtained as a result of [initializing Robindoc](../../getting-started/initialization.md).
+`getPages` is obtained as a result of [initializing Robindoc](../../01-getting-started/03-initialization.md).
 
-The specific usage depends on the chosen framework and needs. For more details on using the utility in your application, refer to the [App Organization](../../getting-started/app-organization/README.md) page.
+The specific usage depends on the chosen framework and needs. For more details on using the utility in your application, refer to the [App Organization](../../01-getting-started/04-app-organization/README.md) page.
 
 You can obtain an array of objects with the list of segments for each page using the following method:
 

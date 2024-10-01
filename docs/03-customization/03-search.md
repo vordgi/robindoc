@@ -4,10 +4,10 @@ You can configure search in two ways: by providing the path to the search API ro
 
 ## API Route
 
-To use an API route for search, pass the path to the search endpoint in the `searcher` prop of the [`Header`](./elements/header.md) component. The search API should return an array of results with the following keys:
+To use an API route for search, pass the path to the search endpoint in the `searcher` prop of the [`Header`](./01-elements/header.md) component. The search API should return an array of results with the following keys:
 
 - `title` - the title of the page (e.g., `Introduction`, `Search`);
-- `href` - the link to the page (e.g., `/docs/introduction`, `/docs/search`);
+- `href` - the link to the page (e.g., `/docs/introduction`, `/docs/03-search`);
 - `description` - an optional additional field with search results related to the page content.
 
 Here’s an example of how to configure the `Header` component with a search API route:
@@ -77,4 +77,4 @@ export const GET = async (request: Request) => {
 };
 ```
 
-For more information about configuring search, refer to the page on [App Organization](../getting-started/app-organization/README.md).
+For more information about configuring search, refer to the page on [App Organization](../01-getting-started/04-app-organization/README.md).

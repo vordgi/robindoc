@@ -2,14 +2,14 @@
 
 Robindoc can be considered to consist of several parts:
 
-- Documentation Structure ([more about documentation structure](../../structure/README.md));
-- Robindoc Initialization ([more about initialization](../initialization.md));
-- Page Markup and Configuration ([more about customization](../../customization/README.md));
-- Documentation Markdown Files ([more about writing MD](../writing-md.md)).
+- Documentation Structure ([more about documentation structure](../../02-structure/README.md));
+- Robindoc Initialization ([more about initialization](../03-initialization.md));
+- Page Markup and Configuration ([more about customization](../../03-customization/README.md));
+- Documentation Markdown Files ([more about writing MD](../02-writing-md.md)).
 
 ## Organizing Documentation Files
 
-One of the main advantages of Robindoc is that documentation files can reside in any source — whether they are files outside the current directory or a remote git repository (more about sources on the "[Data Source](../../structure/data-source.md)" page).
+One of the main advantages of Robindoc is that documentation files can reside in any source — whether they are files outside the current directory or a remote git repository (more about sources on the "[Data Source](../../02-structure/03-data-source.md)" page).
 
 Robindoc’s main approach is that you don’t adjust the location of markdown files for Robindoc; instead, Robindoc builds the site from your markdown files. In other words, you place files so that they can be read in GitHub, and Robindoc serves as a convenient interface.
 
@@ -17,9 +17,9 @@ However, when using the automatic mode for generating the structure, the documen
 
 ## Application Setup and Configuration
 
-After initialization, you will receive Sidebar, Page, getPages, getMeta, and getPageContent. Read more on the [Initialization](../initialization.md) page.
+After initialization, you will receive Sidebar, Page, getPages, getMeta, and getPageContent. Read more on the [Initialization](../03-initialization.md) page.
 
-Global elements - [`RobinProvider`](../../customization/elements/robin-provider.md), [`Header`](../../customization/elements/header.md), [`Footer`](../../customization/elements/footer.md), and [`Main`](../../customization/elements/main.md) - should ideally be placed above all pages and reused across all.
+Global elements - [`RobinProvider`](../../03-customization/01-elements/robin-provider.md), [`Header`](../../03-customization/01-elements/header.md), [`Footer`](../../03-customization/01-elements/footer.md), and [`Main`](../../03-customization/01-elements/main.md) - should ideally be placed above all pages and reused across all.
 
 ```tsx
 import { RobinProvider, Header, Footer, Main } from "robindoc";
@@ -36,7 +36,7 @@ export const Layout = ({ children }) => {
 };
 ```
 
-[Sidebar](../../customization/elements/sidebar.md) and [Page](../../customization/elements/page.md) are used for each page.
+[Sidebar](../../03-customization/01-elements/sidebar.md) and [Page](../../03-customization/01-elements/page.md) are used for each page.
 
 ```tsx
 import { Page, Sidebar } from "./robindoc";

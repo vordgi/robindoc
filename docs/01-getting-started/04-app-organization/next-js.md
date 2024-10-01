@@ -2,7 +2,7 @@
 
 Currently, Robindoc works only with the App Router. Once RSC is available for the Pages Router, Robindoc will automatically support it as well.
 
-You can initialize Robindoc on any subpath of your site, as long as you specify the [`basePath`](../../structure/configuration.md) in the project initialization and pass the correct path in the Robindoc components.
+You can initialize Robindoc on any subpath of your site, as long as you specify the [`basePath`](../../02-structure/01-configuration.md) in the project initialization and pass the correct path in the Robindoc components.
 
 ## Page Setup
 
@@ -23,7 +23,7 @@ export const Page: React.FC<{ params: { path?: string[] } }> = ({ params }) => {
 };
 ```
 
-For more details about the props, refer to the [`Sidebar`](../../customization/elements/sidebar.md) and [`Page`](../../customization/elements/page.md) block pages.
+For more details about the props, refer to the [`Sidebar`](../../03-customization/01-elements/sidebar.md) and [`Page`](../../03-customization/01-elements/page.md) block pages.
 
 You should also set up metadata generation and static parameters generation (if you want to use SSG, which is highly recommended):
 
@@ -88,7 +88,7 @@ export const Layout = ({ children }) => {
 };
 ```
 
-For more details on configuring elements, refer to the [`RobinProvider`](../../customization/elements/robin-provider.md), [`Header`](../../customization/elements/header.md), [`Footer`](../../customization/elements/footer.md), and [`Main`](../../customization/elements/main.md) block pages.
+For more details on configuring elements, refer to the [`RobinProvider`](../../03-customization/01-elements/robin-provider.md), [`Header`](../../03-customization/01-elements/header.md), [`Footer`](../../03-customization/01-elements/footer.md), and [`Main`](../../03-customization/01-elements/main.md) block pages.
 
 ## Search Setup
 
@@ -138,4 +138,4 @@ export const Layout = ({ children }) => {
 };
 ```
 
-For more details on search configuration, refer to the [Search](../../customization/search.md) page.
+For more details on search configuration, refer to the [Search](../../03-customization/03-search.md) page.

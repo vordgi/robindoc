@@ -12,4 +12,4 @@ export const Layout = ({ children }) => {
 
 ## Usage
 
-The specific usage of the element depends on the chosen framework. For more details on using `RobinProvider`, refer to the section [App organization](../../getting-started/app-organization/README.md).
+The specific usage of the element depends on the chosen framework. For more details on using `RobinProvider`, refer to the section [App organization](../../01-getting-started/04-app-organization/README.md).

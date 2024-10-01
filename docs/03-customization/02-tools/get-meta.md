@@ -17,9 +17,9 @@ If you do not provide a front-matter title, the first-level heading of the page 
 
 ## Usage
 
-`getMeta` is obtained as a result of [initializing Robindoc](../../getting-started/initialization.md).
+`getMeta` is obtained as a result of [initializing Robindoc](../../01-getting-started/03-initialization.md).
 
-The specific usage depends on the chosen framework and needs. For more details on using the utility in your application, refer to the section [App Organization](../../getting-started/app-organization/README.md).
+The specific usage depends on the chosen framework and needs. For more details on using the utility in your application, refer to the section [App Organization](../../01-getting-started/04-app-organization/README.md).
 
 You can get the metadata object for a specific page using the following method:
 
@@ -34,4 +34,4 @@ export const getPageMetadata = async (pathname: string) => {
 
 ## Arguments
 
-`pathname` - the full path of the current page (e.g., `/docs/tools/get-meta`) must be provided to obtain the metadata.
+`pathname` - the full path of the current page (e.g., `/docs/02-tools/get-meta`) must be provided to obtain the metadata.

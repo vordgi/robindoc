@@ -29,4 +29,4 @@ All customization in Robindoc happens through the structure and props of the com
 
 `Sidebar` is rendered on every page and depends on the generated structure.
 
-The specific usage of the element depends on the chosen framework. For more details on using `Sidebar`, refer to the section [App organization](../../getting-started/app-organization/README.md).
+The specific usage of the element depends on the chosen framework. For more details on using `Sidebar`, refer to the section [App organization](../../01-getting-started/04-app-organization/README.md).

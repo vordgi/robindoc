@@ -1,10 +1,10 @@
 # Initialization
 
-To use Robindoc with all its features, you need to initialize it. To do this, you should call the `initializeRobindoc` function, passing your structure configuration. For more about the structure and how to work with it, read the "[Structure](../structure/README.md)" section.
+To use Robindoc with all its features, you need to initialize it. To do this, you should call the `initializeRobindoc` function, passing your structure configuration. For more about the structure and how to work with it, read the "[Structure](../02-structure/README.md)" section.
 
 ## Calling the Method
 
-The method will return dynamic components [`Page`](../customization/elements/page.md) and [`Sidebar`](../customization/elements/sidebar.md), as well as the methods [`getPages`](../customization/tools/get-pages.md), [`getMeta`](../customization/tools/get-meta.md), and [`getPageContent`](../customization/tools/get-page-content.md).
+The method will return dynamic components [`Page`](../03-customization/01-elements/page.md) and [`Sidebar`](../03-customization/01-elements/sidebar.md), as well as the methods [`getPages`](../03-customization/02-tools/get-pages.md), [`getMeta`](../03-customization/02-tools/get-meta.md), and [`getPageContent`](../03-customization/02-tools/get-page-content.md).
 
 ```ts
 import { initializeRobindoc } from "robindoc";
@@ -20,7 +20,7 @@ export const { Page, Sidebar, getPages, getMeta, getPageContent } =
   });
 ```
 
-Now, use these elements in the necessary places. For more details, read the "[App Organization](./app-organization/README.md)" section.
+Now, use these elements in the necessary places. For more details, read the "[App Organization](./04-app-organization/README.md)" section.
 
 ## File Location
 
@@ -30,4 +30,4 @@ However, it is recommended to place these files near the pages of the section fo
 
 Initialization can be performed multiple times in different locations. If needed, you can create multiple structures within a single project — such as one configuration for documentation and a completely different one for a blog.
 
-This way, you can combine multiple documentations from different sources into one site. For more on loading from different sources, read the "[Data Source](../structure/data-source.md)" page.
+This way, you can combine multiple documentations from different sources into one site. For more on loading from different sources, read the "[Data Source](../02-structure/03-data-source.md)" page.
