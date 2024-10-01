@@ -27,7 +27,7 @@ All customization in Robindoc happens through the structure and props of the com
 
 `link` [`React.ElementType`] - the link component of the framework or router being used. If this component is not provided, the default `<a>` tag will be used everywhere;
 
-`searcher` - the route for search functionality or a client-side async callback. If this field is not provided, search functionality will not be available. Read more on the "[Search](../search.md)" page;
+`searcher` - the route for search functionality or a client-side async callback. If this field is not provided, search functionality will not be available. Read more on the "[Search](../03-search.md)" page;
 
 `translations` [`{ [key: string]: string }`] - translations for the current block. The key is the term identifier, and the value is the corresponding translation. _For the latest list of terms, check the editor hints_;
 
@@ -39,4 +39,4 @@ All customization in Robindoc happens through the structure and props of the com
 
 `Header` is an independent component and doesn't rely on any specific page. It's assumed you can use it once across the entire project or section.
 
-The specific usage of the component depends on the chosen framework. For more details on using `Header`, refer to the section [App organization](../../getting-started/app-organization/README.md).
+The specific usage of the component depends on the chosen framework. For more details on using `Header`, refer to the section [App organization](../../01-getting-started/04-app-organization/README.md).

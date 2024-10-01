@@ -34,7 +34,7 @@ All customization in Robindoc happens through the structure and props of the com
 
 `config.publicDirs` [`string[]`] - an array of the project's public directories. Addresses of all images from markdown files located in this folder will be converted to absolute paths (for example, with the value `[public]`, an image address like `./public/image.png` will become `/image.png`);
 
-`components` - an object of allowable JSX or Robin components. Read more on the page [Writing MD](../../getting-started/writing-md.md);
+`components` - an object of allowable JSX or Robin components. Read more on the page [Writing MD](../../01-getting-started/02-writing-md.md);
 
 `translations` [`{ [key: string]: string }`] - translations for the current block. The key is the term identifier, and the value is the corresponding translation. _For the latest list of terms, check the editor hints_.
 
@@ -54,4 +54,4 @@ All customization in Robindoc happens through the structure and props of the com
 
 `Page` is rendered on every page and depends on the generated structure.
 
-The specific usage of the component depends on the chosen framework. For more details on using `Page`, refer to the section [App organization](../../getting-started/app-organization/README.md).
+The specific usage of the component depends on the chosen framework. For more details on using `Page`, refer to the section [App organization](../../01-getting-started/04-app-organization/README.md).

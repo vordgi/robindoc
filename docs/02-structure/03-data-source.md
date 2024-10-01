@@ -4,7 +4,7 @@ One of the main advantages of Robindoc is that data can be loaded not only from 
 
 Currently, full support for the file system and GitHub is built-in. If you want another remote resource, you can create your own provider, but this is not recommended at the moment. Please, in such cases, create an issue in Robindoc.
 
-By default, documentation is built from the current directory. To reconfigure Robindoc to another source, simply change the `sourceRoot` in the required branch of the structure ([learn more about structure configuration](./configuration.md)).
+By default, documentation is built from the current directory. To reconfigure Robindoc to another source, simply change the `sourceRoot` in the required branch of the structure ([learn more about structure configuration](./01-configuration.md)).
 
 ```ts
 export const { Page, Sidebar } = initializeRobindoc(async () => ({
@@ -21,7 +21,7 @@ export const { Page, Sidebar } = initializeRobindoc(async () => ({
 }));
 ```
 
-Just specify the path to the data source (relative path or Git repository URL) in your structure, and Robindoc will determine the source itself. The built-in solutions are fully configured to generate all necessary data - including [automatic structure generation](./items.md), [fetching all available pages](../customization/tools/README.md), and [generating the content itself](../getting-started/README.md).
+Just specify the path to the data source (relative path or Git repository URL) in your structure, and Robindoc will determine the source itself. The built-in solutions are fully configured to generate all necessary data - including [automatic structure generation](./02-items.md), [fetching all available pages](../03-customization/02-tools/README.md), and [generating the content itself](../01-getting-started/README.md).
 
 In the case of a remote Git repository, you can specify URLs for individual branches or commits. For both public and private projects. For private ones, you need to additionally provide a `gitToken`. It is also recommended to provide a `gitToken` for public projects, as GitHub has very low limits for anonymous requests.
 

@@ -28,19 +28,19 @@ export const { Page, Sidebar } = initializeRobindoc({
     {
       title: "Structure",
       type: "heading",
-      href: "/structure",
+      href: "/02-structure",
       items: [
         // ...
         {
           title: "Data Source",
-          href: "/structure/data-source",
+          href: "/02-structure/03-data-source",
         },
       ],
     },
     {
       title: "Elements",
       type: "heading",
-      href: "/elements",
+      href: "/01-elements",
       items: "auto",
     },
   ],
@@ -86,19 +86,19 @@ export const { Page, Sidebar } = initializeRobindoc({
     {
       title: "Structure",
       type: "heading",
-      href: "/structure",
+      href: "/02-structure",
       items: [
         // ...
         {
           title: "Data Source",
-          href: "/structure/data-source",
+          href: "/02-structure/03-data-source",
         },
       ],
     },
     {
       title: "Elements",
       type: "heading",
-      href: "/elements",
+      href: "/01-elements",
       items: "auto",
     },
   ],
@@ -107,13 +107,13 @@ export const { Page, Sidebar } = initializeRobindoc({
 
 In automatic mode, Robindoc first looks for a `structure.json` file in the current directory.
 
-If the `structure.json` file is not in the current directory, Robindoc will try to create the structure on its own based on the files in the directory. In this case, it will determine all paths, slugs, as well as the header for the sidebar link. The header is formed according to the same principles as the meta-header. Learn more about getting metadata on the [Get Meta](../customization/tools/get-meta.md) page.
+If the `structure.json` file is not in the current directory, Robindoc will try to create the structure on its own based on the files in the directory. In this case, it will determine all paths, slugs, as well as the header for the sidebar link. The header is formed according to the same principles as the meta-header. Learn more about getting metadata on the [Get Meta](../03-customization/02-tools/get-meta.md) page.
 
 ## structure.json
 
 `structure.json` - a file with basic instructions for the current level of documentation. It is stored next to the markdown documentation files.
 
-`/blog/structure.json`
+`/blog/02-structure.json`
 
 ```json
 {

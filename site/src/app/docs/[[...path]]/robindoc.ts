@@ -13,7 +13,7 @@ export const { Page, Sidebar, getPages, getMeta, getPageContent, getPageData } =
             type: 'heading',
             href: '/',
             configuration: {
-                sourceRoot: '..',
+                sourceRoot: 'https://github.com/vordgi/robindoc/tree/main/README.md',
             }
         },
         "auto-spreaded"

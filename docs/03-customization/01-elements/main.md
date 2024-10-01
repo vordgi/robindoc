@@ -14,4 +14,4 @@ export const Main = ({ children }) => {
 
 `Main` is an independent component and doesn't rely on any specific page. It's assumed you can use it once across the entire project or section.
 
-The specific usage of the component depends on the chosen framework. For more details on using `Main`, refer to the section [App organization](../../getting-started/app-organization/README.md).
+The specific usage of the component depends on the chosen framework. For more details on using `Main`, refer to the section [App organization](../../01-getting-started/04-app-organization/README.md).
