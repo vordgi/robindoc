@@ -4,7 +4,7 @@ Keylinks are special blocks designed to improve accessibility for users. These e
 
 ## KeylinkToContent
 
-A special element that appears at the very start of the page when the user presses the tab key for the first time. When clicked, it moves the focus to the main content of the page—the documentation itself.
+A special element that appears at the very start of the page when the user presses the tab key for the first time. When clicked, it moves the focus to the main content of the page — the documentation itself.
 
 This element should be inserted at the very beginning of the page, i.e., the first element in the body.
 

@@ -9,7 +9,7 @@ Robindoc can be considered to consist of several parts:
 
 ## Organizing Documentation Files
 
-One of the main advantages of Robindoc is that documentation files can reside in any source—whether they are files outside the current directory or a remote git repository (more about sources on the "[Data Source](../../structure/data-source.md)" page).
+One of the main advantages of Robindoc is that documentation files can reside in any source — whether they are files outside the current directory or a remote git repository (more about sources on the "[Data Source](../../structure/data-source.md)" page).
 
 Robindoc’s main approach is that you don’t adjust the location of markdown files for Robindoc; instead, Robindoc builds the site from your markdown files. In other words, you place files so that they can be read in GitHub, and Robindoc serves as a convenient interface.
 

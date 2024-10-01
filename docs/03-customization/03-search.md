@@ -77,4 +77,4 @@ export const GET = async (request: Request) => {
 };
 ```
 
-For more information about configuring search, refer to the page on [App Organization](../../getting-started/app-organization/README.md).
+For more information about configuring search, refer to the page on [App Organization](../getting-started/app-organization/README.md).
