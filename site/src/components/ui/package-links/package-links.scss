@@ -1,0 +1,29 @@
+.package-links {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.package-links-link {
+  font-weight: 500;
+  border-radius: 6px;
+  text-decoration: none;
+  color: inherit;
+  padding: 2px;
+}
+
+.package-links-link-inner {
+  display: block;
+  padding: 4px 12px;
+  background-color: var(--body);
+  border-radius: 4px;
+}
+
+.package-links-link-npm {
+  background: linear-gradient(90deg, #f97316, #ec4899);
+}
+
+.package-links-link-github {
+  background: var(--neutral800);
+}
