@@ -90,7 +90,8 @@ const parseAutoStructure = async (
 
     for await (const generatedItem of branchFiles.docs) {
         const linkLevel = generatedItem.clientPath.split("/").filter(Boolean).length;
-        const topLevelLink = linkLevel <= spreadedLevel;
+        const topLevelLink = linkLevel < 2;
+
         if (
             (!parentPathname && !topLevelLink) ||
             (parentPathname &&
@@ -116,22 +117,26 @@ const parseAutoStructure = async (
             };
         }
 
-        let subTree: TreeItem[] = [];
-        if (linkLevel >= spreadedLevel) {
-            const subItemsData = await parseAutoStructure(parentConfiguration, clientPath, [
-                ...crumbs,
-                pathnameNormalized,
-            ]);
-            subTree = subItemsData.tree;
-            Object.assign(pages, subItemsData.pages);
-        }
+        const subItemsData = await parseAutoStructure(parentConfiguration, clientPath, [...crumbs, pathnameNormalized]);
+        Object.assign(pages, subItemsData.pages);
 
-        tree.push({
-            title,
-            href: pathnameNormalized,
-            items: subTree,
-            type: linkLevel <= 1 ? "heading" : "row",
-        });
+        if (linkLevel < spreadedLevel) {
+            tree.push(
+                {
+                    title,
+                    href: pathnameNormalized,
+                    type: linkLevel <= 1 ? "heading" : "row",
+                },
+                ...subItemsData.tree,
+            );
+        } else {
+            tree.push({
+                title,
+                href: pathnameNormalized,
+                items: subItemsData.tree,
+                type: linkLevel <= 1 ? "heading" : "row",
+            });
+        }
     }
 
     return { pages, tree };
