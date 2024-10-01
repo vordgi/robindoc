@@ -39,6 +39,9 @@ export class GithubProvider extends BaseProvider {
     }
 
     async getPageSourcePathname(uri: string) {
+        if (this.pathname.endsWith(".md") || this.pathname.endsWith(".mdx")) {
+            return this.pathname;
+        }
         const segments = [...(this.pathname?.split("/") || []), ...uri.split("/")].filter(Boolean);
         const fullUri = segments.join("/");
         return super.getPageSourcePathname(uri, fullUri);
