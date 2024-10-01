@@ -33,7 +33,7 @@
     "gray-matter": "4.0.3",
     "html-react-parser": "5.1.12",
     "marked": "13.0.2",
-    "shiki": "1.12.1"
+    "shiki": "1.21.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "26.0.1",
