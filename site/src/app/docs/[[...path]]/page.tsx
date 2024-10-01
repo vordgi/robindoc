@@ -19,7 +19,7 @@ export default async function Docs({params}: {params: {path?: string[]}}) {
                 config={{
                     publicDirs: ['public']
                 }}
-                gitUri={new URL('https://github.com/vordgi/robindoc/tree/main/site/' + origPath).toString()}
+                editUri={new URL('https://github.com/vordgi/robindoc/edit/main/site/' + origPath).toString()}
             />
             <KeylinkToNavigation />
         </>
