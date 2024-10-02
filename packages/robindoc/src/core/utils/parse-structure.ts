@@ -191,7 +191,7 @@ const parseStaticStructure = async (
         if (!item.hidden) {
             tree.push({
                 title: item.title || generatePseudoTitle(pathnameNormalized),
-                href: pathnameNormalized,
+                href: item.href ? pathnameNormalized : undefined,
                 items: subTree,
                 type: item.type,
             });
