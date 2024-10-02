@@ -6,6 +6,7 @@ export const { Page, Sidebar, getPages, getMeta, getPageContent, getPageData } =
         // sourceRoot: '../docs',
         basePath: '/docs',
         gitToken: process.env.GIT_TOKEN,
+        fetcher: (url, init) => fetch(url, {...init, cache: 'force-cache', next: { tags: ['docs'] }}),
     },
     items: [
         {

@@ -62,10 +62,16 @@ export const { Page, Sidebar, getPages, getMeta, getPageContent } =
       sourceRoot: "../docs",
       basePath: "/docs",
       gitToken: "YOUR_TOKEN",
+      fetcher: (url, init) =>
+        fetch(url, { ...init, cache: "force-cache", next: { tags: ["docs"] } }),
     },
     items: "auto",
   });
 ```
+
+<Note>
+When uploading to Vercel, the final image will contain only files inside the next.js project
+</Note>
 
 ## Layout Setup
 
