@@ -1,13 +1,12 @@
 import Link from "next/link";
 import { KeylinkToNavigation } from "robindoc";
 
-import { Page, Sidebar, getMeta, getPages, getPageData } from "./robindoc";
+import { Page, Sidebar, getMeta, getPages } from "./robindoc";
 import { Note } from "../../../components/ui/note";
 import { PackageLinks } from "../../../components/ui/package-links";
 
 export default async function Docs({params}: {params: {path?: string[]}}) {
     const path = '/docs/' + (params.path?.join('/') || '');
-    const { origPath } = await getPageData(path);
 
     return (
         <>
@@ -22,7 +21,6 @@ export default async function Docs({params}: {params: {path?: string[]}}) {
                 config={{
                     publicDirs: ['public']
                 }}
-                editUri={new URL('https://github.com/vordgi/robindoc/edit/main/site/' + origPath).toString()}
             />
             <KeylinkToNavigation />
         </>
