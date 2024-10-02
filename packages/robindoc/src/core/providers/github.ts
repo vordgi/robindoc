@@ -97,7 +97,7 @@ export class GithubProvider extends BaseProvider {
                         const clientPath = origClientPath.replace(/\/[0-9]+[-_](.)/g, "/$1");
 
                         acc.docs.push({
-                            origPath: item.path,
+                            origPath: "/" + item.path,
                             clientPath,
                             origClientPath,
                         });
