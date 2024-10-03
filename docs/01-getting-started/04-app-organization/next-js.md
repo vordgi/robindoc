@@ -53,7 +53,7 @@ export const generateStaticParams = async () => {
 
 It is recommended to place the Robindoc initialization near this route.
 
-```tsx filename="app/docs/robindoc.ts"
+```tsx filename="app/docs/[[...path]]/robindoc.ts"
 import { initializeRobindoc } from "robindoc";
 
 export const { Page, Sidebar, getPages, getMeta, getPageContent } =
@@ -145,3 +145,23 @@ export const Layout = ({ children }) => {
 ```
 
 For more details on search configuration, refer to the [Search](../../03-customization/03-search.md) page.
+
+## Sitemap Setup
+
+To generate a sitemap in next.js, you can use a [special sitemap file](https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap) in combination with [getPages](../../03-customization/02-tools/get-pages.md) tool:
+
+```ts filename="./app/sitemap.ts"
+import { type MetadataRoute } from "next";
+import { getPages } from "./docs/[[...path]]/robindoc";
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const pages = await getPages();
+
+  return pages.map((page) => ({
+    url: `https://robindoc.com${page}`,
+    lastModified: new Date(),
+    changeFrequency: "daily",
+    priority: 0.7,
+  }));
+}
+```
