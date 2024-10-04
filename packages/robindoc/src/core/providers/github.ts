@@ -128,7 +128,7 @@ export class GithubProvider extends BaseProvider {
             return null;
         }
 
-        return `https://github.com/${this.owner}/${this.repo}/edit/${this.ref}/${pathname}`;
+        return `https://github.com/${this.owner}/${this.repo}/edit/${this.ref}${pathname}`;
     }
 
     async getLastModifiedDate(uri: string) {
