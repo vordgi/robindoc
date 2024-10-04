@@ -1,8 +1,5 @@
 .package-links {
-  display: grid;
-  grid-auto-flow: column;
-  justify-content: flex-start;
-  gap: 12px;
+  display: flex;
 }
 
 .package-links-link {
@@ -11,6 +8,7 @@
   text-decoration: none;
   color: inherit;
   padding: 2px;
+  margin-right: 12px;
 }
 
 .package-links-link-inner {
