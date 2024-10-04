@@ -15,7 +15,6 @@ body {
   height: 100vh;
   overflow: auto;
   scroll-padding-top: calc(var(--header-height) + 20px);
-  scroll-behavior: smooth;
   scrollbar-color: var(--neutral400) var(--neutral200);
 
   @media screen and (width < $sm) {
@@ -23,6 +22,7 @@ body {
   }
 
   @media screen and (width > $lg) {
+    scroll-behavior: smooth;
     scrollbar-gutter: stable;
   }
 }
