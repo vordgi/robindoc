@@ -25,13 +25,9 @@ export const SidebarLink: React.FC<SidebarLinkProps> = ({ link, branch, pathname
             className={clsx("r-sidebar-link", isActive && "_active", isTarget && "_target")}
             ref={(node) => {
                 if (isTarget) {
-                    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-
-                    scrollTimeoutRef.current = setTimeout(() => {
-                        scrollTimeoutRef.current = null;
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        (node as any)?.parentElement?.scrollIntoViewIfNeeded();
-                    }, 300);
+                    scrollTimeoutRef.current = null;
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    (node as any)?.parentElement?.scrollIntoViewIfNeeded();
                 }
             }}
         >
