@@ -9,6 +9,20 @@ export type AnchorData = {
     token: Token;
 };
 
+export const parseTokenText = (token: Token): string => {
+    if (!token) return "";
+
+    if ("tokens" in token) {
+        return token.tokens?.map((el) => parseTokenText(el)).join("") || "";
+    }
+
+    if ("raw" in token) {
+        return token.raw;
+    }
+
+    return "";
+};
+
 export const parseMarkdown = (content: string) => {
     const { content: matterContent } = matter(content);
     const tokens = lexer(matterContent.trim());
@@ -28,20 +42,6 @@ export const parseMarkdown = (content: string) => {
     }, []);
 
     return { tokens, headings };
-};
-
-export const parseTokenText = (token: Token): string => {
-    if (!token) return "";
-
-    if ("tokens" in token) {
-        return token.tokens?.map((el) => parseTokenText(el)).join("") || "";
-    }
-
-    if ("text" in token) {
-        return token.text;
-    }
-
-    return "";
 };
 
 export const validateComponentName = (name: string) => {
