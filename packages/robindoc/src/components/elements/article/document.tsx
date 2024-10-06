@@ -56,6 +56,7 @@ export const DocumentJSX: React.FC<DocumentJSXProps> = ({ raw, components, ...ba
         },
         htmlparser2: {
             lowerCaseTags: false,
+            lowerCaseAttributeNames: false,
         },
     };
     return parse(raw, parseOptions);
