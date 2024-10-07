@@ -5,7 +5,7 @@ import { Page, Sidebar, getMeta, getPages } from "./robindoc";
 import { Note } from "../../../components/ui/note";
 import { PackageLinks } from "../../../components/ui/package-links";
 
-export default async function Docs({params}: {params: {path?: string[]}}) {
+const Docs = ({ params }: { params: { path?: string[] } }) => {
     const path = '/docs/' + (params.path?.join('/') || '');
 
     return (
@@ -37,3 +37,5 @@ export const generateStaticParams = async () => {
     const pages = await getPages('/docs');
     return pages.map(page => ({ path: page.split('/').slice(2) }));
 }
+
+export default Docs;

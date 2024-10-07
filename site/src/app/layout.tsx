@@ -16,11 +16,7 @@ export const metadata: Metadata = {
     description: "Robindoc",
 };
 
-export default function RootLayout({
-    children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
+const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
     return (
         <html lang="en" suppressHydrationWarning>
             <body className={inter.className}>
@@ -29,6 +25,7 @@ export default function RootLayout({
                     <Header
                         links={[
                             { href: '/docs', title: 'Docs' },
+                            { href: '/showcase', title: 'Showcase' },
                         ]}
                         link={Link}
                         logo={<Logo />}
@@ -43,3 +40,5 @@ export default function RootLayout({
         </html>
     );
 }
+
+export default RootLayout;

@@ -9,12 +9,12 @@ export const metadata: Metadata = {
     description: "Robindoc Documentation",
 };
 
-export default function RootLayout({
-    children,
-}: Readonly<{ children?: JSX.Element }>) {
+const DocsLayout = ({ children }: Readonly<{ children?: JSX.Element }>) => {
     return (
         <Main>
             {children}
         </Main>
     );
 }
+
+export default DocsLayout;
