@@ -2,6 +2,17 @@
 
 :root {
   overflow: hidden;
+  --accent50: #fff7ed;
+  --accent100: #ffedd5;
+  --accent200: #fed7aa;
+  --accent300: #fdba74;
+  --accent400: #fb923c;
+  --accent500: #f97316;
+  --accent600: #ea580c;
+  --accent700: #c2410c;
+  --accent800: #9a3412;
+  --accent900: #7c2d12;
+  --accent950: #27130d;
 }
 
 body {
@@ -81,17 +92,17 @@ svg {
   --neutral800: #1e293b;
   --neutral900: #0f172a;
   --neutral950: #020617;
-  --primary50: #fff7ed;
-  --primary100: #ffedd5;
-  --primary200: #fed7aa;
-  --primary300: #fdba74;
-  --primary400: #fb923c;
-  --primary500: #f97316;
-  --primary600: #ea580c;
-  --primary700: #c2410c;
-  --primary800: #9a3412;
-  --primary900: #7c2d12;
-  --primary950: #27130d;
+  --primary50: var(--accent50, #fff7ed);
+  --primary100: var(--accent100, #ffedd5);
+  --primary200: var(--accent200, #fed7aa);
+  --primary300: var(--accent300, #fdba74);
+  --primary400: var(--accent400, #fb923c);
+  --primary500: var(--accent500, #f97316);
+  --primary600: var(--accent600, #ea580c);
+  --primary700: var(--accent700, #c2410c);
+  --primary800: var(--accent800, #9a3412);
+  --primary900: var(--accent900, #7c2d12);
+  --primary950: var(--accent950, #27130d);
   --success: #15803d;
   --link-base: #2563eb;
   --link-base-hovered: #1e3a8a;
@@ -178,17 +189,17 @@ svg {
   --neutral800: #e2e8f0;
   --neutral900: #f1f5f9;
   --neutral950: #f8fafc;
-  --primary50: #27130d;
-  --primary100: #7c2d12;
-  --primary200: #9a3412;
-  --primary300: #c2410c;
-  --primary400: #ea580c;
-  --primary500: #f97316;
-  --primary600: #fb923c;
-  --primary700: #fdba74;
-  --primary800: #fed7aa;
-  --primary900: #ffedd5;
-  --primary950: #fff7ed;
+  --primary50: var(--accent950, #27130d);
+  --primary100: var(--accent900, #7c2d12);
+  --primary200: var(--accent800, #9a3412);
+  --primary300: var(--accent700, #c2410c);
+  --primary400: var(--accent600, #ea580c);
+  --primary500: var(--accent500, #f97316);
+  --primary600: var(--accent400, #fb923c);
+  --primary700: var(--accent300, #fdba74);
+  --primary800: var(--accent200, #fed7aa);
+  --primary900: var(--accent100, #ffedd5);
+  --primary950: var(--accent50, #fff7ed);
   --success: #86efac;
   --link-base: #3b82f6;
   --link-base-hovered: #93c5fd;
