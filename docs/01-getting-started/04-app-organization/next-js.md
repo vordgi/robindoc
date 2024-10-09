@@ -144,6 +144,21 @@ export const Layout = ({ children }) => {
 };
 ```
 
+### Vercel
+
+Since the image in Vercel does not include indirect files - for working with documentation on the server - local documentation files need to be passed explicitly via `outputFileTracingIncludes` config.
+
+```js filename="next.config.js"
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    outputFileTracingIncludes: {
+      "/api/search": ["./docs/**/*", "./blog/**/*", "./README.md"],
+    },
+  },
+};
+```
+
 For more details on search configuration, refer to the [Search](../../03-customization/03-search.md) page.
 
 ## Sitemap Setup
