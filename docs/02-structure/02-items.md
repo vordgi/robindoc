@@ -12,7 +12,7 @@ Each item consists of the following keys:
 
 Firstly, Robindoc reads the structure passed as an argument:
 
-```ts
+```ts filename="robindoc.ts"
 export const { Page, Sidebar } = initializeRobindoc({
   // ...
   items: [
@@ -49,7 +49,7 @@ export const { Page, Sidebar } = initializeRobindoc({
 
 You can also pass an asynchronous callback as an argument. In this case, you can form the structure in a way that suits you.
 
-```ts
+```ts filename="robindoc.ts"
 export const { Page, Sidebar } = initializeRobindoc(async () => {
   const items = await loadItems();
 
@@ -68,18 +68,45 @@ This configuration determines the list of available and generated pages, all lin
 
 ## Automatic Generation
 
-To have the subtree generated automatically, you need to pass `items: 'auto'`.
+To have the subtree generated automatically, you need to pass `items: 'auto'` or `items: 'auto-spreaded'`.
 
-```ts
+- `items: 'auto'` will build the sidebar by nesting all second-level elements in the dropdown of top-level links.
+- `items: 'auto-spreaded'` (_used on this site_) will build the sidebar making top-level links as categories. Elements from the third level of nesting will be included in the dropdown.
+
+```ts filename="robindoc.ts"
 export const { Page, Sidebar } = initializeRobindoc({
   // ...
   items: "auto",
 });
 ```
 
+You can also add extra elements from third-party sources to automatically generated elements, for example:
+
+```ts filename="robindoc.ts"
+import { initializeRobindoc } from "robindoc";
+
+export const { Page, Sidebar } = initializeRobindoc({
+  configuration: {
+    sourceRoot: "../docs",
+    basePath: "/docs",
+  },
+  items: [
+    {
+      title: "Introduction",
+      type: "heading",
+      href: "/",
+      configuration: {
+        sourceRoot: "../README.md",
+      },
+    },
+    "auto-spreaded",
+  ],
+});
+```
+
 This, like any configuration setting, can be done anywhere in the structure.
 
-```ts
+```ts filename="robindoc.ts"
 export const { Page, Sidebar } = initializeRobindoc({
   // ...
   items: [
@@ -113,9 +140,7 @@ If the `structure.json` file is not in the current directory, Robindoc will try 
 
 `structure.json` - a file with basic instructions for the current level of documentation. It is stored next to the markdown documentation files.
 
-`/blog/02-structure.json`
-
-```json
+```json filename="/blog/02-structure.json"
 {
   "index": {
     "title": "Blog"
