@@ -34,6 +34,7 @@ const Showcases = () => (
                 <h2 className="showcases-product">
                     Next.js Contibuting Guide
                 </h2>
+                <div className="showcases-product-badge">Unofficial</div>
             </a>
         </div>
     </Container>
