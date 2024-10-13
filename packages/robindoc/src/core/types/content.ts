@@ -21,6 +21,7 @@ export type Configuration = {
     provider?: BaseProvider;
     basePath?: string;
     fetcher?: Fetcher;
+    spreadedLevel?: number;
 };
 
 export type Crumbs = string[];

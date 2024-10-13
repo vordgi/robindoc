@@ -9,10 +9,9 @@ export type DocItem =
           href?: string;
           configuration?: Configuration;
       }
-    | "auto"
-    | "auto-spreaded";
+    | "auto";
 
 export type Structure = {
     configuration?: Configuration;
-    items?: DocItem[] | "auto" | "auto-spreaded";
+    items?: DocItem[] | "auto";
 };

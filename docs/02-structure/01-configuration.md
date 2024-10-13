@@ -10,4 +10,6 @@
 
 `provider` - a custom provider that handles all actions related to the data source. _Currently not recommended for use._
 
+`spreadedLevel` - the nesting level up to which navigation elements are displayed as list items in the sidebar. By default it's `1`; if set to `0`, all elements will be nested in collapsible section dropdowns.
+
 All configuration settings can be overridden further down the tree. Thus, they will be completely replaced for all sub-tree elements.

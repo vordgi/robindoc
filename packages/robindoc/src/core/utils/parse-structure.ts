@@ -10,6 +10,7 @@ const parseJSONStructure = async (
     parentConfiguration: Configuration = {},
     parentPathname = "",
     crumbs: Crumbs = [],
+    nestingLevel: number,
 ) => {
     const pages: Pages = {};
     const tree: TreeItem[] = [];
@@ -46,10 +47,12 @@ const parseJSONStructure = async (
 
                 let subTree: TreeItem[] | undefined;
                 if (segment !== "index") {
-                    const subItemsData = await parseAutoStructure(parentConfiguration, clientPath, [
-                        ...crumbs,
-                        pathnameNormalized,
-                    ]);
+                    const subItemsData = await parseAutoStructure(
+                        parentConfiguration,
+                        [...crumbs, pathnameNormalized],
+                        clientPath,
+                        nestingLevel + 1,
+                    );
                     subTree = subItemsData.tree;
                     Object.assign(pages, subItemsData.pages);
                 }
@@ -70,9 +73,9 @@ const parseJSONStructure = async (
 
 const parseAutoStructure = async (
     parentConfiguration: Configuration = {},
-    parentPathname = "",
     crumbs: Crumbs = [],
-    spreadedLevel: number = 1,
+    parentPathname = "",
+    nestingLevel: number,
 ) => {
     const pages: Pages = {};
     const tree: TreeItem[] = [];
@@ -82,7 +85,12 @@ const parseAutoStructure = async (
     const branchFiles = await parentConfiguration.provider.filesPromise;
 
     if (branchFiles.structures.includes(`${parentPathname}/structure.json`)) {
-        const jsonStructureData = await parseJSONStructure(parentConfiguration, parentPathname, crumbs);
+        const jsonStructureData = await parseJSONStructure(
+            parentConfiguration,
+            parentPathname,
+            crumbs,
+            nestingLevel + 1,
+        );
         if (jsonStructureData) {
             return jsonStructureData;
         }
@@ -117,15 +125,20 @@ const parseAutoStructure = async (
             };
         }
 
-        const subItemsData = await parseAutoStructure(parentConfiguration, clientPath, [...crumbs, pathnameNormalized]);
+        const subItemsData = await parseAutoStructure(
+            parentConfiguration,
+            [...crumbs, pathnameNormalized],
+            clientPath,
+            nestingLevel + 1,
+        );
         Object.assign(pages, subItemsData.pages);
 
-        if (linkLevel < spreadedLevel) {
+        if (nestingLevel < (parentConfiguration.spreadedLevel || 1)) {
             tree.push(
                 {
                     title,
                     href: pathnameNormalized,
-                    type: linkLevel <= 1 ? "heading" : "row",
+                    type: nestingLevel === 0 ? "heading" : "row",
                 },
                 ...subItemsData.tree,
             );
@@ -134,7 +147,7 @@ const parseAutoStructure = async (
                 title,
                 href: pathnameNormalized,
                 items: subItemsData.tree,
-                type: linkLevel <= 1 ? "heading" : "row",
+                type: nestingLevel === 0 ? "heading" : "row",
             });
         }
     }
@@ -146,6 +159,8 @@ const parseStaticStructure = async (
     items: DocItem[],
     parentConfiguration: Configuration = {},
     crumbs: Crumbs = [],
+    parentPathname: string,
+    nestingLevel: number,
 ): Promise<{
     pages: Pages;
     tree: TreeItem[];
@@ -155,7 +170,7 @@ const parseStaticStructure = async (
 
     for await (const item of items) {
         if (typeof item === "string") {
-            const subItemsData = await parseStructure(item, parentConfiguration, crumbs);
+            const subItemsData = await parseStructure(item, parentConfiguration, crumbs, parentPathname, nestingLevel);
             Object.assign(pages, subItemsData.pages);
             tree.push(...subItemsData.tree);
             continue;
@@ -183,18 +198,35 @@ const parseStaticStructure = async (
 
         let subTree: TreeItem[] = [];
         if (item.items) {
-            const subItemsData = await parseStructure(item.items, configuration, subCrumbs, item.href);
+            const subItemsData = await parseStructure(
+                item.items,
+                configuration,
+                subCrumbs,
+                item.href,
+                nestingLevel + 1,
+            );
             subTree = subItemsData.tree;
             Object.assign(pages, subItemsData.pages);
         }
 
         if (!item.hidden) {
-            tree.push({
-                title: item.title || generatePseudoTitle(pathnameNormalized),
-                href: item.href ? pathnameNormalized : undefined,
-                items: subTree,
-                type: item.type,
-            });
+            if (nestingLevel < (parentConfiguration.spreadedLevel || 1)) {
+                tree.push(
+                    {
+                        title: item.title || generatePseudoTitle(pathnameNormalized),
+                        href: item.href ? pathnameNormalized : undefined,
+                        type: item.type,
+                    },
+                    ...subTree,
+                );
+            } else {
+                tree.push({
+                    title: item.title || generatePseudoTitle(pathnameNormalized),
+                    href: item.href ? pathnameNormalized : undefined,
+                    items: subTree,
+                    type: item.type,
+                });
+            }
         }
     }
 
@@ -202,21 +234,17 @@ const parseStaticStructure = async (
 };
 
 export const parseStructure = async (
-    items: DocItem[] | "auto" | "auto-spreaded",
+    items: DocItem[] | "auto",
     parentConfiguration: Configuration = {},
     crumbs: Crumbs = [],
     pathname: string = "",
+    nestingLevel: number = 0,
 ) => {
     if (items === "auto") {
-        const structureData = await parseAutoStructure(parentConfiguration, pathname, crumbs);
+        const structureData = await parseAutoStructure(parentConfiguration, crumbs, pathname, nestingLevel);
         return structureData;
     }
 
-    if (items === "auto-spreaded") {
-        const structureData = await parseAutoStructure(parentConfiguration, pathname, crumbs, 2);
-        return structureData;
-    }
-
-    const structureData = await parseStaticStructure(items, parentConfiguration, crumbs);
+    const structureData = await parseStaticStructure(items, parentConfiguration, crumbs, pathname, nestingLevel);
     return structureData;
 };

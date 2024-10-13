@@ -5,7 +5,7 @@ Each item consists of the following keys:
 - `title` - the title of the item. It will be used in the sidebar;
 - `type` - the type of the item. It can be `row` - a regular item, and `heading` - a heading item, which will be bold text;
 - `href` - the link where the current item will be accessible. The link is specified fully except for the `basePath`. If no link is provided, it will be displayed as plain text;
-- `configuration` - the configuration of the current subtree;
+- `configuration` - the configuration of the current subtree ([read more about configuration](./01-configuration.md));
 - `items` - the subtree items of the current item.
 
 ## Manual Generation
@@ -68,10 +68,7 @@ This configuration determines the list of available and generated pages, all lin
 
 ## Automatic Generation
 
-To have the subtree generated automatically, you need to pass `items: 'auto'` or `items: 'auto-spreaded'`.
-
-- `items: 'auto'` will build the sidebar by nesting all second-level elements in the dropdown of top-level links.
-- `items: 'auto-spreaded'` (_used on this site_) will build the sidebar making top-level links as categories. Elements from the third level of nesting will be included in the dropdown.
+To have the subtree generated automatically, you need to pass `items: 'auto'`.
 
 ```ts filename="robindoc.ts"
 export const { Page, Sidebar } = initializeRobindoc({
@@ -80,7 +77,7 @@ export const { Page, Sidebar } = initializeRobindoc({
 });
 ```
 
-You can also add extra elements from third-party sources to automatically generated elements, for example:
+You can add extra elements from third-party sources to automatically generated elements - `items: [YOUR_OPTIONS, 'auto']`
 
 ```ts filename="robindoc.ts"
 import { initializeRobindoc } from "robindoc";
@@ -99,7 +96,7 @@ export const { Page, Sidebar } = initializeRobindoc({
         sourceRoot: "../README.md",
       },
     },
-    "auto-spreaded",
+    "auto",
   ],
 });
 ```
