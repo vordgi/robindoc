@@ -18,6 +18,6 @@ export const { Page, Sidebar, getPages, getMeta, getPageContent, getPageData } =
                 sourceRoot: '../README.md',
             }
         },
-        "auto-spreaded"
+        "auto"
     ],
 }));
