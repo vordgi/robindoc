@@ -227,6 +227,12 @@ export const Document: React.FC<ContentProps> = ({
                 );
             case "paragraph":
                 if (subtree) return token.tokens ? <DocumentToken token={token.tokens} /> : token.raw;
+                if (
+                    token.tokens?.some((t) => t.type === "html") &&
+                    token.tokens?.every((t) => t.type === "html" || t.raw === "\n")
+                ) {
+                    return <DocumentToken token={{ ...token, type: "html" }} />;
+                }
 
                 return <Paragraph>{token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}</Paragraph>;
             case "strong":
@@ -257,7 +263,7 @@ export const Document: React.FC<ContentProps> = ({
                 if (isTaskList) {
                     const ListComponent = token.ordered ? TaskOrderedList : TaskUnorderedList;
                     return (
-                        <ListComponent>
+                        <ListComponent start={token.start}>
                             {token.items.map((elem: Tokens.ListItem, index: number) => (
                                 <TaskListItem key={elem.raw + index} defaultChecked={elem.checked}>
                                     {elem.tokens ? <DocumentToken token={elem.tokens} /> : elem.raw}
@@ -269,7 +275,7 @@ export const Document: React.FC<ContentProps> = ({
 
                 const ListComponent = token.ordered ? OrderedList : UnorderedList;
                 return (
-                    <ListComponent>
+                    <ListComponent start={token.start}>
                         {token.items.map((elem: Tokens.ListItem, index: number) => (
                             <ListItem key={elem.raw + index}>
                                 {elem.tokens ? <DocumentToken token={elem.tokens} /> : elem.raw}
@@ -279,6 +285,7 @@ export const Document: React.FC<ContentProps> = ({
                 );
             case "html":
                 const text = token.raw.trim();
+                // console.log("html", token);
 
                 if (text.startsWith("<!---robin") && text.endsWith("-->")) {
                     const selfClosed = text.endsWith("/-->");

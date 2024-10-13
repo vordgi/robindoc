@@ -53,8 +53,8 @@ export const parseCodeLang = (raw: string) => {
     let lang: string = raw;
 
     const match = raw.match(/[a-z]+=("[^"]+"|'[^']+'|[^ ]+)|[a-z]+/g);
-    const [language, ...modifiers] = match as string[];
     if (Array.isArray(match)) {
+        const [language, ...modifiers] = match as string[];
         lang = language;
         configuration = modifiers.reduce<{ [key: string]: string | boolean }>((acc, cur) => {
             const [key, ...value] = cur.split("=");
