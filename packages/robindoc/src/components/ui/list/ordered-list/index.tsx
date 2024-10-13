@@ -3,10 +3,15 @@ import clsx from "clsx";
 
 import "./ordered-list.scss";
 
-interface OrderedListProps {
+export interface OrderedListProps {
     className?: string;
+    start?: number;
 }
 
-export const OrderedList: React.FC<React.PropsWithChildren<OrderedListProps>> = ({ className, children }) => {
-    return <ol className={clsx("r-ol", className)}>{children}</ol>;
+export const OrderedList: React.FC<React.PropsWithChildren<OrderedListProps>> = ({ className, start, children }) => {
+    return (
+        <ol className={clsx("r-ol", className)} start={start}>
+            {children}
+        </ol>
+    );
 };
