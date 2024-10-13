@@ -87,12 +87,14 @@
 }
 
 .showcases-card {
+  position: relative;
   display: block;
   border-radius: 12px;
   text-decoration: none;
   background-color: var(--neutral50);
   padding: 16px;
   color: inherit;
+  text-align: left;
   filter: grayscale(0.5);
   transition: background-color 0.2s;
 
@@ -109,7 +111,18 @@
 }
 
 .showcases-product {
-  text-align: left;
-  line-height: 1;
   margin: 24px 12px 12px;
+  line-height: 1;
+  font-size: 1.25em;
+}
+
+.showcases-product-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 6px 10px;
+  background-color: var(--neutral100);
+  backdrop-filter: opacity(0.4);
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 8px;
 }

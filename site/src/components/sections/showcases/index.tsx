@@ -24,10 +24,17 @@ const Showcases = () => (
         </div>
         <div className="showcases-list">
             <a href="https://nimpl.tech" target="_blank" rel="noopener noreferrer" className="showcases-card">
-                <Image src={require('./images/nimpl.png').default} alt="" className="showcases-img" />
+                <Image src={require('./images/nimpl-tech.png').default} alt="" className="showcases-img" />
                 <h2 className="showcases-product">
                     Nimpl
                 </h2>
+            </a>
+            <a href="https://nextjs-dev.robindoc.com/" target="_blank" rel="noopener noreferrer" className="showcases-card">
+                <Image src={require('./images/nextjs-dev.png').default} alt="" className="showcases-img" />
+                <h2 className="showcases-product">
+                    Next.js Contibuting Guide
+                </h2>
+                <div className="showcases-product-badge">Unofficial</div>
             </a>
         </div>
     </Container>
