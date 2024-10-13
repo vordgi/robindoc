@@ -14,8 +14,11 @@ export const normalizePathname = (path?: string | null) => {
 
 export const generatePseudoTitle = (path?: string | null) => {
     const pathname = normalizePathname(path);
+    const pathnameSegments = pathname.split("/").filter(Boolean);
 
-    if (pathname === "/") return "index";
+    if (pathnameSegments.length === 0) return "Index";
 
-    return pathname.substring(1);
+    const lastSegment = pathnameSegments[pathnameSegments.length - 1];
+    const lastSegmentWords = lastSegment.split("-");
+    return lastSegmentWords.map((word) => word[0].toUpperCase() + word.substring(1)).join(" ");
 };
