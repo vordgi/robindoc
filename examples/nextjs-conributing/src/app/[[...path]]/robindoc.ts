@@ -11,7 +11,7 @@ export const { Page, Sidebar, getPages, getMeta, getPageContent, getPageData } =
             type: "heading",
             href: "/",
             configuration: {
-                sourceRoot: "https://github.com/vercel/next.js/blob/canary/readme.md",
+                sourceRoot: "https://github.com/vercel/next.js/blob/canary/contributing.md",
             },
         },
         {
