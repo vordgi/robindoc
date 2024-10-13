@@ -4,8 +4,9 @@ import { detectProvider } from "./detect-provider";
 export const getConfiguration = (currentConfiguration: Configuration, previousConfiguration: Configuration = {}) => {
     let basePath = previousConfiguration.basePath;
     let gitToken = previousConfiguration.gitToken;
-    let fetcher = previousConfiguration.fetcher || fetch;
+    let spreadedLevel = previousConfiguration.spreadedLevel;
     let sourceRoot = previousConfiguration.sourceRoot;
+    let fetcher = previousConfiguration.fetcher || fetch;
     let provider = previousConfiguration.provider;
 
     if (currentConfiguration.basePath) {
@@ -14,11 +15,14 @@ export const getConfiguration = (currentConfiguration: Configuration, previousCo
     if (currentConfiguration.gitToken) {
         gitToken = currentConfiguration.gitToken;
     }
-    if (currentConfiguration.fetcher !== undefined) {
-        fetcher = currentConfiguration.fetcher || fetch;
+    if (currentConfiguration.spreadedLevel !== undefined) {
+        spreadedLevel = currentConfiguration.spreadedLevel;
     }
     if (currentConfiguration.sourceRoot !== undefined) {
         sourceRoot = currentConfiguration.sourceRoot;
+    }
+    if (currentConfiguration.fetcher !== undefined) {
+        fetcher = currentConfiguration.fetcher || fetch;
     }
     if (currentConfiguration.provider) {
         provider = currentConfiguration.provider;
@@ -31,5 +35,5 @@ export const getConfiguration = (currentConfiguration: Configuration, previousCo
             provider = new Provider(sourceRoot, fetcher, gitToken);
         }
     }
-    return { sourceRoot, provider, basePath, gitToken, fetcher };
+    return { sourceRoot, provider, basePath, gitToken, fetcher, spreadedLevel };
 };
