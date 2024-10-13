@@ -29,7 +29,7 @@ export const generateMetadata = async ({ params }: { params: { path?: string[] }
 
 export const generateStaticParams = async () => {
     const pages = await getPages();
-    return pages.map((page) => ({ path: page.split("/").slice(2) }));
+    return pages.map((page) => ({ path: page.split("/").slice(1) }));
 };
 
 export default Docs;
