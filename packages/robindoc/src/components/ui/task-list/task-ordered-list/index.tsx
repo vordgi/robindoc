@@ -1,14 +1,18 @@
 import React from "react";
 import clsx from "clsx";
 
-import { OrderedList } from "../../list";
+import { OrderedList, type OrderedListProps } from "../../list";
 
 import "./task-ordered-list.scss";
 
-interface TaskOrderedListProps {
-    className?: string;
-}
-
-export const TaskOrderedList: React.FC<React.PropsWithChildren<TaskOrderedListProps>> = ({ className, children }) => {
-    return <OrderedList className={clsx("r-task-ol", className)}>{children}</OrderedList>;
+export const TaskOrderedList: React.FC<React.PropsWithChildren<OrderedListProps>> = ({
+    className,
+    start,
+    children,
+}) => {
+    return (
+        <OrderedList className={clsx("r-task-ol", className)} start={start}>
+            {children}
+        </OrderedList>
+    );
 };
