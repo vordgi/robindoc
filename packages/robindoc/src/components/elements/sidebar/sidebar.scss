@@ -239,6 +239,10 @@
     position: absolute;
     inset: -4px;
   }
+
+  &::-webkit-details-marker {
+    display: none;
+  }
 }
 
 .r-sidebar-drop-icon {
