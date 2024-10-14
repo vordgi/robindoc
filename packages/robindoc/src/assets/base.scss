@@ -17,6 +17,7 @@
 
 body {
   --header-height: 60px;
+  position: relative;
   padding: 0;
   margin: 0;
   accent-color: var(--primary600, #ea580c);
