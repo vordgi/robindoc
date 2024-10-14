@@ -27,7 +27,7 @@ export const SidebarLink: React.FC<SidebarLinkProps> = ({ link, branch, pathname
                 if (isTarget) {
                     scrollTimeoutRef.current = null;
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    (node as any)?.parentElement?.scrollIntoViewIfNeeded();
+                    (node as any)?.parentElement?.scrollIntoViewIfNeeded?.();
                 }
             }}
         >
