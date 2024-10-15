@@ -1,5 +1,5 @@
 import { matchSorter } from 'match-sorter'
-import { getPages, getPageContent } from '../../docs/[[...path]]/robindoc';
+import { getPages, getPageContent } from '../../docs/robindoc';
 
 const headers = new Headers();
 headers.set('Content-Type', 'application/json; charset=UTF-8');

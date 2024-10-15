@@ -42,19 +42,23 @@ This element should be inserted at the very end of the page, i.e., the last elem
 `KeylinkToNavigation` should be added at the page level in case there are pages without navigation.
 </Note>
 
-```tsx
-import { Page, Sidebar } from "./robindoc";
-import { KeylinkToNavigation } from "robindoc";
+```tsx filename="/docs/layout.tsx"
+import type { Metadata } from "next";
+import { Main, KeylinkToNavigation } from "robindoc";
 
-export default async function Docs() {
+import { Sidebar } from "./robindoc";
+
+const DocsLayout = ({ children }: Readonly<{ children?: JSX.Element }>) => {
   return (
-    <>
-      <Sidebar pathname="/docs/introduction" />
-      <Page pathname="/docs/introduction" />
+    <Main>
+      <Sidebar />
+      {children}
       <KeylinkToNavigation />
-    </>
+    </Main>
   );
-}
+};
+
+export default DocsLayout;
 ```
 
 <Note>

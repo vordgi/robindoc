@@ -68,16 +68,10 @@ export const initializeRobindoc = (structureTemplate: Structure | (() => Structu
         );
     };
 
-    const Sidebar: React.FC<SidebarProps> = async ({ pathname, ...props }) => {
-        const { pages, tree } = await pageDataPromise;
-        const pathnameClean = normalizePathname(pathname);
-        const pageData = pages[pathnameClean];
+    const Sidebar: React.FC<SidebarProps> = async (props) => {
+        const { tree } = await pageDataPromise;
 
-        if (!pageData) {
-            throw new Error(`Can not find data for "${pathnameClean}". Please check structure`);
-        }
-
-        return <SidebarBase pathname={pathnameClean} tree={tree} {...props} />;
+        return <SidebarBase tree={tree} {...props} />;
     };
 
     const getPages = async (basePath?: string) => {

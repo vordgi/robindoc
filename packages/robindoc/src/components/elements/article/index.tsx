@@ -19,7 +19,6 @@ export type ContentProps = {
         publicDirs?: string[];
     };
     provider?: BaseProvider;
-    link?: React.ElementType;
     pathname: string;
     pages?: { clientPath: string; origPath: string }[];
     translations?: {
@@ -40,7 +39,6 @@ export const Article: React.FC<ArticleProps> = async ({
     config = {},
     provider,
     hideContents,
-    link,
     editUri: editUriProp,
     pathname,
     title,
@@ -70,9 +68,7 @@ export const Article: React.FC<ArticleProps> = async ({
 
     return (
         <ContentsProvider>
-            {breadcrumbs && breadcrumbs.length > 0 && (
-                <Breadcrumbs breadcrumbs={breadcrumbs} title={title} link={link} />
-            )}
+            {breadcrumbs && breadcrumbs.length > 0 && <Breadcrumbs breadcrumbs={breadcrumbs} title={title} />}
             <Contents
                 editUri={editUriProp === null ? null : editUriProp || editUri}
                 hideContents={hideContents}
@@ -86,7 +82,6 @@ export const Article: React.FC<ArticleProps> = async ({
                     pages={pages}
                     components={components}
                     config={config}
-                    link={link}
                     targetProvider={targetProvider}
                     pathname={pathname}
                     uri={uri}
@@ -94,7 +89,7 @@ export const Article: React.FC<ArticleProps> = async ({
                 {lastModified && <LastModified date={lastModified}>{lastModifiedOn}</LastModified>}
             </div>
             {(prev || next) && (
-                <Pagination prev={prev} next={next} link={link} translations={{ next: nextTranslation, previous }} />
+                <Pagination prev={prev} next={next} translations={{ next: nextTranslation, previous }} />
             )}
         </ContentsProvider>
     );

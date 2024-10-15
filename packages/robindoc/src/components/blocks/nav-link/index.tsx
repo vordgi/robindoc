@@ -1,14 +1,13 @@
 "use client";
 
 import React, { forwardRef } from "react";
+import Link, { LinkProps } from "next/link";
 
 import { useNavigate } from "@src/components/contexts/navigate/use-navigate";
 
-interface NavLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-    link?: React.ElementType;
-}
+type NavLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & React.PropsWithChildren<LinkProps>;
 
-export const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(({ link: Link = "a", onClick, ...props }, ref) => {
+export const NavLink = forwardRef<HTMLAnchorElement, NavLinkProps>(({ onClick, ...props }, ref) => {
     const { listeners } = useNavigate();
 
     const clickHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {

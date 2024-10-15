@@ -1,16 +1,18 @@
 import { type TreeItem } from "./types";
 
-export const checkIsTargetSection = (item: TreeItem, pathname?: string) => {
-    if (typeof pathname !== "string") return false;
+export const collectItems = (branch: TreeItem) => {
+    const links: string[] = [];
 
-    if (typeof item.href === "string" && pathname === new URL(item.href, "http://r").pathname?.replace(/\/$/, "")) {
-        return true;
-    }
+    if (branch.href) links.push(branch.href);
 
-    if (item.items?.find((el) => checkIsTargetSection(el, pathname))) return true;
+    branch.items?.forEach((item) => {
+        links.push(...collectItems(item));
+    });
 
-    return false;
+    return links;
 };
+
+export const isActiveItem = (branch: TreeItem): branch is TreeItem & { href: string } => Boolean(branch.href);
 
 export const checkIsTargetPathname = (itemHref?: string, pathname?: string) => {
     if (typeof pathname !== "string" || typeof itemHref !== "string") return false;

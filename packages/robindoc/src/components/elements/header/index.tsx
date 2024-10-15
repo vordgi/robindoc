@@ -22,7 +22,6 @@ type SectionType = {
 
 export type HeaderProps = {
     logo: React.ReactElement;
-    link?: React.ElementType;
     links?: {
         title: string;
         href: string;
@@ -33,16 +32,7 @@ export type HeaderProps = {
 } & HeaderMenuProps &
     SearchProps;
 
-export const Header: React.FC<HeaderProps> = ({
-    logo,
-    versions,
-    locales,
-    link: Link = "a",
-    links = [],
-    git,
-    searcher,
-    translations,
-}) => {
+export const Header: React.FC<HeaderProps> = ({ logo, versions, locales, links = [], git, searcher, translations }) => {
     const { menu, ...searchTranslations } = translations || {};
     const targetVersion = versions?.list.find((version) => version.key === versions.target);
     const versionPrefix = !targetVersion || targetVersion.key === versions?.default ? "" : `/${targetVersion.key}`;
@@ -53,14 +43,14 @@ export const Header: React.FC<HeaderProps> = ({
         <header className="r-header">
             <Container className="r-header-body">
                 <div>
-                    <NavLink href="/" link={Link} className="r-header-logo">
+                    <NavLink href="/" className="r-header-logo">
                         {logo}
                     </NavLink>
                 </div>
                 <HeaderMenu translations={{ menu }}>
                     <nav className="r-header-nav">
                         {links.map((link) => (
-                            <NavLink href={link.href} link={Link} className="r-header-link" key={link.title}>
+                            <NavLink href={link.href} className="r-header-link" key={link.title}>
                                 {link.title}
                             </NavLink>
                         ))}
@@ -78,7 +68,6 @@ export const Header: React.FC<HeaderProps> = ({
                                         title: version.title,
                                         shortTitle: version.shortTitle,
                                     }))}
-                                    link={Link}
                                 />
                             )}
                             {locales && targetLocale && (
@@ -92,11 +81,10 @@ export const Header: React.FC<HeaderProps> = ({
                                         title: locale.title,
                                         shortTitle: locale.shortTitle,
                                     }))}
-                                    link={Link}
                                 />
                             )}
                         </div>
-                        {searcher && <Search link={Link} searcher={searcher} translations={searchTranslations} />}
+                        {searcher && <Search searcher={searcher} translations={searchTranslations} />}
                     </div>
                 </HeaderMenu>
                 {git && <HeaderSocial git={git} />}

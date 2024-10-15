@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from '@vercel/analytics/react';
 import { Header, Footer, RobinProvider, KeylinkToContent } from 'robindoc';
-import Link from "next/link";
 
 import { Logo } from "../components/ui/logo";
 
@@ -27,7 +26,6 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
                             { href: '/docs', title: 'Docs' },
                             { href: '/showcase', title: 'Showcase' },
                         ]}
-                        link={Link}
                         logo={<Logo />}
                         git="https://github.com/vordgi/robindoc"
                         searcher="/api/search"

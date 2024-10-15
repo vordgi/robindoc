@@ -1,7 +1,6 @@
 import React from "react";
 
 import { NavigateProvider } from "@src/components/contexts/navigate/provider";
-import { SidebarProvider } from "@src/components/contexts/sidebar/provider";
 
 const clientLogic = () => {
     const userTheme = localStorage.getItem("theme");
@@ -39,9 +38,7 @@ export const RobinProvider: React.FC<React.PropsWithChildren> = ({ children }) =
                     __html: `(${clientLogic})()`,
                 }}
             />
-            <SidebarProvider>
-                <NavigateProvider>{children}</NavigateProvider>
-            </SidebarProvider>
+            <NavigateProvider>{children}</NavigateProvider>
         </>
     );
 };

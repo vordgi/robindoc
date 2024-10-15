@@ -5,9 +5,7 @@ import React from "react";
 import { useNavigate } from "@src/components/contexts/navigate/use-navigate";
 import { ContentLink, type ContentLinkProps } from "@src/components/ui/content-link";
 
-interface NavContentLinkProps extends ContentLinkProps {
-    link?: React.ElementType;
-}
+type NavContentLinkProps = ContentLinkProps;
 
 export const NavContentLink: React.FC<NavContentLinkProps> = ({ onClick, ...props }) => {
     const { listeners } = useNavigate();

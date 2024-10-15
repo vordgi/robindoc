@@ -19,6 +19,8 @@ module.exports = {
     external: [
         "react",
         "react-dom",
+        "next/link",
+        "next/navigation",
         "html-react-parser",
         "gray-matter",
         "marked",

@@ -2,20 +2,17 @@
 
 `Page` is a block responsible for the content of the document itself. It handles displaying markdown-based files as HTML.
 
-```tsx
-import { Page, Sidebar } from "./robindoc";
+```tsx filename ="/docs/example/page.tsx"
+import { Page } from "./robindoc";
 
 export const Page = ({ children }) => {
   return (
-    <>
-      <Sidebar /* ... */ />
-      <Page
-        pathname="/docs/example"
-        components={{
-          Example: ({ children }) => <span>{children}</span>,
-        }}
-      />
-    </>
+    <Page
+      pathname="/docs/example"
+      components={{
+        Example: ({ children }) => <span>{children}</span>,
+      }}
+    />
   );
 };
 ```
@@ -25,8 +22,6 @@ export const Page = ({ children }) => {
 All customization in Robindoc happens through the structure and props of the components.
 
 ### Base Props
-
-`link` [`React.ElementType`] - the link component of the framework or router being used. If this component is not provided, the default `<a>` tag will be used everywhere;
 
 `pathname` [`string`] - the path of the current page. It should be specified completely, including the `basePath`;
 
@@ -54,4 +49,4 @@ All customization in Robindoc happens through the structure and props of the com
 
 `Page` is rendered on every page and depends on the generated structure.
 
-The specific usage of the component depends on the chosen framework. For more details on using `Page`, refer to the section [App organization](../../01-getting-started/04-app-organization/README.md).
+For more details on using `Page`, refer to the section [App organization](../../01-getting-started/04-app-organization.md).

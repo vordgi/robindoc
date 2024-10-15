@@ -19,11 +19,11 @@ If you do not provide a front-matter title, the first-level heading of the page 
 
 `getMeta` is obtained as a result of [initializing Robindoc](../../01-getting-started/03-initialization.md).
 
-The specific usage depends on the chosen framework and needs. For more details on using the utility in your application, refer to the section [App Organization](../../01-getting-started/04-app-organization/README.md).
+For more details on using the utility in your application, refer to the section [App Organization](../../01-getting-started/04-app-organization.md).
 
 You can get the metadata object for a specific page using the following method:
 
-```ts
+```ts filename="/docs/page.tsx"
 import { getMeta } from "./robindoc";
 
 export const getPageMetadata = async (pathname: string) => {

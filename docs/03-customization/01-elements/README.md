@@ -14,14 +14,14 @@ The documentation layout consists of several elements: `Layout`, `Main`, `Keylin
 
 - [`KeylinkToContent` and `KeylinkToNavigation`](./keylinks.md) are special components designed to improve accessibility.
 
-- [`Sidebar`](./sidebar.md) is responsible for side navigation. It displays all available documentation pages with nesting levels. This component is rendered on each page and depends on the generated structure.
+- [`Sidebar`](./sidebar.md) is responsible for side navigation. It displays all available documentation pages with nesting levels. This component is rendered on each page and depends on the generated structure. Sidebar is independent component and you can use it once across the entire section.
 
 - [`Page`](./page.md) is responsible for the content of the document itself. It handles displaying markdown-based files as HTML. This component is rendered on each page and depends on the generated structure.
 
 ## Blocks usage
 
-`Header`, `Footer`, `RobinProvider`, `Main`, `KeylinkToContent`, and `KeylinkToNavigation` are global elements. It is recommended to include them on all documentation pages.
+`Header`, `Footer`, `RobinProvider`, `Main`, `KeylinkToContent`, `KeylinkToNavigation` and `Sidebar` are global elements. It is recommended to include them under all documentation pages.
 
-`Page` and `Sidebar` are dynamic elements and should be added to each page.
+`Page` is dynamic elements and should be added to each page.
 
-The specific usage of the elements depends on the chosen framework. For more details on using these elements, refer to the section [App organization](../../01-getting-started/04-app-organization/README.md).
+For more details on using these elements, refer to the section [App organization](../../01-getting-started/04-app-organization.md).

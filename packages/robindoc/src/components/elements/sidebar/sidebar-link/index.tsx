@@ -1,26 +1,25 @@
 "use client";
 
 import React, { useRef } from "react";
+import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
-import { type TreeItem } from "../types";
-import { checkIsTargetPathname, checkIsTargetSection } from "../tools";
 import { NavLink } from "@src/components/blocks/nav-link";
+import { type TreeItem } from "../types";
+import { checkIsTargetPathname, collectItems } from "../tools";
 
 type SidebarLinkProps = {
-    branch: TreeItem;
-    link?: React.ElementType;
-    pathname?: string;
+    branch: TreeItem & { href: string };
 };
 
-export const SidebarLink: React.FC<SidebarLinkProps> = ({ link, branch, pathname }) => {
+export const SidebarLink: React.FC<SidebarLinkProps> = ({ branch }) => {
+    const pathname = usePathname();
     const isActive = checkIsTargetPathname(branch.href, pathname);
-    const isTarget = checkIsTargetSection(branch, pathname);
+    const isTarget = collectItems(branch).includes(pathname);
     const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     return (
         <NavLink
-            link={link}
             href={branch.href}
             className={clsx("r-sidebar-link", isActive && "_active", isTarget && "_target")}
             ref={(node) => {

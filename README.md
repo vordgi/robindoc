@@ -13,7 +13,7 @@ Read the documentation in a convenient interface at [robindoc.com/docs](https://
 
 Robindoc is a framework for automatically creating documentation websites based on markdown files, built on React.js Server Components.
 
-```tsx
+```tsx filename="/docs/page.tsx"
 export const Documentation = () => {
   return (
     <RobinProvider>
@@ -34,8 +34,8 @@ No additional configuration is needed, while preserving the accessibility and cl
 
 ## Advantages
 
-- Works on React.js Server Components (RSC). The framework choice is up to you. More details in the section "[App Organization](./docs/01-getting-started/04-app-organization/README.md)";
-- Requires no configuration of the project, bundler, or markdown documents. More details in the section "[Customization](./docs/03-customization/README.md)";
+- Works on React.js Server Components (RSC). More details in the section "[App Organization](./docs/01-getting-started/04-app-organization.md)";
+- Zero configuration of the project, bundler, or markdown documents. More details in the section "[Customization](./docs/03-customization/README.md)";
 - Supports loading content from various sources, including GitHub. More details in the section "[Data Source](./docs/02-structure/03-data-source.md)";
 - Supports fully automatic documentation generation, as well as custom generation. More details in the section "[Structure](./docs/02-structure/README.md)";
 - Supports JSX/HTML and special Robin components for all sources. More details in the section "[Writing MD](./docs/01-getting-started/02-writing-md.md)";

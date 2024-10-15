@@ -1,34 +1,49 @@
-# Application Organization for Next.js
+# App Organization
 
-Currently, Robindoc works only with the App Router. Once RSC is available for the Pages Router, Robindoc will automatically support it as well.
+Robindoc can be considered to consist of several parts:
+
+- Documentation Structure ([more about documentation structure](../../02-structure/README.md));
+- Robindoc Initialization ([more about initialization](../03-initialization.md));
+- Page Markup and Configuration ([more about customization](../../03-customization/README.md));
+- Documentation Markdown Files ([more about writing MD](../02-writing-md.md)).
+
+## Organizing Documentation Files
+
+One of the main advantages of Robindoc is that documentation files can reside in any source — whether they are files outside the current directory or a remote git repository (more about sources on the "[Data Source](../../02-structure/03-data-source.md)" page).
+
+Robindoc’s main approach is that you don’t adjust the location of markdown files for Robindoc; instead, Robindoc builds the site from your markdown files. In other words, you place files so that they can be read in GitHub, and Robindoc serves as a convenient interface.
+
+However, when using the automatic mode for generating the structure, the documentation file structure should match the desired structure on the site. In manual mode, you can organize the documentation files as you wish, but it is still recommended to reflect the site’s structure.
+
+## Application Setup and Configuration
 
 You can initialize Robindoc on any subpath of your site, as long as you specify the [`basePath`](../../02-structure/01-configuration.md) in the project initialization and pass the correct path in the Robindoc components.
+
+After initialization, you will receive Sidebar, Page, getPages, getMeta, and getPageContent. Read more on the [Initialization](../03-initialization.md) page.
+
+Global elements - [`RobinProvider`](../../03-customization/01-elements/robin-provider.md), [`Header`](../../03-customization/01-elements/header.md), [`Footer`](../../03-customization/01-elements/footer.md), [`Main`](../../03-customization/01-elements/main.md) and [`Sidebar`](../../03-customization/01-elements/sidebar.md) - should ideally be placed above all pages and reused across all.
+Currently, Robindoc works only with the App Router. Once RSC is available for the Pages Router, Robindoc will automatically support it as well.
 
 ## Page Setup
 
 Next.js supports dynamic routes, so it is recommended to set up one [dynamic segment](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes#optional-catch-all-segments) for all documentation pages.
 
 ```tsx filename="app/docs/[[...path]]/page.tsx"
-import { Page, Sidebar, getMeta, getPages } from "./robindoc";
+import { Page, Sidebar, getMeta, getPages } from "../robindoc";
 
 export const Page: React.FC<{ params: { path?: string[] } }> = ({ params }) => {
   const pathname = "/docs/" + (params.path?.join("/") || "");
 
-  return (
-    <>
-      <Sidebar pathname={pathname} />
-      <Page pathname={pathname} />
-    </>
-  );
+  return <Page pathname={pathname} />;
 };
 ```
 
-For more details about the props, refer to the [`Sidebar`](../../03-customization/01-elements/sidebar.md) and [`Page`](../../03-customization/01-elements/page.md) block pages.
+For more details about the props, refer to the [`Page`](../../03-customization/01-elements/page.md) element page.
 
 You should also set up metadata generation and static parameters generation (if you want to use SSG, which is highly recommended):
 
-```tsx
-import { Page, Sidebar, getMeta, getPages } from "./robindoc";
+```tsx filename="app/docs/[[...path]]/page.tsx"
+import { Page, Sidebar, getMeta, getPages } from "../robindoc";
 
 // ...
 
@@ -53,7 +68,7 @@ export const generateStaticParams = async () => {
 
 It is recommended to place the Robindoc initialization near this route.
 
-```tsx filename="app/docs/[[...path]]/robindoc.ts"
+```tsx filename="app/docs/robindoc.ts"
 import { initializeRobindoc } from "robindoc";
 
 export const { Page, Sidebar, getPages, getMeta, getPageContent } =
@@ -79,22 +94,26 @@ The Next.js Layout should be placed one level up so that it remains static for a
 
 ```tsx filename="app/docs/layout.tsx"
 import { RobinProvider, Header, Footer, Main } from "robindoc";
-import Link from "next/link";
+import { Sidebar } from "./robindoc";
 import Logo from "./logo";
+
 import "robindoc/lib/styles.css";
 
 export const Layout = ({ children }) => {
   return (
     <RobinProvider>
-      <Header logo={<Logo />} link={Link} />
-      <Main>{children}</Main>
+      <Header logo={<Logo />} />
+      <Main>
+        <Sidebar />
+        {children}
+      </Main>
       <Footer copyright="© 2024 All rights reserved" />
     </RobinProvider>
   );
 };
 ```
 
-For more details on configuring elements, refer to the [`RobinProvider`](../../03-customization/01-elements/robin-provider.md), [`Header`](../../03-customization/01-elements/header.md), [`Footer`](../../03-customization/01-elements/footer.md), and [`Main`](../../03-customization/01-elements/main.md) block pages.
+For more details on configuring elements, refer to the [`RobinProvider`](../../03-customization/01-elements/robin-provider.md), [`Header`](../../03-customization/01-elements/header.md), [`Sidebar`](../../03-customization/01-elements/sidebar.md), [`Footer`](../../03-customization/01-elements/footer.md), and [`Main`](../../03-customization/01-elements/main.md) block pages.
 
 ## Search Setup
 
@@ -117,28 +136,22 @@ export const GET = async (request: Request) => {
 ```
 
 ```tsx switcher filename="app/docs/layout.tsx" tab="TypeScript"
-import { Layout } from "robindoc";
-
 export const Layout = ({ children }) => {
   return (
     <RobinProvider>
       <Header logo={<Logo />} searcher="/api/search" />
-      <Main>{children}</Main>
-      <Footer copyright="© 2024 All rights reserved" />
+      {/* ... */}
     </RobinProvider>
   );
 };
 ```
 
 ```js switcher filename="app/docs/layout.js" tab="JavaScript"
-import { Layout } from "robindoc";
-
 export const Layout = ({ children }) => {
   return (
     <RobinProvider>
       <Header logo={<Logo />} searcher="/api/search" />
-      <Main>{children}</Main>
-      <Footer copyright="© 2024 All rights reserved" />
+      {/* ... */}
     </RobinProvider>
   );
 };
@@ -167,7 +180,7 @@ To generate a sitemap in next.js, you can use a [special sitemap file](https://n
 
 ```ts filename="./app/sitemap.ts"
 import { type MetadataRoute } from "next";
-import { getPages } from "./docs/[[...path]]/robindoc";
+import { getPages } from "./docs/robindoc";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const pages = await getPages();
