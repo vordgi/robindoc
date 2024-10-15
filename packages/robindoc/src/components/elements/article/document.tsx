@@ -73,7 +73,6 @@ export type ContentProps = {
     tokens: TokensList;
     headings: AnchorData[];
     subtree?: boolean;
-    link?: React.ElementType;
     pages?: { clientPath: string; origPath: string }[];
 };
 
@@ -86,7 +85,6 @@ export const Document: React.FC<ContentProps> = ({
     headings,
     config = {},
     subtree,
-    link,
     pages,
 }) => {
     const { publicDirs } = config;
@@ -207,7 +205,7 @@ export const Document: React.FC<ContentProps> = ({
                 }
 
                 return (
-                    <NavContentLink link={link} href={finalHref} external={external}>
+                    <NavContentLink href={finalHref} external={external}>
                         {token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}
                     </NavContentLink>
                 );
@@ -336,7 +334,6 @@ export const Document: React.FC<ContentProps> = ({
                         raw={token.raw}
                         components={components}
                         config={config}
-                        link={link}
                         targetProvider={targetProvider}
                         pathname={pathname}
                         uri={uri}

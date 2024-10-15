@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Main } from 'robindoc';
 
+import { Sidebar } from "./robindoc";
+
 export const metadata: Metadata = {
     title: {
       template: '%s | Robindoc',
@@ -12,6 +14,7 @@ export const metadata: Metadata = {
 const DocsLayout = ({ children }: Readonly<{ children?: JSX.Element }>) => {
     return (
         <Main>
+            <Sidebar />
             {children}
         </Main>
     );

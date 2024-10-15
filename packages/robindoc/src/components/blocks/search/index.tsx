@@ -10,7 +10,6 @@ import { KbdContainer, KbdKey } from "@src/components/ui/kbd";
 import { useModal } from "@src/components/ui/modal/use-modal";
 
 export interface SearchProps {
-    link?: React.ElementType;
     searcher: SearchModalProps["searcher"];
     translations?: {
         /** Search... */
@@ -18,7 +17,7 @@ export interface SearchProps {
     } & SearchModalProps["translations"];
 }
 
-export const Search: React.FC<SearchProps> = ({ link, searcher, translations }) => {
+export const Search: React.FC<SearchProps> = ({ searcher, translations }) => {
     const { search = "Search...", ...modalTranslations } = translations || {};
     const titleRef = useRef<HTMLSpanElement>(null);
     const { opened, closeHandler, openHandler } = useModal();
@@ -67,7 +66,6 @@ export const Search: React.FC<SearchProps> = ({ link, searcher, translations }) 
                 open={opened}
                 translations={modalTranslations}
                 searcher={searcher}
-                link={link}
                 onClose={closeHandler}
                 onInput={inputHandler}
             />

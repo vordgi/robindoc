@@ -15,10 +15,9 @@ type SectionDropdownOption = {
 export type SectionDropdownProps = {
     defaultOption: string;
     options: SectionDropdownOption[];
-    link?: React.ElementType;
 };
 
-export const SectionDropdown: React.FC<SectionDropdownProps> = ({ defaultOption, options, link }) => {
+export const SectionDropdown: React.FC<SectionDropdownProps> = ({ defaultOption, options }) => {
     const defaultOptionDetailed = options.find((option) => option.key === defaultOption);
 
     if (!defaultOptionDetailed) {
@@ -47,7 +46,6 @@ export const SectionDropdown: React.FC<SectionDropdownProps> = ({ defaultOption,
                 {options.map((option) => (
                     <li key={option.key}>
                         <NavLink
-                            link={link}
                             href={option.href}
                             className={clsx("r-dropdown-link", option.key === defaultOption && "_active")}
                         >

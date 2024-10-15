@@ -1,41 +1,33 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import { useSidebarStore } from "@src/components/contexts/sidebar/use-sidebar-store";
+import React, { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export interface SidebarDropProps {
+    childHrefs: string[];
     defaultOpen?: boolean;
     label: string;
     id: string;
 }
 
-export const SidebarDrop: React.FC<React.PropsWithChildren<SidebarDropProps>> = ({
-    children,
-    id,
-    defaultOpen,
-    label,
-}) => {
-    const { add, remove, has } = useSidebarStore();
+export const SidebarDrop: React.FC<React.PropsWithChildren<SidebarDropProps>> = ({ childHrefs, label, children }) => {
+    const pathname = usePathname();
+    const openedByDefault = childHrefs.includes(pathname);
+    const [opened, setOpened] = useState(openedByDefault);
     const dropdownRef = useRef<HTMLUListElement>(null);
-
-    const toggleHandler = (e: React.MouseEvent<HTMLDetailsElement>) => {
-        if (e.currentTarget.open) {
-            e.currentTarget.style.removeProperty("--drop-height");
-            remove(id);
-        } else {
-            if (dropdownRef.current?.offsetHeight) {
-                e.currentTarget.style.setProperty("--drop-height", dropdownRef.current.offsetHeight.toString() + "px");
-            }
-            add(id);
-        }
-    };
+    const detailsRef = useRef<HTMLDetailsElement>(null);
 
     useEffect(() => {
-        if (defaultOpen) add(id);
-    }, [defaultOpen]);
+        if (openedByDefault && !opened) setOpened(true);
+        if (openedByDefault && detailsRef.current && !detailsRef.current?.open) detailsRef.current.open = true;
+    }, [openedByDefault]);
+
+    useEffect(() => {
+        detailsRef.current?.style.setProperty("--drop-height", dropdownRef.current?.offsetHeight.toString() + "px");
+    }, []);
 
     return (
-        <details className="r-sidebar-drop" open={has(id) || defaultOpen} onClick={toggleHandler}>
+        <details className="r-sidebar-drop" open={opened} ref={detailsRef}>
             <summary className="r-sidebar-drop-btn" aria-label={label}>
                 <svg
                     className="r-sidebar-drop-icon"

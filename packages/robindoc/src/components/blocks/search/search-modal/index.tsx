@@ -11,7 +11,6 @@ import { Modal } from "@src/components/ui/modal";
 
 export interface SearchModalProps {
     onClose(): void;
-    link?: React.ElementType;
     open: boolean;
     onInput(text: string): void;
     searcher: Searcher | string;
@@ -23,7 +22,7 @@ export interface SearchModalProps {
     };
 }
 
-export const SearchModal: React.FC<SearchModalProps> = ({ translations, link, searcher, open, onClose, onInput }) => {
+export const SearchModal: React.FC<SearchModalProps> = ({ translations, searcher, open, onClose, onInput }) => {
     const { typeSomething = "Type something...", nothingFound = "Nothing found" } = translations || {};
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [results, setResults] = useState<SearchItem[] | null>(null);
@@ -66,7 +65,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ translations, link, se
                     {results.length > 0 ? (
                         results.map((item) => (
                             <li key={item.href}>
-                                <NavLink link={link} href={item.href} onClick={onClose} className="r-search-item">
+                                <NavLink href={item.href} onClick={onClose} className="r-search-item">
                                     <p className="r-search-item-title">{item.title}</p>
                                     {item.description && <p className="r-search-item-desc">{item.description}</p>}
                                 </NavLink>
