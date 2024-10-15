@@ -2,7 +2,7 @@
 
 `Page` is a block responsible for the content of the document itself. It handles displaying markdown-based files as HTML.
 
-```tsx filename ="/docs/example/page.tsx"
+```tsx filename="/docs/example/page.tsx"
 import { Page } from "./robindoc";
 
 export const Page = ({ children }) => {

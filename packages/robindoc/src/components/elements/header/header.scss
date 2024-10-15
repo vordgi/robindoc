@@ -46,8 +46,17 @@
   transition: color 0.2s;
 
   &:hover,
-  &:focus {
+  &:focus-visible {
     color: var(--neutral950);
+  }
+}
+
+.r-header-link._target {
+  color: var(--primary800);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--primary700);
   }
 }
 
