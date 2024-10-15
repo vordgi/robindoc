@@ -50,7 +50,12 @@ export const Header: React.FC<HeaderProps> = ({ logo, versions, locales, links =
                 <HeaderMenu translations={{ menu }}>
                     <nav className="r-header-nav">
                         {links.map((link) => (
-                            <NavLink href={link.href} className="r-header-link" key={link.title}>
+                            <NavLink
+                                href={link.href}
+                                className="r-header-link"
+                                targetClassName="_target"
+                                key={link.title}
+                            >
                                 {link.title}
                             </NavLink>
                         ))}
