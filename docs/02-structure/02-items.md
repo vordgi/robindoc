@@ -12,7 +12,7 @@ Each item consists of the following keys:
 
 Firstly, Robindoc reads the structure passed as an argument:
 
-```ts filename="robindoc.ts"
+```ts filename="/docs/robindoc.ts"
 export const { Page, Sidebar } = initializeRobindoc({
   // ...
   items: [
@@ -49,7 +49,7 @@ export const { Page, Sidebar } = initializeRobindoc({
 
 You can also pass an asynchronous callback as an argument. In this case, you can form the structure in a way that suits you.
 
-```ts filename="robindoc.ts"
+```ts filename="/docs/robindoc.ts"
 export const { Page, Sidebar } = initializeRobindoc(async () => {
   const items = await loadItems();
 
@@ -70,7 +70,7 @@ This configuration determines the list of available and generated pages, all lin
 
 To have the subtree generated automatically, you need to pass `items: 'auto'`.
 
-```ts filename="robindoc.ts"
+```ts filename="/docs/robindoc.ts"
 export const { Page, Sidebar } = initializeRobindoc({
   // ...
   items: "auto",
@@ -79,7 +79,7 @@ export const { Page, Sidebar } = initializeRobindoc({
 
 You can add extra elements from third-party sources to automatically generated elements - `items: [YOUR_OPTIONS, 'auto']`
 
-```ts filename="robindoc.ts"
+```ts filename="/docs/robindoc.ts"
 import { initializeRobindoc } from "robindoc";
 
 export const { Page, Sidebar } = initializeRobindoc({
@@ -103,7 +103,7 @@ export const { Page, Sidebar } = initializeRobindoc({
 
 This, like any configuration setting, can be done anywhere in the structure.
 
-```ts filename="robindoc.ts"
+```ts filename="/docs/robindoc.ts"
 export const { Page, Sidebar } = initializeRobindoc({
   // ...
   items: [

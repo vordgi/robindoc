@@ -6,7 +6,7 @@
 
 `getPageContent` is obtained as a result of [initializing Robindoc](../../01-getting-started/03-initialization.md).
 
-It can be used, for example, for search functionality. For more details on general search configuration, refer to the [Search](../03-search.md) page. For framework-specific setup, refer to the [App Organization](../../01-getting-started/04-app-organization/README.md) page.
+It can be used, for example, for search functionality. For more details on general search configuration, refer to the [Search](../03-search.md) page. For Next.js-specific setup, refer to the [App Organization](../../01-getting-started/04-app-organization.md) page.
 
 ```ts
 const searchResults = [];

@@ -34,7 +34,7 @@ export const Features: React.FC = () => {
                     <Paragraph>
                         Robindoc is built on RSC. This gives flexibility and dynamics. But the most important thing is freedom of choice!
                         <br />
-                        Use any framework, any bundler and any configuration!
+                        Use any bundler and any configuration in any project!
                     </Paragraph>
                 </div>
                 <ToolsImg className='features-img' />

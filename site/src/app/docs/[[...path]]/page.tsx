@@ -1,5 +1,3 @@
-import { KeylinkToNavigation } from "robindoc";
-
 import { Page, getMeta, getPageData, getPages } from "../robindoc";
 import { Note } from "../../../components/ui/note";
 import { PackageLinks } from "../../../components/ui/package-links";
@@ -9,20 +7,17 @@ const Docs = async ({ params }: { params: { path?: string[] } }) => {
     const pageData = await getPageData(path);
 
     return (
-        <>
-            <Page
-                pathname={path}
-                components={{
-                    Note,
-                    PackageLinks,
-                }}
-                config={{
-                    publicDirs: ['public']
-                }}
-                editUri={`https://github.com/vordgi/robindoc/edit/main/site/${pageData.origPath}`}
-            />
-            <KeylinkToNavigation />
-        </>
+        <Page
+            pathname={path}
+            components={{
+                Note,
+                PackageLinks,
+            }}
+            config={{
+                publicDirs: ['public']
+            }}
+            editUri={`https://github.com/vordgi/robindoc/edit/main/site/${pageData.origPath}`}
+        />
     );
 }
 

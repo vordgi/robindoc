@@ -6,7 +6,7 @@ Currently, full support for the file system and GitHub is built-in. If you want 
 
 By default, documentation is built from the current directory. To reconfigure Robindoc to another source, simply change the `sourceRoot` in the required branch of the structure ([learn more about structure configuration](./01-configuration.md)).
 
-```ts
+```ts filename="/docs/robindoc.ts"
 export const { Page, Sidebar } = initializeRobindoc(async () => ({
   configuration: {
     sourceRoot: "../docs",
@@ -27,7 +27,7 @@ In the case of a remote Git repository, you can specify URLs for individual bran
 
 You can generate a token at https://github.com/settings/tokens?type=beta. For private repositories it should have read-only access to `contents`.
 
-```ts
+```ts filename="/docs/robindoc.ts"
 import { initializeRobindoc } from "robindoc";
 
 export const { Page, Sidebar } = initializeRobindoc({
@@ -42,7 +42,7 @@ export const { Page, Sidebar } = initializeRobindoc({
 
 Robindoc can assemble the structure from different sources, for example, one section from a local system and another from a remote Git repository.
 
-```ts
+```ts filename="/docs/robindoc.ts"
 import { initializeRobindoc } from "robindoc";
 
 export const { Page, Sidebar } = initializeRobindoc({

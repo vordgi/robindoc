@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Main } from 'robindoc';
+import { Main, KeylinkToNavigation } from 'robindoc';
 
 import { Sidebar } from "./robindoc";
 
@@ -16,6 +16,7 @@ const DocsLayout = ({ children }: Readonly<{ children?: JSX.Element }>) => {
         <Main>
             <Sidebar />
             {children}
+            <KeylinkToNavigation />
         </Main>
     );
 }
