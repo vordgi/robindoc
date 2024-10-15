@@ -21,8 +21,8 @@ importers:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
       robindoc:
-        specifier: 1.2.5
-        version: 1.2.5(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 2.0.1
+        version: 2.0.1(@types/react@18.3.11)(next@14.2.15(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@types/node':
         specifier: ^20
@@ -1322,9 +1322,10 @@ packages:
     deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
 
-  robindoc@1.2.5:
-    resolution: {integrity: sha512-s0PjK3vaiqlhyocQYYw/2bD5kHhp/H7TBz9i9CrOC+ymjf9+xUVhpuNDklfx8aZ7GArKpMGT5ZJjollGXXisyw==}
+  robindoc@2.0.1:
+    resolution: {integrity: sha512-cXEXXabQ8WTVUMm/43aO8Qt8dIBp0Pv15LhdVTyC9zgtWPxeUkgO7X4KsV8nx34HF13A7U27FT3lJ74epmS08A==}
     peerDependencies:
+      next: '>= 13.0.0'
       react: '>= 18.3.0'
       react-dom: '>= 18.3.0'
 
@@ -3131,7 +3132,7 @@ snapshots:
     dependencies:
       glob: 7.2.3
 
-  robindoc@1.2.5(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  robindoc@2.0.1(@types/react@18.3.11)(next@14.2.15(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       clsx: 2.1.1
       dot-prop: 6.0.1
@@ -3140,6 +3141,7 @@ snapshots:
       gray-matter: 4.0.3
       html-react-parser: 5.1.12(@types/react@18.3.11)(react@18.3.1)
       marked: 13.0.2
+      next: 14.2.15(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       shiki: 1.21.0

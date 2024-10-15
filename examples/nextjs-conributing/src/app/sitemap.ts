@@ -1,5 +1,5 @@
 import { type MetadataRoute } from 'next';
-import { getPages } from './[[...path]]/robindoc';
+import { getPages } from './robindoc';
  
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const pages = await getPages();

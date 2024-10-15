@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Header, Footer, RobinProvider, KeylinkToContent, Main } from "robindoc";
-import Link from "next/link";
+import { Header, Footer, RobinProvider, KeylinkToContent, Main, KeylinkToNavigation } from "robindoc";
+
+import { Sidebar } from "./robindoc";
 
 import "robindoc/lib/styles.css";
 import "./globals.css";
@@ -31,7 +32,6 @@ export default function RootLayout({
                 <RobinProvider>
                     <KeylinkToContent />
                     <Header
-                        link={Link}
                         logo={
                             <svg aria-label="Next.js logotype" height="18" role="img" viewBox="0 0 394 79">
                                 <path
@@ -73,7 +73,11 @@ export default function RootLayout({
                         git="https://github.com/vordgi/robindoc"
                         searcher="/api/search"
                     />
-                    <Main>{children}</Main>
+                    <Main>
+                        <Sidebar />
+                        {children}
+                        <KeylinkToNavigation />
+                    </Main>
                     <Footer copyright="© 2024 All rights reserved" />
                 </RobinProvider>
             </body>
