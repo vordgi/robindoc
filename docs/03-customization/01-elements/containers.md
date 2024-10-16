@@ -4,7 +4,7 @@
 
 ## PageContainer
 
-Специальный контейнер предназначенный для ваших страниц
+A special container designed for custom pages
 
 ```tsx filename="/page.tsx"
 import { PageContainer } from "robindoc";
@@ -14,7 +14,7 @@ const HomePage = () => <PageContainer>{/* ... */}</PageContainer>;
 
 ## DocsContainer
 
-Специальный контейнер предназначенный для документации. Предполагает использование `[Sidebar](./sidebar.md)`, `[Page](./page.md)` на странице
+A special container designed for a documentation. Assumes the use of `[Sidebar](./sidebar.md)`, `[Page](./page.md)` on the page
 
 ```tsx filename="/docs/layout.tsx"
 import { DocsContainer } from "robindoc";
@@ -26,7 +26,9 @@ const DocsLayout = ({ children }) => (
 
 ## BlogContainer
 
-Специальный контейнер предназначенный под блог. Отличается тем, что не предполагает использования `[Sidebar](./sidebar.md)` на странице
+A special container designed for a blog. It differs in that it does not involve the use of `[Sidebar](./sidebar.md)` on the page
+
+<a href="./sidebar.md">some text</a>
 
 ```tsx filename="/blog/layout.tsx"
 import { BlogContainer } from "robindoc";

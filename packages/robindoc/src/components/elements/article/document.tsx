@@ -1,5 +1,4 @@
 import React from "react";
-import { dirname, join } from "path";
 import parse, { attributesToProps, DOMNode, domToReact, HTMLReactParserOptions, Text } from "html-react-parser";
 import { type TokensList, type Token, type Tokens } from "marked";
 import { type RobinProps, type Components } from "@src/core/types/content";
@@ -22,10 +21,19 @@ import { Tabs } from "@src/components/ui/tabs";
 import { ListItem, OrderedList, UnorderedList } from "@src/components/ui/list";
 import { TaskListItem, TaskOrderedList, TaskUnorderedList } from "@src/components/ui/task-list";
 
-import { isNewCodeToken, parseCodeLang, parseMarkdown, validateComponentName, type AnchorData } from "./utils";
+import { type PagesType } from "./types";
+import {
+    formatLinkHref,
+    isNewCodeToken,
+    parseCodeLang,
+    parseMarkdown,
+    validateComponentName,
+    type AnchorData,
+} from "./utils";
 
 interface DocumentJSXProps extends Omit<ContentProps, "tokens" | "headings"> {
     raw: string;
+    pages?: PagesType;
 }
 
 export const DocumentJSX: React.FC<DocumentJSXProps> = ({ raw, components, ...baseProps }) => {
@@ -38,6 +46,15 @@ export const DocumentJSX: React.FC<DocumentJSXProps> = ({ raw, components, ...ba
             }
 
             if (!("name" in domNode)) return <></>;
+
+            if (domNode.name === "a" && "attribs" in domNode) {
+                const { href, external } = formatLinkHref(domNode.attribs.href, baseProps.pathname, baseProps.pages);
+                return (
+                    <NavContentLink {...attributesToProps(domNode.attribs)} href={href} external={external}>
+                        {domToReact(domNode.children as DOMNode[], parseOptions)}
+                    </NavContentLink>
+                );
+            }
 
             if (!validateComponentName(domNode.name)) return domNode;
 
@@ -73,7 +90,7 @@ export type ContentProps = {
     tokens: TokensList;
     headings: AnchorData[];
     subtree?: boolean;
-    pages?: { clientPath: string; origPath: string }[];
+    pages?: PagesType;
 };
 
 export const Document: React.FC<ContentProps> = ({
@@ -188,24 +205,10 @@ export const Document: React.FC<ContentProps> = ({
                     </Block>
                 );
             case "link":
-                let finalHref: string = token.href;
-                const external = /^(https?:\/\/|\/)/.test(token.href);
-
-                if (pages && !external) {
-                    const currentPageData = pages.find((item) => item.clientPath === pathname);
-
-                    if (currentPageData) {
-                        const linkOrigPath = join(dirname(currentPageData.origPath), token.href).replace(/\\/g, "/");
-                        const linkData = pages.find((item) => item.origPath === linkOrigPath);
-
-                        if (linkData) {
-                            finalHref = linkData?.clientPath;
-                        }
-                    }
-                }
+                const { href, external } = formatLinkHref(token.href, pathname, pages);
 
                 return (
-                    <NavContentLink href={finalHref} external={external}>
+                    <NavContentLink href={href} external={external}>
                         {token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}
                     </NavContentLink>
                 );
@@ -227,7 +230,7 @@ export const Document: React.FC<ContentProps> = ({
                 if (subtree) return token.tokens ? <DocumentToken token={token.tokens} /> : token.raw;
                 if (
                     token.tokens?.some((t) => t.type === "html") &&
-                    token.tokens?.every((t) => t.type === "html" || t.raw === "\n")
+                    token.tokens?.every((t) => t.type === "html" || t.type === "text" || t.raw === "\n")
                 ) {
                     return <DocumentToken token={{ ...token, type: "html" }} />;
                 }
@@ -283,7 +286,6 @@ export const Document: React.FC<ContentProps> = ({
                 );
             case "html":
                 const text = token.raw.trim();
-                // console.log("html", token);
 
                 if (text.startsWith("<!---robin") && text.endsWith("-->")) {
                     const selfClosed = text.endsWith("/-->");
@@ -337,6 +339,7 @@ export const Document: React.FC<ContentProps> = ({
                         targetProvider={targetProvider}
                         pathname={pathname}
                         uri={uri}
+                        pages={pages}
                     />
                 );
             case "text":
