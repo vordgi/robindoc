@@ -99,7 +99,7 @@ import Logo from "./logo";
 
 import "robindoc/lib/styles.css";
 
-export const Layout = ({ children }) => {
+export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <RobinProvider>
       <Header logo={<Logo />} />
@@ -136,7 +136,7 @@ export const GET = async (request: Request) => {
 ```
 
 ```tsx switcher filename="app/docs/layout.tsx" tab="TypeScript"
-export const Layout = ({ children }) => {
+export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <RobinProvider>
       <Header logo={<Logo />} searcher="/api/search" />
@@ -147,7 +147,7 @@ export const Layout = ({ children }) => {
 ```
 
 ```js switcher filename="app/docs/layout.js" tab="JavaScript"
-export const Layout = ({ children }) => {
+export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <RobinProvider>
       <Header logo={<Logo />} searcher="/api/search" />
@@ -178,11 +178,11 @@ For more details on search configuration, refer to the [Search](../03-customizat
 
 To generate a sitemap in next.js, you can use a [special sitemap file](https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap) in combination with [getPages](../03-customization/02-tools/get-pages.md) tool:
 
-```ts filename="./app/sitemap.ts"
+```ts filename="app/sitemap.ts"
 import { type MetadataRoute } from "next";
 import { getPages } from "./docs/robindoc";
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   const pages = await getPages();
 
   return pages.map((page) => ({
@@ -191,5 +191,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: "daily",
     priority: 0.7,
   }));
-}
+};
+
+export default sitemap;
 ```

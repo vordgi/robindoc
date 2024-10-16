@@ -15,28 +15,26 @@ export const metadata: Metadata = {
     description: "Robindoc",
 };
 
-const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
-    return (
-        <html lang="en" suppressHydrationWarning>
-            <body className={inter.className}>
-                <RobinProvider>
-                    <KeylinkToContent />
-                    <Header
-                        links={[
-                            { href: '/docs', title: 'Docs' },
-                            { href: '/showcase', title: 'Showcase' },
-                        ]}
-                        logo={<Logo />}
-                        git="https://github.com/vordgi/robindoc"
-                        searcher="/api/search"
-                    />
-                        {children}
-                    <Footer copyright="© 2024 All rights reserved" />
-                </RobinProvider>
-                <Analytics />
-            </body>
-        </html>
-    );
-}
+const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
+    <html lang="en" suppressHydrationWarning>
+        <body className={inter.className}>
+            <RobinProvider>
+                <KeylinkToContent />
+                <Header
+                    links={[
+                        { href: '/docs', title: 'Docs' },
+                        { href: '/showcase', title: 'Showcase' },
+                    ]}
+                    logo={<Logo />}
+                    git="https://github.com/vordgi/robindoc"
+                    searcher="/api/search"
+                />
+                    {children}
+                <Footer copyright="© 2024 All rights reserved" />
+            </RobinProvider>
+            <Analytics />
+        </body>
+    </html>
+);
 
 export default RootLayout;

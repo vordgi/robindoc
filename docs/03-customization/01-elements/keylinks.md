@@ -8,20 +8,18 @@ A special element that appears at the very start of the page when the user press
 
 This element should be inserted at the very beginning of the page, i.e., the first element in the body.
 
-```tsx
+```tsx filename="app/layout.tsx"
 import { Header, KeylinkToContent } from "robindoc";
 
-export default function RootLayout({ children }) {
-  return (
-    <html lang="en">
-      <body>
-        <KeylinkToContent />
-        <Header logo={<Logo />} />
-        {/* ... */}
-      </body>
-    </html>
-  );
-}
+const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <html lang="en">
+    <body>
+      <KeylinkToContent />
+      <Header logo={<Logo />} />
+      {/* ... */}
+    </body>
+  </html>
+);
 ```
 
 <Note>
@@ -42,13 +40,13 @@ This element should be inserted at the very end of the page, i.e., the last elem
 `KeylinkToNavigation` should be added at the page level in case there are pages without navigation.
 </Note>
 
-```tsx filename="/docs/layout.tsx"
+```tsx filename="app/docs/layout.tsx"
 import type { Metadata } from "next";
 import { DocsContainer, KeylinkToNavigation } from "robindoc";
 
 import { Sidebar } from "./robindoc";
 
-const DocsLayout = ({ children }: Readonly<{ children?: JSX.Element }>) => {
+const DocsLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <DocsContainer>
       <Sidebar />

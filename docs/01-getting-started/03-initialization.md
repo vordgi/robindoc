@@ -6,7 +6,7 @@ To use Robindoc with all its features, you need to initialize it. To do this, yo
 
 The method will return dynamic components [`Page`](../03-customization/01-elements/page.md) and [`Sidebar`](../03-customization/01-elements/sidebar.md), as well as the methods [`getPages`](../03-customization/02-tools/get-pages.md), [`getMeta`](../03-customization/02-tools/get-meta.md), and [`getPageContent`](../03-customization/02-tools/get-page-content.md).
 
-```ts filename="/docs/robindoc.ts"
+```ts filename="app/docs/robindoc.ts"
 import { initializeRobindoc } from "robindoc";
 
 export const { Page, Sidebar, getPages, getMeta, getPageContent } =

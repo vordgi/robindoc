@@ -6,7 +6,7 @@
 
 A special container designed for custom pages
 
-```tsx filename="/page.tsx"
+```tsx filename="app/page.tsx"
 import { PageContainer } from "robindoc";
 
 const HomePage = () => <PageContainer>{/* ... */}</PageContainer>;
@@ -16,10 +16,10 @@ const HomePage = () => <PageContainer>{/* ... */}</PageContainer>;
 
 A special container designed for a documentation. Assumes the use of `[Sidebar](./sidebar.md)`, `[Page](./page.md)` on the page
 
-```tsx filename="/docs/layout.tsx"
+```tsx filename="app/docs/layout.tsx"
 import { DocsContainer } from "robindoc";
 
-const DocsLayout = ({ children }) => (
+const DocsLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
   <DocsContainer>{children}</DocsContainer>;
 );
 ```
@@ -30,10 +30,10 @@ A special container designed for a blog. It differs in that it does not involve 
 
 <a href="./sidebar.md">some text</a>
 
-```tsx filename="/blog/layout.tsx"
+```tsx filename="app/blog/layout.tsx"
 import { BlogContainer } from "robindoc";
 
-const BlogLayout = ({ children }) => (
+const BlogLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
   <BlogContainer>{children}</BlogContainer>;
 );
 ```

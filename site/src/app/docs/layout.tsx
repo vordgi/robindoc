@@ -11,14 +11,12 @@ export const metadata: Metadata = {
     description: "Robindoc Documentation",
 };
 
-const DocsLayout = ({ children }: Readonly<{ children?: JSX.Element }>) => {
-    return (
-        <DocsContainer>
-            <Sidebar />
-            {children}
-            <KeylinkToNavigation />
-        </DocsContainer>
-    );
-}
+const DocsLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
+    <DocsContainer>
+        <Sidebar />
+        {children}
+        <KeylinkToNavigation />
+    </DocsContainer>
+);
 
 export default DocsLayout;
