@@ -2,14 +2,14 @@
 
 Robindoc can be considered to consist of several parts:
 
-- Documentation Structure ([more about documentation structure](../../02-structure/README.md));
+- Documentation Structure ([more about documentation structure](../02-structure/README.md));
 - Robindoc Initialization ([more about initialization](../03-initialization.md));
-- Page Markup and Configuration ([more about customization](../../03-customization/README.md));
+- Page Markup and Configuration ([more about customization](../03-customization/README.md));
 - Documentation Markdown Files ([more about writing MD](../02-writing-md.md)).
 
 ## Organizing Documentation Files
 
-One of the main advantages of Robindoc is that documentation files can reside in any source — whether they are files outside the current directory or a remote git repository (more about sources on the "[Data Source](../../02-structure/03-data-source.md)" page).
+One of the main advantages of Robindoc is that documentation files can reside in any source — whether they are files outside the current directory or a remote git repository (more about sources on the "[Data Source](../02-structure/03-data-source.md)" page).
 
 Robindoc’s main approach is that you don’t adjust the location of markdown files for Robindoc; instead, Robindoc builds the site from your markdown files. In other words, you place files so that they can be read in GitHub, and Robindoc serves as a convenient interface.
 
@@ -17,11 +17,11 @@ However, when using the automatic mode for generating the structure, the documen
 
 ## Application Setup and Configuration
 
-You can initialize Robindoc on any subpath of your site, as long as you specify the [`basePath`](../../02-structure/01-configuration.md) in the project initialization and pass the correct path in the Robindoc components.
+You can initialize Robindoc on any subpath of your site, as long as you specify the [`basePath`](../02-structure/01-configuration.md) in the project initialization and pass the correct path in the Robindoc components.
 
 After initialization, you will receive Sidebar, Page, getPages, getMeta, and getPageContent. Read more on the [Initialization](../03-initialization.md) page.
 
-Global elements - [`RobinProvider`](../../03-customization/01-elements/robin-provider.md), [`Header`](../../03-customization/01-elements/header.md), [`Footer`](../../03-customization/01-elements/footer.md), [`Main`](../../03-customization/01-elements/main.md) and [`Sidebar`](../../03-customization/01-elements/sidebar.md) - should ideally be placed above all pages and reused across all.
+Global elements - [`RobinProvider`](../03-customization/01-elements/robin-provider.md), [`Header`](../03-customization/01-elements/header.md), [`Footer`](../03-customization/01-elements/footer.md), [`Containers`](../03-customization/01-elements/containers.md) and [`Sidebar`](../03-customization/01-elements/sidebar.md) - should ideally be placed above all pages and reused across all.
 Currently, Robindoc works only with the App Router. Once RSC is available for the Pages Router, Robindoc will automatically support it as well.
 
 ## Page Setup
@@ -38,7 +38,7 @@ export const Page: React.FC<{ params: { path?: string[] } }> = ({ params }) => {
 };
 ```
 
-For more details about the props, refer to the [`Page`](../../03-customization/01-elements/page.md) element page.
+For more details about the props, refer to the [`Page`](../03-customization/01-elements/page.md) element page.
 
 You should also set up metadata generation and static parameters generation (if you want to use SSG, which is highly recommended):
 
@@ -93,7 +93,7 @@ When uploading to Vercel, the final image will contain only files inside the nex
 The Next.js Layout should be placed one level up so that it remains static for all pages.
 
 ```tsx filename="app/docs/layout.tsx"
-import { RobinProvider, Header, Footer, Main } from "robindoc";
+import { RobinProvider, Header, Footer, DocsContainer } from "robindoc";
 import { Sidebar } from "./robindoc";
 import Logo from "./logo";
 
@@ -103,17 +103,17 @@ export const Layout = ({ children }) => {
   return (
     <RobinProvider>
       <Header logo={<Logo />} />
-      <Main>
+      <DocsContainer>
         <Sidebar />
         {children}
-      </Main>
+      </DocsContainer>
       <Footer copyright="© 2024 All rights reserved" />
     </RobinProvider>
   );
 };
 ```
 
-For more details on configuring elements, refer to the [`RobinProvider`](../../03-customization/01-elements/robin-provider.md), [`Header`](../../03-customization/01-elements/header.md), [`Sidebar`](../../03-customization/01-elements/sidebar.md), [`Footer`](../../03-customization/01-elements/footer.md), and [`Main`](../../03-customization/01-elements/main.md) block pages.
+For more details on configuring elements, refer to the [`RobinProvider`](../03-customization/01-elements/robin-provider.md), [`Header`](../03-customization/01-elements/header.md), [`Sidebar`](../03-customization/01-elements/sidebar.md), [`Footer`](../03-customization/01-elements/footer.md), and [`Containers`](../03-customization/01-elements/containers.md) block pages.
 
 ## Search Setup
 
@@ -172,11 +172,11 @@ const nextConfig = {
 };
 ```
 
-For more details on search configuration, refer to the [Search](../../03-customization/03-search.md) page.
+For more details on search configuration, refer to the [Search](../03-customization/03-search.md) page.
 
 ## Sitemap Setup
 
-To generate a sitemap in next.js, you can use a [special sitemap file](https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap) in combination with [getPages](../../03-customization/02-tools/get-pages.md) tool:
+To generate a sitemap in next.js, you can use a [special sitemap file](https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap) in combination with [getPages](../03-customization/02-tools/get-pages.md) tool:
 
 ```ts filename="./app/sitemap.ts"
 import { type MetadataRoute } from "next";

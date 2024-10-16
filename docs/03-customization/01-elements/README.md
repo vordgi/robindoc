@@ -1,6 +1,6 @@
 # Elements
 
-The documentation layout consists of several elements: `Layout`, `Main`, `KeylinkToContent`, `KeylinkToNavigation`, `Sidebar`, and `Page`.
+The documentation layout consists of several elements: `Layout`, `Containers`, `KeylinkToContent`, `KeylinkToNavigation`, `Sidebar`, and `Page`.
 
 ## Robindoc Blocks
 
@@ -10,7 +10,7 @@ The documentation layout consists of several elements: `Layout`, `Main`, `Keylin
 
 - [`RobinProvider`](./robin-provider.md) - a general provider for Robindoc documentation. It contains all the necessary contexts, settings, scripts, etc.
 
-- [`Main`](./main.md) is responsible for styling the page content, i.e., the container and layout of documentation elements. `Main` is also an independent component and does not depend on the page. It is assumed you can use it once across the entire project or section.
+- [`Containers`](./containers.md) are responsible for styling the page content, i.e., the layout of documentation elements. `Containers` are also an independent components and do not depend on the page. It is assumed you can use it once across the entire project or section.
 
 - [`KeylinkToContent` and `KeylinkToNavigation`](./keylinks.md) are special components designed to improve accessibility.
 
@@ -20,7 +20,7 @@ The documentation layout consists of several elements: `Layout`, `Main`, `Keylin
 
 ## Blocks usage
 
-`Header`, `Footer`, `RobinProvider`, `Main`, `KeylinkToContent`, `KeylinkToNavigation` and `Sidebar` are global elements. It is recommended to include them under all documentation pages.
+`Header`, `Footer`, `RobinProvider`, `Containers`, `KeylinkToContent`, `KeylinkToNavigation` and `Sidebar` are global elements. It is recommended to include them under all documentation pages.
 
 `Page` is dynamic elements and should be added to each page.
 

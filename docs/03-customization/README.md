@@ -5,7 +5,7 @@ Page layout consists of [special blocks](./01-elements/README.md). For additiona
 All styles are collected separately and are included once for the entire application from `robindoc/lib/styles.css`:
 
 ```tsx filename="/docs/page.tsx"
-import { RobinProvider, Header, Footer, Main } from "robindoc";
+import { RobinProvider, Header, Footer, DocsContainer } from "robindoc";
 import { Page, Sidebar } from "./robindoc";
 import "robindoc/lib/styles.css";
 
@@ -13,10 +13,10 @@ export const Documentation = () => {
   return (
     <RobinProvider>
       <Header logo={<Logo />} />
-      <Main>
+      <DocsContainer>
         <Sidebar pathname="/docs" />
         <Page pathname="/docs" />
-      </Main>
+      </DocsContainer>
       <Footer copyright="© 2024 All rights reserved" />
     </RobinProvider>
   );

@@ -18,10 +18,10 @@ export const Documentation = () => {
   return (
     <RobinProvider>
       <Header logo={<Logo />} />
-      <Main>
+      <DocsContainer>
         <Sidebar pathname="/docs" />
         <Page pathname="/docs" />
-      </Main>
+      </DocsContainer>
       <Footer copyright="© 2024 All rights reserved" />
     </RobinProvider>
   );

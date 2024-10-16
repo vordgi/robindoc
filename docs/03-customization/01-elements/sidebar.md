@@ -7,10 +7,10 @@ import { Sidebar } from "./robindoc";
 
 const DocsLayout = ({ children }: Readonly<{ children?: JSX.Element }>) => {
   return (
-    <Main>
+    <DocsContainer>
       <Sidebar />
       {children}
-    </Main>
+    </DocsContainer>
   );
 };
 ```
