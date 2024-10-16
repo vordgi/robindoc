@@ -59,7 +59,7 @@
   border-bottom-left-radius: 2px;
   background-color: var(--neutral200);
   z-index: 1;
-  transition: background-color 0.3s;
+  transition: background-color 0.2s;
 }
 
 .r-sidebar-nav {
@@ -153,6 +153,7 @@
     width: 2px;
     height: calc(100% + 4px);
     background-color: var(--neutral200);
+    transition: 0.2s;
   }
 }
 
@@ -193,6 +194,7 @@
   border-bottom: 2px solid transparent;
   border-radius: 2px;
   text-decoration: none;
+  transition: 0.2s;
 }
 
 .r-sidebar-link._target {
@@ -227,6 +229,7 @@
   background-color: var(--neutral200);
   list-style: none;
   cursor: pointer;
+  transition: 0.2s;
 
   &:hover {
     background-color: var(--neutral300);
@@ -246,7 +249,7 @@
 
 .r-sidebar-drop-icon {
   display: block;
-  transition: transform 0.3s;
+  transition: transform 0.2s;
 }
 
 .r-sidebar-drop[open] > .r-sidebar-drop-btn > .r-sidebar-drop-icon {
