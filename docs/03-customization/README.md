@@ -9,18 +9,18 @@ import { RobinProvider, Header, Footer, DocsContainer } from "robindoc";
 import { Page, Sidebar } from "./robindoc";
 import "robindoc/lib/styles.css";
 
-export const Documentation = () => {
-  return (
-    <RobinProvider>
-      <Header logo={<Logo />} />
-      <DocsContainer>
-        <Sidebar pathname="/docs" />
-        <Page pathname="/docs" />
-      </DocsContainer>
-      <Footer copyright="© 2024 All rights reserved" />
-    </RobinProvider>
-  );
-};
+const DocumentationPage = () => (
+  <RobinProvider>
+    <Header logo={<Logo />} />
+    <DocsContainer>
+      <Sidebar pathname="/docs" />
+      <Page pathname="/docs" />
+    </DocsContainer>
+    <Footer copyright="© 2024 All rights reserved" />
+  </RobinProvider>
+);
+
+export default DocumentationPage;
 ```
 
 Framework-based logic configuration - search API route, and the current page path - is up to you. For more details, read the [App Organization](../01-getting-started/04-app-organization.md) page.

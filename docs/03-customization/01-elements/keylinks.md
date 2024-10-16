@@ -20,6 +20,8 @@ const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
     </body>
   </html>
 );
+
+export default RootLayout;
 ```
 
 <Note>
@@ -46,15 +48,13 @@ import { DocsContainer, KeylinkToNavigation } from "robindoc";
 
 import { Sidebar } from "./robindoc";
 
-const DocsLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
-  return (
-    <DocsContainer>
-      <Sidebar />
-      {children}
-      <KeylinkToNavigation />
-    </DocsContainer>
-  );
-};
+const DocsLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <DocsContainer>
+    <Sidebar />
+    {children}
+    <KeylinkToNavigation />
+  </DocsContainer>
+);
 
 export default DocsLayout;
 ```

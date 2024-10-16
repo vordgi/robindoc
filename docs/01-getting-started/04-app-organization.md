@@ -3,9 +3,9 @@
 Robindoc can be considered to consist of several parts:
 
 - Documentation Structure ([more about documentation structure](../02-structure/README.md));
-- Robindoc Initialization ([more about initialization](../03-initialization.md));
+- Robindoc Initialization ([more about initialization](./03-initialization.md));
 - Page Markup and Configuration ([more about customization](../03-customization/README.md));
-- Documentation Markdown Files ([more about writing MD](../02-writing-md.md)).
+- Documentation Markdown Files ([more about writing MD](./02-writing-md.md)).
 
 ## Organizing Documentation Files
 
@@ -31,11 +31,13 @@ Next.js supports dynamic routes, so it is recommended to set up one [dynamic seg
 ```tsx filename="app/docs/[[...path]]/page.tsx"
 import { Page, Sidebar, getMeta, getPages } from "../robindoc";
 
-export const Page: React.FC<{ params: { path?: string[] } }> = ({ params }) => {
+const Page: React.FC<{ params: { path?: string[] } }> = ({ params }) => {
   const pathname = "/docs/" + (params.path?.join("/") || "");
 
   return <Page pathname={pathname} />;
 };
+
+export default Page;
 ```
 
 For more details about the props, refer to the [`Page`](../03-customization/01-elements/page.md) element page.
@@ -99,18 +101,18 @@ import Logo from "./logo";
 
 import "robindoc/lib/styles.css";
 
-export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
-  return (
-    <RobinProvider>
-      <Header logo={<Logo />} />
-      <DocsContainer>
-        <Sidebar />
-        {children}
-      </DocsContainer>
-      <Footer copyright="© 2024 All rights reserved" />
-    </RobinProvider>
-  );
-};
+const Layout: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <RobinProvider>
+    <Header logo={<Logo />} />
+    <DocsContainer>
+      <Sidebar />
+      {children}
+    </DocsContainer>
+    <Footer copyright="© 2024 All rights reserved" />
+  </RobinProvider>
+);
+
+export default Layout;
 ```
 
 For more details on configuring elements, refer to the [`RobinProvider`](../03-customization/01-elements/robin-provider.md), [`Header`](../03-customization/01-elements/header.md), [`Sidebar`](../03-customization/01-elements/sidebar.md), [`Footer`](../03-customization/01-elements/footer.md), and [`Containers`](../03-customization/01-elements/containers.md) block pages.
@@ -136,25 +138,25 @@ export const GET = async (request: Request) => {
 ```
 
 ```tsx switcher filename="app/docs/layout.tsx" tab="TypeScript"
-export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
-  return (
-    <RobinProvider>
-      <Header logo={<Logo />} searcher="/api/search" />
-      {/* ... */}
-    </RobinProvider>
-  );
-};
+const Layout: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <RobinProvider>
+    <Header logo={<Logo />} searcher="/api/search" />
+    {/* ... */}
+  </RobinProvider>
+);
+
+export default Layout;
 ```
 
 ```js switcher filename="app/docs/layout.js" tab="JavaScript"
-export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
-  return (
-    <RobinProvider>
-      <Header logo={<Logo />} searcher="/api/search" />
-      {/* ... */}
-    </RobinProvider>
-  );
-};
+const Layout = ({ children }) => (
+  <RobinProvider>
+    <Header logo={<Logo />} searcher="/api/search" />
+    {/* ... */}
+  </RobinProvider>
+);
+
+export default Layout;
 ```
 
 ### Vercel

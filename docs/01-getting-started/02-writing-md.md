@@ -33,6 +33,8 @@ const Page = () => (
     }}
   />
 );
+
+export default Page;
 ```
 
 The content of custom components (`children`) will be passed as parsed Markdown.

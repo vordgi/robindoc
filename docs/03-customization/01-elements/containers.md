@@ -10,6 +10,8 @@ A special container designed for custom pages
 import { PageContainer } from "robindoc";
 
 const HomePage = () => <PageContainer>{/* ... */}</PageContainer>;
+
+export default HomePage;
 ```
 
 ## DocsContainer
@@ -22,6 +24,8 @@ import { DocsContainer } from "robindoc";
 const DocsLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
   <DocsContainer>{children}</DocsContainer>;
 );
+
+export default DocsLayout;
 ```
 
 ## BlogContainer
@@ -36,6 +40,8 @@ import { BlogContainer } from "robindoc";
 const BlogLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
   <BlogContainer>{children}</BlogContainer>;
 );
+
+export default BlogLayout;
 ```
 
 ## Usage

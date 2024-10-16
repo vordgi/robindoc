@@ -5,16 +5,16 @@
 ```tsx filename="app/docs/example/page.tsx"
 import { Page } from "./robindoc";
 
-export const Page = ({ children }) => {
-  return (
-    <Page
-      pathname="/docs/example"
-      components={{
-        Example: ({ children }) => <span>{children}</span>,
-      }}
-    />
-  );
-};
+const Page = ({ children }) => (
+  <Page
+    pathname="/docs/example"
+    components={{
+      Example: ({ children }) => <span>{children}</span>,
+    }}
+  />
+);
+
+export default Page;
 ```
 
 ## Props
