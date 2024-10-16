@@ -32,10 +32,9 @@ If you prefer to handle search logic entirely on the client side, you can provid
 Here’s an example callback function:
 
 ```ts filename="utils/searcher.ts"
-const searcher = async (
-  search: string,
-  abortController: AbortController
-): { href: string; content: string; title: string }[] => {
+import { type Searcher } from "robindoc/lib/core/types/search";
+
+const searcher: Searcher = async (search, abortController) => {
   const results = await advancedSearcher(pagesData, search, abortController);
   return results;
 };
