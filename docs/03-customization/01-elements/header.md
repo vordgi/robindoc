@@ -5,14 +5,14 @@
 ```tsx filename="app/layout.tsx"
 import { RobinProvider, Header } from "robindoc";
 
-export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
-  return (
-    <RobinProvider>
-      <Header logo={<Logo />} />
-      {/* ... */}
-    </RobinProvider>
-  );
-};
+const Layout: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <RobinProvider>
+    <Header logo={<Logo />} />
+    {/* ... */}
+  </RobinProvider>
+);
+
+export default Layout;
 ```
 
 ## Props

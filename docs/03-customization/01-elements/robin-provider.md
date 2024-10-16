@@ -5,9 +5,11 @@
 ```tsx filename="app/layout.tsx"
 import { RobinProvider } from "robindoc";
 
-export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
-  return <RobinProvider>{/* ... */}</RobinProvider>;
-};
+const Layout: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <RobinProvider>{/* ... */}</RobinProvider>;
+);
+
+export default Layout;
 ```
 
 ## Usage

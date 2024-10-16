@@ -5,14 +5,14 @@
 ```tsx filename="app/docs/layout.tsx"
 import { Sidebar } from "./robindoc";
 
-const DocsLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
-  return (
-    <DocsContainer>
-      <Sidebar />
-      {children}
-    </DocsContainer>
-  );
-};
+const DocsLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <DocsContainer>
+    <Sidebar />
+    {children}
+  </DocsContainer>
+);
+
+export default DocsLayout;
 ```
 
 ## Props

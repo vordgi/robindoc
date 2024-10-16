@@ -15,14 +15,12 @@ Here’s an example of how to configure the `Header` component with a search API
 ```tsx filename="app/layout.tsx"
 import { RobinProvider, Header } from "robindoc";
 
-export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
-  return (
-    <RobinProvider>
-      <Header logo={<Logo />} searcher="/api/search" />
-      {/* ... */}
-    </RobinProvider>
-  );
-};
+const Layout: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <RobinProvider>
+    <Header logo={<Logo />} searcher="/api/search" />
+    {/* ... */}
+  </RobinProvider>
+);
 ```
 
 ## Client-Side Callback
@@ -34,7 +32,7 @@ Here’s an example callback function:
 ```ts filename="utils/searcher.ts"
 import { type Searcher } from "robindoc/lib/core/types/search";
 
-const searcher: Searcher = async (search, abortController) => {
+export const searcher: Searcher = async (search, abortController) => {
   const results = await advancedSearcher(pagesData, search, abortController);
   return results;
 };
