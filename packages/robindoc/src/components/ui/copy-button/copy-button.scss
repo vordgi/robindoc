@@ -6,8 +6,19 @@
   border-radius: 6px;
   cursor: pointer;
   transition:
-    color 0.3s,
-    background-color 0.3s;
+    color 0.2s,
+    background-color 0.2s;
+}
+
+.copy-button-success {
+  opacity: 0;
+  transform: scale(0.7);
+
+  transition: 0.2s;
+}
+
+.copy-button-base {
+  transition: 0.2s;
 }
 
 .copy-button:hover {
@@ -18,4 +29,14 @@
 .copy-button:active,
 .copy-button._active {
   color: var(--success);
+
+  .copy-button-success {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .copy-button-base {
+    opacity: 0;
+    transform: scale(0.7);
+  }
 }
