@@ -25,7 +25,7 @@ body {
   background-color: var(--body);
   color: var(--neutral950);
   height: 100vh;
-  overflow: auto;
+  overflow: hidden auto;
   scroll-padding-top: calc(var(--header-height) + 20px);
   scrollbar-color: var(--neutral400) var(--neutral200);
 
