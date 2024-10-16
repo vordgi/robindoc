@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
-import { type Searcher, type SearchItem } from "@src/core/types/search";
+import { type Searcher, type SearchResults } from "@src/core/types/search";
 import { createBaseSearcher } from "@src/core/utils/create-base-searcher";
 import { NavLink } from "@src/components/blocks/nav-link";
 import { useDebouncer } from "@src/core/hooks/use-debouncer";
@@ -25,7 +25,7 @@ export interface SearchModalProps {
 export const SearchModal: React.FC<SearchModalProps> = ({ translations, searcher, open, onClose, onInput }) => {
     const { typeSomething = "Type something...", nothingFound = "Nothing found" } = translations || {};
     const inputRef = useRef<HTMLInputElement | null>(null);
-    const [results, setResults] = useState<SearchItem[] | null>(null);
+    const [results, setResults] = useState<SearchResults | null>(null);
     const targetSearcher = useMemo(
         () => (typeof searcher === "string" ? createBaseSearcher(searcher) : searcher),
         [searcher],
