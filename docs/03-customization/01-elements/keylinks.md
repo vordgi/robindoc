@@ -1,6 +1,6 @@
 # Keylinks
 
-Keylinks are special blocks designed to improve accessibility for users. These elements are essential for enhancing the site's keyboard navigation experience.
+`Keylinks` are special blocks designed to improve accessibility for users. These elements are essential for enhancing the site's keyboard navigation experience.
 
 ## KeylinkToContent
 
