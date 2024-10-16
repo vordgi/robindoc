@@ -1,6 +1,8 @@
 import GithubSlugger from "github-slugger";
 import matter from "gray-matter";
 import { lexer, type Token } from "marked";
+import { dirname, join } from "path";
+import { PagesType } from "./types";
 
 export type AnchorData = {
     title: string;
@@ -81,4 +83,23 @@ export const isNewCodeToken = (token: Token | Token[], codeQueue: { [lang: strin
     if (token.type !== "space" && token.type !== "code") return true;
 
     return false;
+};
+
+export const formatLinkHref = (href: string, pathname: string, pages?: PagesType) => {
+    let finalHref: string = href;
+    const external = /^(https?:\/\/|\/)/.test(href);
+
+    if (pages && !external) {
+        const currentPageData = pages.find((item) => item.clientPath === pathname);
+
+        if (currentPageData) {
+            const linkOrigPath = join(dirname(currentPageData.origPath), href).replace(/\\/g, "/");
+            const linkData = pages.find((item) => item.origPath === linkOrigPath);
+
+            if (linkData) {
+                finalHref = linkData?.clientPath;
+            }
+        }
+    }
+    return { href: finalHref, external };
 };
