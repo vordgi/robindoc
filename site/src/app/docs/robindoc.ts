@@ -1,6 +1,6 @@
 import { initializeRobindoc } from "robindoc";
 
-export const { Page, Sidebar, getPages, getMeta, getPageContent, getPageData } = initializeRobindoc(async () => ({
+export const { Page, Sidebar, getPages, getMeta, getPageContent, getPageData } = initializeRobindoc({
     configuration: {
         // sourceRoot: 'https://github.com/vordgi/robindoc/tree/main/docs',
         sourceRoot: '../docs',
@@ -20,4 +20,4 @@ export const { Page, Sidebar, getPages, getMeta, getPageContent, getPageData } =
         },
         "auto"
     ],
-}));
+});

@@ -1,7 +1,6 @@
 @import "src/assets/_vars";
 
 .r-sidebar {
-  width: 220px;
   grid-area: sidebar;
 
   @media screen and (width < $sm) {
