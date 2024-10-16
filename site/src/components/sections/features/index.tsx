@@ -12,7 +12,7 @@ import { VisibleWrapper } from '../../ui/visible-wrapper';
 
 export const Features: React.FC = () => {
     return (
-        <Container className='features'>
+        <div className='features'>
             <div className='features-card features-card-1'>
                 <div>
                     <Heading component='h2' className='features-heading'>
@@ -69,6 +69,6 @@ export const Features: React.FC = () => {
                     Deploy!
                 </Paragraph>
             </div>
-        </Container>
+        </div>
     );
 }
