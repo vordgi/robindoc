@@ -12,10 +12,10 @@ To use an API route for search, pass the path to the search endpoint in the `sea
 
 Here’s an example of how to configure the `Header` component with a search API route:
 
-```tsx
+```tsx filename="app/layout.tsx"
 import { RobinProvider, Header } from "robindoc";
 
-export const Layout = ({ children }) => {
+export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <RobinProvider>
       <Header logo={<Logo />} searcher="/api/search" />
@@ -31,7 +31,7 @@ If you prefer to handle search logic entirely on the client side, you can provid
 
 Here’s an example callback function:
 
-```ts
+```ts filename="utils/searcher.ts"
 const searcher = async (
   search: string,
   abortController: AbortController
@@ -45,7 +45,7 @@ const searcher = async (
 
 If you use an API route, the server should handle the search requests. The following code demonstrates a simple search implementation using the `match-sorter` library and the utilities `getPages` and `getPageContent`:
 
-```ts
+```ts filename="app/api/search/route.ts"
 import { matchSorter } from "match-sorter";
 import { getPages, getPageContent } from "../docs/robindoc";
 

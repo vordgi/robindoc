@@ -2,10 +2,10 @@
 
 `Footer` is a universal footer. It can be used both for Robindoc documentation pages as well as the entire site.
 
-```tsx filename="layout.tsx"
+```tsx filename="app/layout.tsx"
 import { RobinProvider, Footer } from "robindoc";
 
-export const Layout = ({ children }) => {
+export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <RobinProvider>
       {/* ... */}

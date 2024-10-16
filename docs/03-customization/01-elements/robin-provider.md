@@ -2,10 +2,10 @@
 
 `RobinProvider` is the general provider for Robindoc documentation. It contains all the necessary contexts, settings, scripts, etc. The application **must** be wrapped in this provider!
 
-```tsx
+```tsx filename="app/layout.tsx"
 import { RobinProvider } from "robindoc";
 
-export const Layout = ({ children }) => {
+export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return <RobinProvider>{/* ... */}</RobinProvider>;
 };
 ```

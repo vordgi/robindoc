@@ -2,10 +2,10 @@
 
 `Sidebar` is a block responsible for side navigation. It displays all available documentation pages with nesting levels.
 
-```tsx filename="/docs/layout.tsx"
+```tsx filename="app/docs/layout.tsx"
 import { Sidebar } from "./robindoc";
 
-const DocsLayout = ({ children }: Readonly<{ children?: JSX.Element }>) => {
+const DocsLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <DocsContainer>
       <Sidebar />

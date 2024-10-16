@@ -6,7 +6,7 @@
 
 To collect metadata, Robindoc supports front-matter:
 
-```markdown
+```markdown filename="/README.md"
 ---
 title: "Get Meta | Robindoc"
 description: "Robindoc AAAAAA"
@@ -23,7 +23,7 @@ For more details on using the utility in your application, refer to the section 
 
 You can get the metadata object for a specific page using the following method:
 
-```ts filename="/docs/page.tsx"
+```tsx filename="app/docs/page.tsx"
 import { getMeta } from "./robindoc";
 
 export const getPageMetadata = async (pathname: string) => {

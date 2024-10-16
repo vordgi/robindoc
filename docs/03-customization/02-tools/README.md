@@ -4,7 +4,7 @@ When initializing Robindoc, in addition to the core elements, you will also rece
 
 These utilities work based on the structure and documentation files. They are needed to fine-tune page generation. For more details on page configuration, refer to the [App Organization](../../01-getting-started/04-app-organization.md) page.
 
-```ts filename="/docs/robindoc.ts"
+```ts filename="app/docs/robindoc.ts"
 import { initializeRobindoc } from "robindoc";
 
 export const { Page, Sidebar, getPages, getMeta, getPageContent } =

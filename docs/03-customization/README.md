@@ -4,7 +4,7 @@ Page layout consists of [special blocks](./01-elements/README.md). For additiona
 
 All styles are collected separately and are included once for the entire application from `robindoc/lib/styles.css`:
 
-```tsx filename="/docs/page.tsx"
+```tsx filename="app/docs/page.tsx"
 import { RobinProvider, Header, Footer, DocsContainer } from "robindoc";
 import { Page, Sidebar } from "./robindoc";
 import "robindoc/lib/styles.css";

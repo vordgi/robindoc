@@ -1,7 +1,7 @@
 import { type MetadataRoute } from 'next';
 import { getPages } from './docs/robindoc';
- 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+
+const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   const pages = await getPages();
   pages.push('');
 
@@ -12,3 +12,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 }
+
+export default sitemap;
