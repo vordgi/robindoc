@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import clsx from "clsx";
 
 import "./copy-button.scss";
+import { Tooltip } from "../tooltip";
 
 interface CopyButtonProps {
     raw: string;
@@ -11,11 +12,13 @@ interface CopyButtonProps {
     translations?: {
         /** Copy */
         copy?: string;
+        /** Code Copied */
+        codeCopied?: string;
     };
 }
 
 export const CopyButton: React.FC<CopyButtonProps> = ({ translations, raw, className }) => {
-    const { copy = "Copy" } = translations || {};
+    const { copy = "Copy", codeCopied = "Code Copied" } = translations || {};
     const [copyTimeout, setCopyTimeout] = useState<NodeJS.Timeout | null>(null);
     const clickHandler = () => {
         if (copyTimeout) clearTimeout(copyTimeout);
@@ -52,6 +55,9 @@ export const CopyButton: React.FC<CopyButtonProps> = ({ translations, raw, class
                     <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
                 </g>
             </svg>
+            <Tooltip position="bottom-end" visible={Boolean(copyTimeout)}>
+                {codeCopied}
+            </Tooltip>
         </button>
     );
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { CodeBlock, type CodeBlockProps } from "@src/components/ui/code-block";
 import { CopyButton } from "@src/components/ui/copy-button";
+import { CopyText } from "../../ui/copy-text";
 
 import "./code-section.scss";
 
@@ -12,7 +13,7 @@ export const CodeSection: React.FC<CodeSectionProps> = ({ filename, code, ...pro
     <div className="r-code-section">
         {filename ? (
             <div className="r-code-section-header">
-                <span>{filename}</span>
+                <CopyText className="r-code-section-filename" text={filename} />
                 <CopyButton raw={code} />
             </div>
         ) : (
