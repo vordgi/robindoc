@@ -8,16 +8,16 @@ export interface CodeSectionProps extends CodeBlockProps {
     filename?: string;
 }
 
-export const CodeSection: React.FC<CodeSectionProps> = ({ filename, code, ...props }) => {
-    return (
-        <div className="r-code-section">
-            {filename && (
-                <div className="r-code-section-header">
-                    <span>{filename}</span>
-                    <CopyButton raw={code} />
-                </div>
-            )}
-            <CodeBlock className="r-code-section-block" code={code} {...props} />
-        </div>
-    );
-};
+export const CodeSection: React.FC<CodeSectionProps> = ({ filename, code, ...props }) => (
+    <div className="r-code-section">
+        {filename ? (
+            <div className="r-code-section-header">
+                <span>{filename}</span>
+                <CopyButton raw={code} />
+            </div>
+        ) : (
+            <CopyButton raw={code} className="r-code-section-copy" />
+        )}
+        <CodeBlock className="r-code-section-block" code={code} {...props} />
+    </div>
+);

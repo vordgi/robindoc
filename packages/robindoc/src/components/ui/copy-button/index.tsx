@@ -7,13 +7,14 @@ import "./copy-button.scss";
 
 interface CopyButtonProps {
     raw: string;
+    className?: string;
     translations?: {
         /** Copy */
         copy?: string;
     };
 }
 
-export const CopyButton: React.FC<CopyButtonProps> = ({ translations, raw }) => {
+export const CopyButton: React.FC<CopyButtonProps> = ({ translations, raw, className }) => {
     const { copy = "Copy" } = translations || {};
     const [copyTimeout, setCopyTimeout] = useState<NodeJS.Timeout | null>(null);
     const clickHandler = () => {
@@ -27,7 +28,11 @@ export const CopyButton: React.FC<CopyButtonProps> = ({ translations, raw }) => 
     };
 
     return (
-        <button tabIndex={-1} onClick={clickHandler} className={clsx("copy-button", copyTimeout && "_active")}>
+        <button
+            tabIndex={-1}
+            onClick={clickHandler}
+            className={clsx("copy-button", copyTimeout && "_active", className)}
+        >
             <svg
                 width="20"
                 height="20"
