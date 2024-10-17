@@ -46,6 +46,7 @@
 
   &:hover::before {
     background-color: var(--primary800);
+    transition-delay: initial;
   }
 }
 
@@ -59,7 +60,7 @@
   border-bottom-left-radius: 2px;
   background-color: var(--neutral200);
   z-index: 1;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s cubic-bezier(0, 0.66, 0.58, 1) 0.05s;
 }
 
 .r-sidebar-nav {
@@ -153,7 +154,7 @@
     width: 2px;
     height: calc(100% + 4px);
     background-color: var(--neutral200);
-    transition: 0.2s;
+    transition: background-color 0.2s cubic-bezier(0, 0.66, 0.58, 1) 0.05s;
   }
 }
 
@@ -194,7 +195,9 @@
   border-bottom: 2px solid transparent;
   border-radius: 2px;
   text-decoration: none;
-  transition: 0.2s;
+  transition:
+    background-color 0.2s cubic-bezier(0, 0.66, 0.58, 1) 0.05s,
+    color 0.2s cubic-bezier(0, 0.66, 0.58, 1) 0.05s;
 }
 
 .r-sidebar-link._target {
@@ -204,10 +207,12 @@
 
 .r-sidebar-link:hover {
   color: var(--primary800);
-  background-color: var(--neutral50);
+  background-color: var(--neutral100);
+  transition-delay: initial;
 
   &::before {
     background-color: currentColor;
+    transition-delay: initial;
   }
 }
 
@@ -229,11 +234,14 @@
   background-color: var(--neutral200);
   list-style: none;
   cursor: pointer;
-  transition: 0.2s;
+  transition:
+    background-color 0.2s cubic-bezier(0, 0.66, 0.58, 1) 0.05s,
+    color 0.2s cubic-bezier(0, 0.66, 0.58, 1) 0.05s;
 
   &:hover {
     background-color: var(--neutral300);
     color: var(--primary500);
+    transition-delay: initial;
   }
 
   &::before {
