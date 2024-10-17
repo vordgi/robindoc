@@ -21,8 +21,8 @@ importers:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
       robindoc:
-        specifier: 2.0.1
-        version: 2.0.1(@types/react@18.3.11)(next@14.2.15(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 2.2.0
+        version: 2.2.0(@types/react@18.3.11)(next@14.2.15(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@types/node':
         specifier: ^20
@@ -1322,8 +1322,8 @@ packages:
     deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
 
-  robindoc@2.0.1:
-    resolution: {integrity: sha512-cXEXXabQ8WTVUMm/43aO8Qt8dIBp0Pv15LhdVTyC9zgtWPxeUkgO7X4KsV8nx34HF13A7U27FT3lJ74epmS08A==}
+  robindoc@2.2.0:
+    resolution: {integrity: sha512-IBvyJ0UwiEHdQXCaBPd7hrGWVtijA6VbgwhGxn/z0HhSnDcwpqGX4WqAl7yM7UZRKG4ozGqMgVHqqC2sUJnR/Q==}
     peerDependencies:
       next: '>= 13.0.0'
       react: '>= 18.3.0'
@@ -3132,7 +3132,7 @@ snapshots:
     dependencies:
       glob: 7.2.3
 
-  robindoc@2.0.1(@types/react@18.3.11)(next@14.2.15(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  robindoc@2.2.0(@types/react@18.3.11)(next@14.2.15(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       clsx: 2.1.1
       dot-prop: 6.0.1

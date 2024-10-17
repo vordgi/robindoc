@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Header, Footer, RobinProvider, KeylinkToContent, Main, KeylinkToNavigation } from "robindoc";
+import { Header, Footer, RobinProvider, KeylinkToContent, DocsContainer, KeylinkToNavigation } from "robindoc";
 
 import { Sidebar } from "./robindoc";
 
@@ -68,11 +68,11 @@ const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
                     git="https://github.com/vordgi/robindoc"
                     searcher="/api/search"
                 />
-                <Main>
+                <DocsContainer>
                     <Sidebar />
                     {children}
                     <KeylinkToNavigation />
-                </Main>
+                </DocsContainer>
                 <Footer copyright="© 2024 All rights reserved" />
             </RobinProvider>
         </body>
