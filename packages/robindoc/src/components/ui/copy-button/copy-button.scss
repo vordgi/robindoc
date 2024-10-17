@@ -1,4 +1,5 @@
 .copy-button {
+  position: relative;
   padding: 8px;
   background: none;
   color: var(--neutral700);
@@ -6,6 +7,7 @@
   border: 0;
   border-radius: 6px;
   cursor: pointer;
+  font: inherit;
   transition:
     color 0.2s,
     background-color 0.2s;

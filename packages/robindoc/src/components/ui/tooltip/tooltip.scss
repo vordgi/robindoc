@@ -1,0 +1,29 @@
+.r-tooltip {
+  font-family: var(--monospace-font, monospace, monospace);
+  opacity: 0;
+  position: absolute;
+  background: var(--neutral200);
+  width: max-content;
+  padding: 6px 12px;
+  border-radius: 4px;
+  max-width: 200px;
+  transform: translateY(80%);
+  transition:
+    transform 0.2s,
+    opacity 0.2s;
+
+  &._bottom-start {
+    bottom: -8px;
+    left: 0;
+  }
+
+  &._bottom-end {
+    bottom: -8px;
+    right: 0;
+  }
+}
+
+.r-tooltip._visible {
+  opacity: 1;
+  transform: translateY(100%);
+}
