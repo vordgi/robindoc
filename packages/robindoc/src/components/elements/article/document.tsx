@@ -124,7 +124,7 @@ export const Document: React.FC<ContentProps> = ({
 
             return (
                 <>
-                    <Tabs tabsData={tabsData} insertStyles={!isInsertedKey} blockKey={tabsKey} />
+                    <Tabs type="code" tabsData={tabsData} insertStyles={!isInsertedKey} blockKey={tabsKey} />
                     <DocumentToken token={token} />
                 </>
             );

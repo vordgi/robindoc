@@ -1,9 +1,20 @@
 "use client";
 
 import React from "react";
+import clsx from "clsx";
 import { saveTab } from "@src/core/utils/tabs-store";
 
-export const TabsHeader: React.FC<{ tabs: string[]; tabsKey: string }> = ({ tabs, tabsKey }) => {
+export interface TabsHeaderProps {
+    tabs: string[];
+    tabsKey: string;
+    type?: "code";
+}
+
+const typeClassNames = {
+    code: "r-tab-header-code",
+};
+
+export const TabsHeader: React.FC<TabsHeaderProps> = ({ tabs, tabsKey, type }) => {
     const changeTabHandler = (tab: string) => {
         const classNames = Array.from(document.documentElement.classList);
         classNames.forEach((className) => {
@@ -18,7 +29,11 @@ export const TabsHeader: React.FC<{ tabs: string[]; tabsKey: string }> = ({ tabs
     return (
         <div className="r-tabs-header">
             {tabs.map((tab) => (
-                <div key={tab} className={`r-tab-header r-tab-header_${tab}`} onClick={() => changeTabHandler(tab)}>
+                <div
+                    key={tab}
+                    className={clsx(`r-tab-header r-tab-header_${tab}`, type && typeClassNames[type])}
+                    onClick={() => changeTabHandler(tab)}
+                >
                     {tab}
                 </div>
             ))}
