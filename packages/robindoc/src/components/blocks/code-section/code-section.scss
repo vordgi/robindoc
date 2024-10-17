@@ -1,4 +1,5 @@
 .r-code-section {
+  position: relative;
   margin-block-start: 1.5em;
   margin-block-end: 1.75em;
 }
@@ -22,4 +23,24 @@
   border-top: 0;
   margin-block-start: 0;
   margin-block-end: 0;
+}
+
+.r-code-section:hover .r-code-section-copy {
+  opacity: 0.9;
+}
+
+.r-code-section-copy.r-code-section-copy {
+  position: absolute;
+  right: 9px;
+  top: 9px;
+  opacity: 0;
+  transition:
+    opacity 0.2s,
+    color 0.2s,
+    background-color 0.2s;
+
+  &:hover,
+  &._active {
+    opacity: 1;
+  }
 }
