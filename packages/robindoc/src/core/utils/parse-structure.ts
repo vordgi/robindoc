@@ -3,7 +3,7 @@ import { type Pages, type Crumbs, type Configuration } from "../types/content";
 import { type TreeItem } from "../../components/elements/sidebar/types";
 import { getConfiguration } from "./get-configuration";
 import { getMeta } from "./get-meta";
-import { generatePseudoTitle, normalizePathname } from "./path-tools";
+import { generatePseudoTitle, checkIsLinkExternal, mergePathname, normalizePathname } from "./path-tools";
 import { loadContent } from "./load-content";
 
 const parseJSONStructure = async (
@@ -28,21 +28,23 @@ const parseJSONStructure = async (
                 const clientPath = normalizePathname(
                     segment === "index" ? parentPathname : parentPathname + "/" + segment,
                 );
-                const pathname = (parentConfiguration.basePath || "") + clientPath;
+                const pathname = mergePathname(parentConfiguration.basePath, clientPath);
                 const pathnameNormalized = normalizePathname(pathname);
 
-                const origPath = await parentConfiguration.provider?.getPageSourcePathname(
-                    clientPath,
-                    pathnameNormalized,
-                );
-                if (origPath) {
-                    pages[pathnameNormalized] = {
-                        title: data.title,
-                        uri: clientPath,
-                        configuration: parentConfiguration,
-                        origPath,
-                        crumbs,
-                    };
+                if (!checkIsLinkExternal(pathnameNormalized)) {
+                    const origPath = await parentConfiguration.provider?.getPageSourcePathname(
+                        clientPath,
+                        pathnameNormalized,
+                    );
+                    if (origPath) {
+                        pages[pathnameNormalized] = {
+                            title: data.title,
+                            uri: clientPath,
+                            configuration: parentConfiguration,
+                            origPath,
+                            crumbs,
+                        };
+                    }
                 }
 
                 let subTree: TreeItem[] | undefined;
@@ -109,7 +111,7 @@ const parseAutoStructure = async (
         }
 
         const { clientPath } = generatedItem;
-        const pathname = (parentConfiguration.basePath || "") + clientPath;
+        const pathname = mergePathname(parentConfiguration.basePath, clientPath);
         const pathnameNormalized = normalizePathname(pathname);
 
         const meta = await getMeta({ provider: parentConfiguration.provider, uri: clientPath });
@@ -178,10 +180,10 @@ const parseStaticStructure = async (
         let subCrumbs = crumbs;
         const configuration = getConfiguration(item.configuration || {}, parentConfiguration);
         const clientPath = item.href;
-        const pathname = clientPath && configuration.basePath ? configuration.basePath + clientPath : clientPath;
+        const pathname = mergePathname(configuration.basePath, clientPath);
         const pathnameNormalized = normalizePathname(pathname);
 
-        if (clientPath) {
+        if (!checkIsLinkExternal(pathnameNormalized) && clientPath) {
             const origPath = await configuration.provider?.getPageSourcePathname(clientPath, pathnameNormalized);
 
             if (origPath) {

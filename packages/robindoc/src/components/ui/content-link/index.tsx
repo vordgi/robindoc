@@ -2,6 +2,8 @@ import React from "react";
 import Link, { type LinkProps } from "next/link";
 import clsx from "clsx";
 
+import { ExternalMark } from "../external-mark";
+
 import "./content-link.scss";
 
 export interface ContentLinkProps
@@ -12,15 +14,11 @@ export interface ContentLinkProps
 
 export const ContentLink: React.FC<ContentLinkProps> = ({ className, external, children, ...props }) => {
     const additionalProps = external ? { target: "_blank", rel: "noopener noreferrer" } : {};
+
     return (
         <Link className={clsx("r-content-link", className)} {...additionalProps} {...props}>
             {children}
-            {external && (
-                <>
-                    &nbsp;
-                    <span className="r-content-link-external" />
-                </>
-            )}
+            {external && <ExternalMark />}
         </Link>
     );
 };

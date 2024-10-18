@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
 import { NavLink } from "@src/components/blocks/nav-link";
+
 import { type TreeItem } from "../types";
 import { checkIsTargetPathname, collectItems } from "../tools";
 

@@ -22,3 +22,12 @@ export const generatePseudoTitle = (path?: string | null) => {
     const lastSegmentWords = lastSegment.split("-");
     return lastSegmentWords.map((word) => word[0].toUpperCase() + word.substring(1)).join(" ");
 };
+
+export const checkIsLinkExternal = (href: string) => {
+    const url = new URL(href, "http://r");
+    return url.host !== "r";
+};
+
+export const mergePathname = (basePath?: string, href?: string) => {
+    return !href || checkIsLinkExternal(href) ? href : (basePath || "") + href;
+};
