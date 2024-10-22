@@ -6,28 +6,29 @@ import "./tabs.scss";
 
 export interface TabsProps {
     insertStyles?: boolean;
-    tabsData: { [tabKey: string]: JSX.Element };
+    tabsData: { [tabKey: string]: { element: JSX.Element; tabName: string } };
     blockKey?: string;
     type?: TabsHeaderProps["type"];
 }
 
 export const Tabs: React.FC<TabsProps> = ({ insertStyles, tabsData, blockKey, type }) => {
-    const tabs = Object.keys(tabsData);
+    const tabsKeys = Object.keys(tabsData);
 
-    if (tabs.length === 1) {
-        return tabsData[tabs[0]];
+    if (tabsKeys.length === 1) {
+        return tabsData[tabsKeys[0]].element;
     }
 
-    const tabsKey = blockKey || tabs.sort().join("-");
+    const tabs = tabsKeys.map((tab) => ({ name: tabsData[tab].tabName, id: tab }));
+    const tabsTypeId = blockKey || tabsKeys.sort().join("-");
 
     return (
-        <div className={`r-tabs r-tabs__${tabsKey}`}>
-            {insertStyles && <TabsStyles tabs={tabs} tabsKey={tabsKey} />}
-            <TabsHeader tabs={tabs} tabsKey={tabsKey} type={type} />
-            <div className={`r-tab-list r-tab-list__${tabsKey}`}>
-                {tabs.map((tabKey) => (
+        <div className={`r-tabs r-tabs__${tabsTypeId}`}>
+            {insertStyles && <TabsStyles tabsKeys={tabsKeys} tabsTypeId={tabsTypeId} />}
+            <TabsHeader tabs={tabs} tabsTypeId={tabsTypeId} type={type} />
+            <div className={`r-tab-list r-tab-list__${tabsTypeId}`}>
+                {tabsKeys.map((tabKey) => (
                     <div key={tabKey} className={`r-tab r-tab_${tabKey}`}>
-                        {tabsData[tabKey]}
+                        {tabsData[tabKey].element}
                     </div>
                 ))}
             </div>

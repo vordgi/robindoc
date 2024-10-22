@@ -46,6 +46,10 @@ export const parseMarkdown = (content: string) => {
     return { tokens, headings };
 };
 
+export const formatId = (raw: string) => {
+    return raw.toLowerCase().replace(/\W/g, "_").replace(/_+/g, "_");
+};
+
 export const validateComponentName = (name: string) => {
     return /^[A-Z][a-zA-Z0-9]+$/.test(name);
 };
@@ -71,12 +75,15 @@ export const parseCodeLang = (raw: string) => {
     return { lang, configuration };
 };
 
-export const isNewCodeToken = (token: Token | Token[], codeQueue: { [lang: string]: JSX.Element }) => {
+export const isNewCodeToken = (
+    token: Token | Token[],
+    codeQueue: { [lang: string]: { element: JSX.Element; tabName: string } },
+) => {
     if (Array.isArray(token) || !Object.keys(codeQueue).length) return false;
 
     if (token.type === "code") {
         const { lang, configuration } = parseCodeLang(token.lang);
-        const tabKey = typeof configuration.tab === "string" ? configuration.tab : lang;
+        const tabKey = typeof configuration.tab === "string" ? formatId(configuration.tab) : lang;
         if (codeQueue[tabKey] || !configuration.switcher) return true;
     }
 
