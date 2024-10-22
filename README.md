@@ -33,6 +33,7 @@ No additional configuration is needed, while preserving the accessibility and cl
 ## Advantages
 
 - Works on React.js Server Components (RSC). More details in the section "[App Organization](./docs/01-getting-started/04-app-organization.md)";
+- Full support for next.js v14 and next.js v15. More details in the section "[App Organization](./docs/01-getting-started/04-app-organization.md)";
 - Zero configuration of the project, bundler, or markdown documents. More details in the section "[Customization](./docs/03-customization/README.md)";
 - Supports loading content from various sources, including GitHub. More details in the section "[Data Source](./docs/02-structure/03-data-source.md)";
 - Supports fully automatic documentation generation, as well as custom generation. More details in the section "[Structure](./docs/02-structure/README.md)";
