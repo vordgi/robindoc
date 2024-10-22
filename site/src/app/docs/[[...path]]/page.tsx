@@ -2,13 +2,14 @@ import { Page, getMeta, getPageData, getPages } from "../robindoc";
 import { Note } from "../../../components/ui/note";
 import { PackageLinks } from "../../../components/ui/package-links";
 
-const Docs = async ({ params }: { params: { path?: string[] } }) => {
-    const path = '/docs/' + (params.path?.join('/') || '');
-    const pageData = await getPageData(path);
+const Docs = async ({ params }: { params: Promise<{ path?: string[] }> }) => {
+    const { path } = await params;
+    const pathname = '/docs/' + (path?.join('/') || '');
+    const pageData = await getPageData(pathname);
 
     return (
         <Page
-            pathname={path}
+            pathname={pathname}
             components={{
                 Note,
                 PackageLinks,
@@ -21,8 +22,9 @@ const Docs = async ({ params }: { params: { path?: string[] } }) => {
     );
 }
 
-export const generateMetadata = async ({params}: {params: {path?: string[]}}) => {
-    const pathname = '/docs/' + (params.path?.join('/') || '');
+export const generateMetadata = async ({ params }: { params: Promise<{ path?: string[] }> }) => {
+    const { path } = await params;
+    const pathname = '/docs/' + (path?.join('/') || '');
     const meta = await getMeta(pathname);
     return meta;
 };

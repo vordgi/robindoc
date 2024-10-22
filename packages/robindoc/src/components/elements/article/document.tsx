@@ -23,6 +23,7 @@ import { TaskListItem, TaskOrderedList, TaskUnorderedList } from "@src/component
 
 import { type PagesType } from "./types";
 import {
+    formatId,
     formatLinkHref,
     isNewCodeToken,
     parseCodeLang,
@@ -110,7 +111,7 @@ export const Document: React.FC<ContentProps> = ({
         | null
         | { props: RobinProps; childTokens: Token[]; componentName: string; type: "base" }
         | { type: "dummy" } = null;
-    let codeQueue: { [lang: string]: JSX.Element } = {};
+    let codeQueue: { [lang: string]: { element: JSX.Element; tabName: string } } = {};
     const insertedCodeKeys: string[] = [];
     const DocumentToken: React.FC<{ token: Token | Token[] }> = ({ token }) => {
         if (!token) return null;
@@ -157,8 +158,9 @@ export const Document: React.FC<ContentProps> = ({
             }
         }
 
-        if (Array.isArray(token))
-            return token.map((t, index) => <DocumentToken token={t} key={(t as Tokens.Text).raw || index} />);
+        if (Array.isArray(token)) {
+            return token.map((t, index) => <DocumentToken token={t} key={(t as Tokens.Text).raw + index} />);
+        }
 
         switch (token.type) {
             case "heading":
@@ -249,9 +251,12 @@ export const Document: React.FC<ContentProps> = ({
             case "code":
                 const { lang, configuration } = parseCodeLang(token.lang);
                 if (configuration.switcher) {
-                    const tabKey = typeof configuration.tab === "string" ? configuration.tab : lang;
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    codeQueue[tabKey] = <CodeSection lang={lang as any} code={token.text} {...configuration} />;
+                    const tabKey = typeof configuration.tab === "string" ? formatId(configuration.tab) : lang;
+                    codeQueue[tabKey] = {
+                        tabName: configuration.tab.toString(),
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        element: <CodeSection lang={lang as any} code={token.text} {...configuration} />,
+                    };
                     return null;
                 }
 
