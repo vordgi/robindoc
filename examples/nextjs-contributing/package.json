@@ -10,10 +10,10 @@
   },
   "dependencies": {
     "match-sorter": "6.3.4",
-    "next": "14.2.15",
+    "next": "15.0.1",
     "react": "^18",
     "react-dom": "^18",
-    "robindoc": "2.2.0"
+    "robindoc": "2.3.0"
   },
   "devDependencies": {
     "@types/node": "^20",

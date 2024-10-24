@@ -1,11 +1,12 @@
 import { Page, getMeta, getPages } from "../robindoc";
 
-const Docs = async ({ params }: { params: { path?: string[] } }) => {
-    const path = "/" + (params.path?.join("/") || "");
+const Docs = async ({ params }: { params: Promise<{ path?: string[] }> }) => {
+    const { path } = await params;
+    const pathname = "/" + (path?.join("/") || "");
 
     return (
         <Page
-            pathname={path}
+            pathname={pathname}
             config={{
                 publicDirs: ["public"],
             }}
@@ -13,8 +14,9 @@ const Docs = async ({ params }: { params: { path?: string[] } }) => {
     );
 };
 
-export const generateMetadata = async ({ params }: { params: { path?: string[] } }) => {
-    const pathname = "/" + (params.path?.join("/") || "");
+export const generateMetadata = async ({ params }: { params: Promise<{ path?: string[] }> }) => {
+    const { path } = await params;
+    const pathname = "/" + (path?.join("/") || "");
     const meta = await getMeta(pathname);
     return meta;
 };
