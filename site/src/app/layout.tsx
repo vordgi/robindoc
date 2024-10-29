@@ -11,8 +11,12 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "Robindoc",
-    description: "Robindoc",
+    metadataBase: new URL('https://robindoc.com'),
+    title: "RobinDoc",
+    description: "RobinDoc is a framework for automatically creating documentation websites based on markdown files. Write the documentation however you want, Robindoc will build it on top. Fast, simple, easy",
+    openGraph: {
+        images: ['/preview.jpg'],
+    }
 };
 
 const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
