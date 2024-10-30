@@ -168,7 +168,7 @@ export const generateStaticParams = async () => {
 
 It is recommended to place the Robindoc initialization near this route.
 
-```tsx filename="app/docs/robindoc.ts"
+```ts filename="app/docs/robindoc.ts" switcher tab="TypeScript" clone="js|JavaScript|app/docs/robindoc.js"
 import { initializeRobindoc } from "robindoc";
 
 export const { Page, Sidebar, getPages, getMeta, getPageContent } =
@@ -192,7 +192,7 @@ When uploading to Vercel, the final image will contain only files inside the nex
 
 The Next.js Layout should be placed one level up so that it remains static for all pages.
 
-```tsx filename="app/docs/layout.tsx"
+```tsx filename="app/docs/layout.tsx" switcher tab="TypeScript"
 import { RobinProvider, Header, Footer, DocsContainer } from "robindoc";
 import { Sidebar } from "./robindoc";
 import Logo from "./logo";
@@ -213,14 +213,51 @@ const Layout: React.FC<React.PropsWithChildren> = ({ children }) => (
 export default Layout;
 ```
 
+```jsx filename="app/docs/layout.jsx" switcher tab="JavaScript"
+import { RobinProvider, Header, Footer, DocsContainer } from "robindoc";
+import { Sidebar } from "./robindoc";
+import Logo from "./logo";
+
+import "robindoc/lib/styles.css";
+
+const Layout = ({ children }) => (
+  <RobinProvider>
+    <Header logo={<Logo />} />
+    <DocsContainer>
+      <Sidebar />
+      {children}
+    </DocsContainer>
+    <Footer copyright="© 2024 All rights reserved" />
+  </RobinProvider>
+);
+
+export default Layout;
+```
+
 For more details on configuring elements, refer to the [`RobinProvider`](../03-customization/01-elements/robin-provider.md), [`Header`](../03-customization/01-elements/header.md), [`Sidebar`](../03-customization/01-elements/sidebar.md), [`Footer`](../03-customization/01-elements/footer.md), and [`Containers`](../03-customization/01-elements/containers.md) block pages.
 
 ## Search Setup
 
 If you want to enable search, you can create your own API route and pass the path to it in your Header.
 
-```ts filename="app/api/search/route.ts"
+```ts filename="app/api/search/route.ts" switcher tab="TypeScript"
 export const GET = async (request: Request) => {
+  const url = new URL(request.url);
+  const search = url.searchParams.get("s");
+
+  const headers = new Headers();
+  headers.set("Content-Type", "application/json; charset=UTF-8");
+
+  if (!search) return new Response(JSON.stringify([]), { headers });
+
+  const searchResults = await advancedSearcher(search);
+
+  return new Response(JSON.stringify(searchResults), { headers });
+};
+```
+
+```js filename="app/api/search/route.js" switcher tab="JavaScript"
+export const GET = async (request) => {
   const url = new URL(request.url);
   const search = url.searchParams.get("s");
 
@@ -246,7 +283,7 @@ const Layout: React.FC<React.PropsWithChildren> = ({ children }) => (
 export default Layout;
 ```
 
-```js switcher filename="app/docs/layout.js" tab="JavaScript"
+```js switcher filename="app/docs/layout.jsx" tab="JavaScript"
 const Layout = ({ children }) => (
   <RobinProvider>
     <Header logo={<Logo />} searcher="/api/search" />
@@ -261,7 +298,7 @@ export default Layout;
 
 Since the image in Vercel does not include indirect files - for working with documentation on the server - local documentation files need to be passed explicitly via `outputFileTracingIncludes` config.
 
-```js filename="next.config.js" switcher tab="v14"
+```ts filename="next.config.ts" switcher tab="v14 TSX"
 /** @type {import("next").NextConfig} */
 const nextConfig = {
   experimental: {
@@ -272,9 +309,30 @@ const nextConfig = {
 };
 ```
 
-```js filename="next.config.js" switcher tab="v15"
+```js filename="next.config.js" switcher tab="v14 JSX"
 /** @type {import("next").NextConfig} */
 const nextConfig = {
+  experimental: {
+    outputFileTracingIncludes: {
+      "/api/search": ["./docs/**/*", "./blog/**/*", "./README.md"],
+    },
+  },
+};
+```
+
+```ts filename="next.config.js" switcher tab="v15 TSX"
+import type { NextConfig } from "next";
+
+const nextConfig = {
+  outputFileTracingIncludes: {
+    "/api/search": ["./docs/**/*", "./blog/**/*", "./README.md"],
+  },
+};
+```
+
+```js filename="next.config.js" switcher tab="v15 JSX"
+/** @type {import("next").NextConfig} */
+const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     "/api/search": ["./docs/**/*", "./blog/**/*", "./README.md"],
   },
@@ -287,11 +345,29 @@ For more details on search configuration, refer to the [Search](../03-customizat
 
 To generate a sitemap in next.js, you can use a [special sitemap file](https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap) in combination with [getPages](../03-customization/02-tools/get-pages.md) tool:
 
-```ts filename="app/sitemap.ts"
+```ts filename="app/sitemap.ts" switcher tab="TypeScript"
 import { type MetadataRoute } from "next";
 import { getPages } from "./docs/robindoc";
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
+  const pages = await getPages();
+
+  return pages.map((page) => ({
+    url: `https://robindoc.com${page}`,
+    lastModified: new Date(),
+    changeFrequency: "daily",
+    priority: 0.7,
+  }));
+};
+
+export default sitemap;
+```
+
+```js filename="app/sitemap.js" switcher tab="JavaScript"
+import { type MetadataRoute } from "next";
+import { getPages } from "./docs/robindoc";
+
+const sitemap = async () => {
   const pages = await getPages();
 
   return pages.map((page) => ({

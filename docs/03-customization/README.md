@@ -4,7 +4,26 @@ Page layout consists of [special blocks](./01-elements/README.md). For additiona
 
 All styles are collected separately and are included once for the entire application from `robindoc/lib/styles.css`:
 
-```tsx filename="app/docs/page.tsx"
+```tsx filename="app/docs/page.tsx" switcher tab="TypeScript"
+import { RobinProvider, Header, Footer, DocsContainer } from "robindoc";
+import { Page, Sidebar } from "./robindoc";
+import "robindoc/lib/styles.css";
+
+const DocumentationPage: React.FC = () => (
+  <RobinProvider>
+    <Header logo={<Logo />} />
+    <DocsContainer>
+      <Sidebar pathname="/docs" />
+      <Page pathname="/docs" />
+    </DocsContainer>
+    <Footer copyright="© 2024 All rights reserved" />
+  </RobinProvider>
+);
+
+export default DocumentationPage;
+```
+
+```jsx filename="app/docs/page.jsx" switcher tab="JavaScript"
 import { RobinProvider, Header, Footer, DocsContainer } from "robindoc";
 import { Page, Sidebar } from "./robindoc";
 import "robindoc/lib/styles.css";

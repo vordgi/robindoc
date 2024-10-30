@@ -15,7 +15,7 @@ All custom components should be passed to the page manually via props. This mean
 Note: All these components will be embedded as server components. If you need client-side logic, add `"use client"` at the beginning of the component file.
 </Note>
 
-```md filename="/README.md"
+```md filename="README.md"
 # Example
 
 <Note type='info'>
@@ -23,7 +23,21 @@ Note: All these components will be embedded as server components. If you need cl
 </Note>
 ```
 
-```tsx filename="app/docs/page.tsx"
+```tsx filename="app/docs/page.tsx" switcher tab="TypeScript"
+import { Note } from "./note";
+
+const Page: React.FC = () => (
+  <Page
+    components={{
+      Note,
+    }}
+  />
+);
+
+export default Page;
+```
+
+```jsx filename="app/docs/page.jsx" switcher tab="JavaScript"
 import { Note } from "./note";
 
 const Page = () => (
@@ -47,7 +61,7 @@ Robin components can be used in several scenarios:
 
 ### Inserting a React Component
 
-```md filename="/README.md"
+```md filename="README.md"
 <!---robin ReadMore
 buttonText="Read More"
 -->
@@ -65,7 +79,7 @@ If the component is provided and fully configured, it will be embedded as a comp
 
 In this example, a self-closing Robin component is used:
 
-```md filename="/README.md"
+```md filename="README.md"
 # Introduction
 
 <!---robin Github/-->
@@ -75,7 +89,7 @@ In this example, a self-closing Robin component is used:
 
 In some cases, you might want to hide content on the site. For example, so that users viewing the Markdown file on npm see a link to the site. To do this, simply wrap the desired content in an anonymous Robin component.
 
-```md filename="/README.md"
+```md filename="README.md"
 # Introduction
 
 <!---robin-->
