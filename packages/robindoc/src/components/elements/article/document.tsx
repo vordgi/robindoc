@@ -250,13 +250,35 @@ export const Document: React.FC<ContentProps> = ({
                 return <CodeSpan>{token.raw.replace(/^`|`$/g, "")}</CodeSpan>;
             case "code":
                 const { lang, configuration } = parseCodeLang(token.lang);
-                if (configuration.switcher) {
+                if (configuration.switcher && lang) {
                     const tabKey = typeof configuration.tab === "string" ? formatId(configuration.tab) : lang;
                     codeQueue[tabKey] = {
-                        tabName: configuration.tab.toString(),
+                        tabName: (configuration.tab || lang).toString(),
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         element: <CodeSection lang={lang as any} code={token.text} {...configuration} />,
                     };
+
+                    if (typeof configuration.clone === "string") {
+                        const copies = configuration.clone.split(",");
+
+                        copies.forEach((copy) => {
+                            const [copyLang, copyTab, copyFileName] = copy.split("|");
+                            const copyTabKey = typeof copyTab === "string" ? formatId(copyTab) : copyLang;
+
+                            codeQueue[copyTabKey] = {
+                                tabName: (copyTab || copyLang).toString(),
+                                element: (
+                                    <CodeSection
+                                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                        lang={copyLang as any}
+                                        code={token.text}
+                                        {...configuration}
+                                        filename={copyFileName || (configuration.filename as string)}
+                                    />
+                                ),
+                            };
+                        });
+                    }
                     return null;
                 }
 
