@@ -10,6 +10,10 @@ If you already have an application on a framework that supports RSC, simply inst
 npm i robindoc
 ```
 
+```bash switcher tab="pnpm"
+npm i robindoc
+```
+
 ```bash switcher tab="yarn"
 yarn add robindoc
 ```

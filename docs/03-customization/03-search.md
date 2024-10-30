@@ -12,10 +12,21 @@ To use an API route for search, pass the path to the search endpoint in the `sea
 
 Here’s an example of how to configure the `Header` component with a search API route:
 
-```tsx filename="app/layout.tsx"
+```tsx filename="app/layout.tsx" switcher tab="TypeScript"
 import { RobinProvider, Header } from "robindoc";
 
 const Layout: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <RobinProvider>
+    <Header logo={<Logo />} searcher="/api/search" />
+    {/* ... */}
+  </RobinProvider>
+);
+```
+
+```jsx filename="app/layout.jsx" switcher tab="JavaScript"
+import { RobinProvider, Header } from "robindoc";
+
+const Layout = ({ children }) => (
   <RobinProvider>
     <Header logo={<Logo />} searcher="/api/search" />
     {/* ... */}
@@ -29,10 +40,17 @@ If you prefer to handle search logic entirely on the client side, you can provid
 
 Here’s an example callback function:
 
-```ts filename="utils/searcher.ts"
+```ts filename="utils/searcher.ts" switcher tab="TypeScript"
 import { type Searcher } from "robindoc/lib/core/types/search";
 
 export const searcher: Searcher = async (search, abortController) => {
+  const results = await advancedSearcher(pagesData, search, abortController);
+  return results;
+};
+```
+
+```js filename="utils/searcher.js" switcher tab="JavaScript"
+export const searcher = async (search, abortController) => {
   const results = await advancedSearcher(pagesData, search, abortController);
   return results;
 };
@@ -42,7 +60,7 @@ export const searcher: Searcher = async (search, abortController) => {
 
 If you use an API route, the server should handle the search requests. The following code demonstrates a simple search implementation using the `match-sorter` library and the utilities `getPages` and `getPageContent`:
 
-```ts filename="app/api/search/route.ts"
+```ts filename="app/api/search/route.ts" switcher tab="TypeScript"
 import { matchSorter } from "match-sorter";
 import { getPages, getPageContent } from "../docs/robindoc";
 
@@ -57,6 +75,38 @@ export const GET = async (request: Request) => {
 
   const pages = await getPages();
   const docs: { href: string; content: string; title: string }[] = [];
+
+  for await (const page of pages) {
+    const { content, title } = await getPageContent(page);
+    docs.push({ href: page, content, title });
+  }
+
+  const matchResults = matchSorter(docs, search, {
+    keys: ["content", "title"],
+  });
+  const searchResults = matchResults
+    .slice(0, 5)
+    .map((item) => ({ title: item.title, href: item.href }));
+
+  return new Response(JSON.stringify(searchResults), { headers });
+};
+```
+
+```js filename="app/api/search/route.js" switcher tab="JavaScript"
+import { matchSorter } from "match-sorter";
+import { getPages, getPageContent } from "../docs/robindoc";
+
+export const GET = async (request) => {
+  const url = new URL(request.url);
+  const search = url.searchParams.get("s");
+
+  const headers = new Headers();
+  headers.set("Content-Type", "application/json; charset=UTF-8");
+
+  if (!search) return new Response(JSON.stringify([]), { headers });
+
+  const pages = await getPages();
+  const docs = [];
 
   for await (const page of pages) {
     const { content, title } = await getPageContent(page);

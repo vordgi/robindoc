@@ -8,10 +8,26 @@ A special element that appears at the very start of the page when the user press
 
 This element should be inserted at the very beginning of the page, i.e., the first element in the body.
 
-```tsx filename="app/layout.tsx"
+```tsx filename="app/layout.tsx" switcher tab="TypeScript"
 import { Header, KeylinkToContent } from "robindoc";
 
 const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <html lang="en">
+    <body>
+      <KeylinkToContent />
+      <Header logo={<Logo />} />
+      {/* ... */}
+    </body>
+  </html>
+);
+
+export default RootLayout;
+```
+
+```jsx filename="app/layout.jsx" switcher tab="JavaScript"
+import { Header, KeylinkToContent } from "robindoc";
+
+const RootLayout = ({ children }) => (
   <html lang="en">
     <body>
       <KeylinkToContent />
@@ -42,13 +58,28 @@ This element should be inserted at the very end of the page, i.e., the last elem
 `KeylinkToNavigation` should be added at the page level in case there are pages without navigation.
 </Note>
 
-```tsx filename="app/docs/layout.tsx"
-import type { Metadata } from "next";
+```tsx filename="app/docs/layout.tsx" switcher tab="TypeScript"
 import { DocsContainer, KeylinkToNavigation } from "robindoc";
 
 import { Sidebar } from "./robindoc";
 
 const DocsLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <DocsContainer>
+    <Sidebar />
+    {children}
+    <KeylinkToNavigation />
+  </DocsContainer>
+);
+
+export default DocsLayout;
+```
+
+```jsx filename="app/docs/layout.jsx" switcher tab="JavaScript"
+import { DocsContainer, KeylinkToNavigation } from "robindoc";
+
+import { Sidebar } from "./robindoc";
+
+const DocsLayout = ({ children }) => (
   <DocsContainer>
     <Sidebar />
     {children}

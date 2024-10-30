@@ -6,7 +6,7 @@
 
 A special container designed for custom pages
 
-```tsx filename="app/page.tsx"
+```tsx filename="app/page.tsx" switcher tab="TypeScript" clone="jsx|JavaScript|app/page.jsx"
 import { PageContainer } from "robindoc";
 
 const HomePage = () => <PageContainer>{/* ... */}</PageContainer>;
@@ -18,10 +18,20 @@ export default HomePage;
 
 A special container designed for a documentation. Assumes the use of `[Sidebar](./sidebar.md)`, `[Page](./page.md)` on the page
 
-```tsx filename="app/docs/layout.tsx"
+```tsx filename="app/docs/layout.tsx" switcher tab="TypeScript"
 import { DocsContainer } from "robindoc";
 
 const DocsLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <DocsContainer>{children}</DocsContainer>;
+);
+
+export default DocsLayout;
+```
+
+```jsx filename="app/docs/layout.jsx" switcher tab="JavaScript"
+import { DocsContainer } from "robindoc";
+
+const DocsLayout = ({ children }) => (
   <DocsContainer>{children}</DocsContainer>;
 );
 
@@ -34,10 +44,20 @@ A special container designed for a blog. It differs in that it does not involve 
 
 <a href="./sidebar.md">some text</a>
 
-```tsx filename="app/blog/layout.tsx"
+```tsx filename="app/blog/layout.tsx" switcher tab="TypeScript"
 import { BlogContainer } from "robindoc";
 
 const BlogLayout: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <BlogContainer>{children}</BlogContainer>;
+);
+
+export default BlogLayout;
+```
+
+```jsx filename="app/blog/layout.jsx" switcher tab="JavaScript"
+import { BlogContainer } from "robindoc";
+
+const BlogLayout = ({ children }) => (
   <BlogContainer>{children}</BlogContainer>;
 );
 

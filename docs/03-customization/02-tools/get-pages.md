@@ -10,12 +10,12 @@ For more details on using the utility in your application, refer to the [App Org
 
 You can obtain an array of objects with the list of segments for each page using the following method:
 
-```tsx filename="app/docs/[[...path]]/page.tsx"
+```tsx filename="app/docs/[[...path]]/page.tsx" switcher tab="TypeScript" clone="jsx|JavaScript|app/docs/[[...path]]/page.jsx"
 import { getPages } from "./robindoc";
 
-const getPageSegments = async () => {
-  const pages = await getPages(); // ['/introduction', '/usage', ...]
-  return pages.map((page) => ({ segments: page.split("/").slice(1) }));
+export const generateStaticParams = async () => {
+  const pages = await getPages();
+  return pages.map((page) => ({ path: page.split("/").slice(2) }));
 };
 ```
 
@@ -23,6 +23,6 @@ const getPageSegments = async () => {
 
 In some cases, you might want to retrieve a specific section of the documentation, such as `/docs` or `/blog`. To get a filtered list of pages, simply pass the desired prefix as an argument.
 
-```tsx filename="app/docs/[[...path]]/page.tsx"
+```tsx filename="app/docs/[[...path]]/page.tsx" switcher tab="TypeScript" clone="jsx|JavaScript|app/docs/[[...path]]/page.jsx"
 const pages = await getPages("/docs");
 ```

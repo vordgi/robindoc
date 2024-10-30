@@ -2,10 +2,23 @@
 
 `Header` is a universal header. It can be used both for Robindoc documentation pages and the entire site.
 
-```tsx filename="app/layout.tsx"
+```tsx filename="app/layout.tsx" switcher tab="TypeScript"
 import { RobinProvider, Header } from "robindoc";
 
 const Layout: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <RobinProvider>
+    <Header logo={<Logo />} />
+    {/* ... */}
+  </RobinProvider>
+);
+
+export default Layout;
+```
+
+```jsx filename="app/layout.jsx" switcher tab="JavaScript"
+import { RobinProvider, Header } from "robindoc";
+
+const Layout = ({ children }) => (
   <RobinProvider>
     <Header logo={<Logo />} />
     {/* ... */}
