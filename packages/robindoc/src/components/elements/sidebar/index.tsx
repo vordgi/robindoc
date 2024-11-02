@@ -21,6 +21,10 @@ type LinkBranchProps = {
 const LinkBranch: React.FC<LinkBranchProps> = ({ branch, depth, translations }) => {
     const { expandTitle = "Expand {title}" } = translations || {};
 
+    if (branch.type === "separator") {
+        return <li className="r-sidebar-li _separator" />;
+    }
+
     return (
         <li
             className={clsx(
@@ -41,10 +45,10 @@ const LinkBranch: React.FC<LinkBranchProps> = ({ branch, depth, translations }) 
                     id={branch.href + branch.title}
                     label={expandTitle.replace("{title}", branch.title)}
                 >
-                    {branch.items.map((item) => (
+                    {branch.items.map((item, index) => (
                         <LinkBranch
                             branch={item}
-                            key={item.href + item.title}
+                            key={item.type === "separator" ? `sep${index}` : item.href + item.title}
                             depth={depth >= 4 ? 4 : depth + 1}
                             translations={translations}
                         />
@@ -69,10 +73,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ tree, translations }) => {
             <SidebarMenu>
                 <nav className="r-sidebar-nav" id="navigation">
                     <ul className="r-sidebar-list">
-                        {tree.map((item) => (
+                        {tree.map((item, index) => (
                             <LinkBranch
                                 branch={item}
-                                key={item.href + item.title}
+                                key={item.type === "separator" ? `sep${index}` : item.href + item.title}
                                 depth={0}
                                 translations={translations}
                             />

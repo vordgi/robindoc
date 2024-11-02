@@ -177,6 +177,11 @@ const parseStaticStructure = async (
             tree.push(...subItemsData.tree);
             continue;
         }
+        if (item.type === "separator") {
+            tree.push({ type: "separator" });
+
+            continue;
+        }
         let subCrumbs = crumbs;
         const configuration = getConfiguration(item.configuration || {}, parentConfiguration);
         const clientPath = item.href;
