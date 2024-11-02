@@ -10,7 +10,7 @@ import { type TreeItem } from "../types";
 import { checkIsTargetPathname, collectItems } from "../tools";
 
 type SidebarLinkProps = {
-    branch: TreeItem & { href: string };
+    branch: Exclude<TreeItem, { type: "separator" }> & { href: string };
 };
 
 export const SidebarLink: React.FC<SidebarLinkProps> = ({ branch }) => {

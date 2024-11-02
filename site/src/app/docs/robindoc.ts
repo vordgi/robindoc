@@ -18,6 +18,9 @@ export const { Page, Sidebar, getPages, getMeta, getPageContent, getPageData } =
                 sourceRoot: '../README.md',
             }
         },
+        {
+            type: 'separator',
+        },
         "auto"
     ],
 });

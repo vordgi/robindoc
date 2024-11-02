@@ -3,6 +3,8 @@ import { type TreeItem } from "./types";
 export const collectItems = (branch: TreeItem) => {
     const links: string[] = [];
 
+    if (branch.type === "separator") return links;
+
     if (branch.href) links.push(branch.href);
 
     branch.items?.forEach((item) => {
@@ -12,7 +14,8 @@ export const collectItems = (branch: TreeItem) => {
     return links;
 };
 
-export const isActiveItem = (branch: TreeItem): branch is TreeItem & { href: string } => Boolean(branch.href);
+export const isActiveItem = (branch: TreeItem): branch is TreeItem & { href: string } =>
+    Boolean(branch.type !== "separator" && branch.href);
 
 export const checkIsTargetPathname = (itemHref?: string, pathname?: string) => {
     if (typeof pathname !== "string" || typeof itemHref !== "string") return false;

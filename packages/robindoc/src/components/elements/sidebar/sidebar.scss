@@ -165,6 +165,11 @@
   line-height: 1.5;
 }
 
+.r-sidebar-li._separator {
+  background: var(--neutral200);
+  padding: 1px;
+}
+
 .r-sidebar-li._droppable > a {
   padding-right: 32px;
 }

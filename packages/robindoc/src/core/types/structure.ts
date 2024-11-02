@@ -9,6 +9,9 @@ export type DocItem =
           href?: string;
           configuration?: Configuration;
       }
+    | {
+          type: "separator";
+      }
     | "auto";
 
 export type Structure = {
