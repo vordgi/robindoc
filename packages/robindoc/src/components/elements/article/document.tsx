@@ -1,5 +1,6 @@
 import React from "react";
 import parse, { attributesToProps, DOMNode, domToReact, HTMLReactParserOptions, Text } from "html-react-parser";
+import { type BundledLanguage } from "shiki/langs";
 import { type TokensList, type Token, type Tokens } from "marked";
 import { type RobinProps, type Components } from "@src/core/types/content";
 import { type BaseProvider } from "@src/core/providers/base";
@@ -8,6 +9,7 @@ import { AnchorHeading } from "@src/components/blocks/anchor-heading";
 import { CodeSection } from "@src/components/blocks/code-section";
 import { Table, Thead, Tr, Th, Tbody, Td } from "@src/components/ui/table";
 import { CodeSpan } from "@src/components/ui/code-span";
+import { CodeBlock } from "@src/components/ui/code-block";
 import { Img } from "@src/components/ui/img";
 import { Block } from "@src/components/ui/block";
 import { Blockquote } from "@src/components/ui/blockquote";
@@ -247,7 +249,14 @@ export const Document: React.FC<ContentProps> = ({
             case "blockquote":
                 return <Blockquote>{token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}</Blockquote>;
             case "codespan":
-                return <CodeSpan>{token.raw.replace(/^`|`$/g, "")}</CodeSpan>;
+                const inlineCode = token.raw.replace(/^`|`$/g, "");
+                const hightlightMatch = inlineCode.match(/(.+){:([a-zA-Z]+)}$/);
+                if (hightlightMatch) {
+                    const [, raw, lang] = hightlightMatch;
+                    return <CodeBlock code={raw} lang={lang as BundledLanguage} inline />;
+                }
+
+                return <CodeSpan code={inlineCode} />;
             case "code":
                 const { lang, configuration } = parseCodeLang(token.lang);
                 if (configuration.switcher && lang) {

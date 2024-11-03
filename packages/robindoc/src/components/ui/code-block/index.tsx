@@ -5,11 +5,13 @@ import clsx from "clsx";
 import { githubDynamic } from "./theme";
 
 import "./code-block.scss";
+import { CodeSpan } from "../code-span";
 
 export interface CodeBlockProps {
     code: string;
     lang: BuiltinLanguage;
     className?: string;
+    inline?: boolean;
 }
 
 const initBaseHighlighter = async () => {
@@ -31,7 +33,7 @@ const getHighlighter = cache(async (language: BuiltinLanguage) => {
     return highlighter;
 });
 
-export const CodeBlock: React.FC<CodeBlockProps> = async ({ code, lang, className }) => {
+export const CodeBlock: React.FC<CodeBlockProps> = async ({ code, lang, className, inline }) => {
     const highlighter = await getHighlighter(lang);
     await highlighter.loadTheme(githubDynamic);
 
@@ -41,5 +43,14 @@ export const CodeBlock: React.FC<CodeBlockProps> = async ({ code, lang, classNam
         structure: "inline",
     });
 
-    return <pre className={clsx("r-code-block", className)} dangerouslySetInnerHTML={{ __html: html }} />;
+    if (inline) return <CodeSpan code={html} />;
+
+    const Component = inline ? "code" : "pre";
+
+    return (
+        <Component
+            className={clsx(inline ? "r-code-span" : "r-code-block", className)}
+            dangerouslySetInnerHTML={{ __html: html }}
+        />
+    );
 };
