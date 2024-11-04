@@ -12,7 +12,7 @@
 
 .showcases-name {
   position: relative;
-  color: var(--primary600);
+  color: var(--primary-600);
 
   &::before,
   &::after {
@@ -29,16 +29,16 @@
     left: -40px;
     top: -20px;
     border-radius: 50% 10% 30% 25% / 35% 20% 70% 80%;
-    background-color: var(--primary700);
-    box-shadow: 0 0 80px 100px var(--primary700);
+    background-color: var(--primary-700);
+    box-shadow: 0 0 80px 100px var(--primary-700);
   }
 
   &::after {
     right: -200px;
     bottom: -140px;
     border-radius: 10% 25% 15% 80% / 60% 20% 25% 50%;
-    background-color: var(--neutral700);
-    box-shadow: 0 0 80px 100px var(--neutral700);
+    background-color: var(--neutral-700);
+    box-shadow: 0 0 80px 100px var(--neutral-700);
   }
 }
 
@@ -54,7 +54,7 @@
 }
 
 .showcases-btn {
-  --main-color: var(--neutral900);
+  --main-color: var(--neutral-900);
   display: block;
   text-decoration: none;
   border-radius: 6px;
@@ -68,12 +68,12 @@
 
   &:hover {
     background-color: var(--main-color);
-    color: var(--neutral100);
+    color: var(--neutral-100);
   }
 }
 
 .showcases-btn_primary {
-  --main-color: var(--primary700);
+  --main-color: var(--primary-700);
 }
 
 .showcases-list {
@@ -91,7 +91,7 @@
   display: block;
   border-radius: 12px;
   text-decoration: none;
-  background-color: var(--neutral50);
+  background-color: var(--neutral-50);
   padding: 16px;
   color: inherit;
   text-align: left;
@@ -100,7 +100,7 @@
 
   &:hover {
     filter: grayscale(0);
-    background-color: var(--neutral100);
+    background-color: var(--neutral-100);
   }
 }
 
@@ -121,7 +121,7 @@
   top: 16px;
   right: 16px;
   padding: 6px 10px;
-  background-color: var(--neutral100);
+  background-color: var(--neutral-100);
   backdrop-filter: opacity(0.4);
   border-top-right-radius: 8px;
   border-bottom-left-radius: 8px;

@@ -1,13 +1,13 @@
 :root {
-    --accent50: #eff6ff;
-    --accent100: #dbeafe;
-    --accent200: #bfdbfe;
-    --accent300: #93c5fd;
-    --accent400: #60a5fa;
-    --accent500: #3b82f6;
-    --accent600: #2563eb;
-    --accent700: #1d4ed8;
-    --accent800: #1e40af;
-    --accent900: #1e3a8a;
-    --accent950: #172554;
+    --accent-50: #eff6ff;
+    --accent-100: #dbeafe;
+    --accent-200: #bfdbfe;
+    --accent-300: #93c5fd;
+    --accent-400: #60a5fa;
+    --accent-500: #3b82f6;
+    --accent-600: #2563eb;
+    --accent-700: #1d4ed8;
+    --accent-800: #1e40af;
+    --accent-900: #1e3a8a;
+    --accent-950: #172554;
 }

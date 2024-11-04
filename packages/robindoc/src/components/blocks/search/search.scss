@@ -3,10 +3,10 @@
 .r-search-btn {
   position: relative;
   border-radius: 6px;
-  background-color: var(--neutral100);
-  color: var(--neutral600);
+  background-color: var(--neutral-100);
+  color: var(--neutral-600);
   padding: 8px 20px;
-  border: 1px solid var(--neutral200);
+  border: 1px solid var(--neutral-200);
   width: 100%;
   text-align: left;
   cursor: text;
@@ -17,10 +17,10 @@
   }
 
   &:hover {
-    border-color: var(--neutral600);
+    border-color: var(--neutral-600);
 
     & .r-search-kbd {
-      color: var(--neutral950);
+      color: var(--neutral-950);
     }
   }
 }
@@ -46,15 +46,15 @@
 
 .r-search-popup-header {
   position: relative;
-  border-bottom: 1px solid var(--neutral200);
+  border-bottom: 1px solid var(--neutral-200);
 }
 
 .r-search-input {
   border-radius: 12px 12px 0 0;
-  background-color: var(--neutral50);
+  background-color: var(--neutral-50);
   padding: 16px 20px;
   border: none;
-  border-bottom: 2px solid var(--neutral300);
+  border-bottom: 2px solid var(--neutral-300);
   width: 100%;
   font-size: 16px;
 
@@ -63,21 +63,21 @@
   }
 
   &:hover {
-    border-bottom-color: var(--primary800);
+    border-bottom-color: var(--primary-800);
   }
 
   &:focus {
     outline: none;
-    border-bottom-color: var(--primary600);
+    border-bottom-color: var(--primary-600);
   }
 
   &::placeholder {
-    color: var(--neutral500);
+    color: var(--neutral-500);
   }
 }
 
 .r-search-popup-kbd {
-  color: var(--neutral600);
+  color: var(--neutral-600);
   right: 20px;
 }
 
@@ -87,24 +87,24 @@
   overflow-y: auto;
   list-style: none;
   scrollbar-width: thin;
-  scrollbar-color: var(--neutral200) transparent;
+  scrollbar-color: var(--neutral-200) transparent;
   margin: 0;
 }
 
 .r-search-item {
   display: block;
   text-decoration: none;
-  color: var(--neutral700);
+  color: var(--neutral-700);
   padding: 8px 12px;
-  border: 1px solid var(--neutral100);
+  border: 1px solid var(--neutral-100);
   border-radius: 6px;
   width: 100%;
   margin-top: 6px;
 
   &:hover,
   &:focus {
-    color: var(--neutral950);
-    background-color: var(--neutral50);
+    color: var(--neutral-950);
+    background-color: var(--neutral-50);
   }
 }
 
@@ -114,6 +114,6 @@
 
 .r-search-item-desc {
   font-size: 14px;
-  color: var(--neutral600);
+  color: var(--neutral-600);
   margin: 12px 0 0;
 }

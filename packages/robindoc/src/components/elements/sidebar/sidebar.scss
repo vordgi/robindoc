@@ -10,7 +10,7 @@
     left: 0;
     margin: 0 -12px;
     background-color: var(--body);
-    border-bottom: 1px solid var(--neutral200);
+    border-bottom: 1px solid var(--neutral-200);
     z-index: 10;
     opacity: 0.98;
     padding: 0;
@@ -45,7 +45,7 @@
   padding-top: 2px;
 
   &:hover::before {
-    background-color: var(--primary800);
+    background-color: var(--primary-800);
     transition-delay: initial;
   }
 }
@@ -58,7 +58,7 @@
   right: 0;
   height: 2px;
   border-bottom-left-radius: 2px;
-  background-color: var(--neutral200);
+  background-color: var(--neutral-200);
   z-index: 1;
   transition: background-color 0.2s cubic-bezier(0, 0.66, 0.58, 1) 0.05s;
 }
@@ -75,7 +75,7 @@
     top: var(--header-height);
     overflow: auto;
     scrollbar-width: thin;
-    scrollbar-color: var(--neutral200) transparent;
+    scrollbar-color: var(--neutral-200) transparent;
     scrollbar-gutter: stable;
     max-height: calc(100vh - var(--header-height));
   }
@@ -98,7 +98,7 @@
   padding: 12px;
   background: none;
   cursor: pointer;
-  color: var(--neutral800);
+  color: var(--neutral-800);
   background-color: var(--body);
   z-index: 1;
 
@@ -118,7 +118,7 @@
 }
 
 .r-sidebar-list {
-  color: var(--neutral700);
+  color: var(--neutral-700);
   list-style: none;
   padding: 0;
   margin: 0;
@@ -153,7 +153,7 @@
     top: -1px;
     width: 2px;
     height: calc(100% + 4px);
-    background-color: var(--neutral200);
+    background-color: var(--neutral-200);
     transition: background-color 0.2s cubic-bezier(0, 0.66, 0.58, 1) 0.05s;
   }
 }
@@ -166,7 +166,7 @@
 }
 
 .r-sidebar-li._separator {
-  background: var(--neutral200);
+  background: var(--neutral-200);
   padding: 1px;
 }
 
@@ -184,7 +184,7 @@
 }
 
 .r-sidebar-heading {
-  color: var(--neutral900);
+  color: var(--neutral-900);
   font-weight: 600;
   margin-block-end: 4px;
 
@@ -206,13 +206,13 @@
 }
 
 .r-sidebar-link._target {
-  color: var(--primary950);
-  background-color: var(--neutral50);
+  color: var(--primary-950);
+  background-color: var(--neutral-50);
 }
 
 .r-sidebar-link:hover {
-  color: var(--primary800);
-  background-color: var(--neutral100);
+  color: var(--primary-800);
+  background-color: var(--neutral-100);
   transition-delay: initial;
 
   &::before {
@@ -222,8 +222,8 @@
 }
 
 .r-sidebar-link._active {
-  color: var(--primary700);
-  background-color: var(--neutral50);
+  color: var(--primary-700);
+  background-color: var(--neutral-50);
 
   &::before {
     background-color: currentColor;
@@ -236,7 +236,7 @@
   top: 5px;
   border-radius: 4px;
   padding: 4px;
-  background-color: var(--neutral200);
+  background-color: var(--neutral-200);
   list-style: none;
   cursor: pointer;
   transition:
@@ -244,8 +244,8 @@
     color 0.2s cubic-bezier(0, 0.66, 0.58, 1) 0.05s;
 
   &:hover {
-    background-color: var(--neutral300);
-    color: var(--primary500);
+    background-color: var(--neutral-300);
+    color: var(--primary-500);
     transition-delay: initial;
   }
 

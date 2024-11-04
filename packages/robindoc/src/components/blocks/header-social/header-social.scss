@@ -12,11 +12,11 @@
 }
 
 .r-header-social-git {
-  color: var(--neutral700);
+  color: var(--neutral-700);
   transition: color 0.2s;
 
   &:hover,
   &:focus {
-    color: var(--neutral950);
+    color: var(--neutral-950);
   }
 }

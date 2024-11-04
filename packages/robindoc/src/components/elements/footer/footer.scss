@@ -1,7 +1,7 @@
 @import "src/assets/_vars";
 
 .r-footer {
-  border-top: 1px solid var(--neutral300);
+  border-top: 1px solid var(--neutral-300);
   padding-top: 24px;
   padding-bottom: 24px;
 }
@@ -19,21 +19,21 @@
 }
 
 .r-copyright {
-  color: var(--neutral800);
+  color: var(--neutral-800);
 }
 
 .r-powered {
   font-size: 14px;
   display: block;
-  color: var(--neutral600);
+  color: var(--neutral-600);
 }
 
 .r-powered-link {
   font-weight: 600;
   text-decoration: none;
-  color: var(--neutral950);
+  color: var(--neutral-950);
 
   &:hover {
-    color: var(--primary900);
+    color: var(--primary-900);
   }
 }

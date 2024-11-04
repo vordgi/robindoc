@@ -4,7 +4,7 @@
   position: sticky;
   background-color: var(--body);
   top: 0;
-  border-bottom: 1px solid var(--neutral300);
+  border-bottom: 1px solid var(--neutral-300);
   height: 60px;
   z-index: 1000;
 }
@@ -20,12 +20,12 @@
 .r-header-logo {
   display: block;
   margin-right: 24px;
-  color: var(--neutral700);
+  color: var(--neutral-700);
   transition: color 0.2s;
 
   &:hover,
   &:focus {
-    color: var(--neutral950);
+    color: var(--neutral-950);
   }
 }
 
@@ -40,23 +40,23 @@
 }
 
 .r-header-link {
-  color: var(--neutral600);
+  color: var(--neutral-600);
   text-decoration: none;
   padding: 4px 0;
   transition: color 0.2s;
 
   &:hover,
   &:focus-visible {
-    color: var(--neutral950);
+    color: var(--neutral-950);
   }
 }
 
 .r-header-link._target {
-  color: var(--primary800);
+  color: var(--primary-800);
 
   &:hover,
   &:focus-visible {
-    color: var(--primary700);
+    color: var(--primary-700);
   }
 }
 
