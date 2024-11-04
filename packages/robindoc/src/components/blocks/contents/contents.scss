@@ -14,7 +14,7 @@
     max-height: calc(100vh - var(--header-height));
     overflow: auto;
     scrollbar-width: thin;
-    scrollbar-color: var(--neutral200) transparent;
+    scrollbar-color: var(--neutral-200) transparent;
     scrollbar-gutter: stable;
   }
 }
@@ -38,7 +38,7 @@
 
   .r-contents-title {
     @media screen and (width < $lg) {
-      color: var(--neutral800);
+      color: var(--neutral-800);
     }
   }
 
@@ -65,7 +65,7 @@
 
 .r-contents-details {
   @media screen and (width < $lg) {
-    background: var(--neutral100);
+    background: var(--neutral-100);
     border-radius: 4px;
   }
 }
@@ -77,7 +77,7 @@
   cursor: pointer;
   margin-top: 20px;
   padding: 12px;
-  color: var(--neutral600);
+  color: var(--neutral-600);
   z-index: 1;
 
   @media screen and (width < $lg) {
@@ -87,7 +87,7 @@
   }
 
   @media screen and (width >= $lg) {
-    color: var(--neutral900);
+    color: var(--neutral-900);
     background: var(--body);
     font-weight: 600;
     margin-top: 0;
@@ -97,7 +97,7 @@
 
   &:hover {
     @media screen and (width < $lg) {
-      color: var(--neutral900);
+      color: var(--neutral-900);
     }
   }
 }
@@ -116,7 +116,7 @@
 .r-contents-link {
   display: block;
   position: relative;
-  color: var(--neutral600);
+  color: var(--neutral-600);
   text-decoration: none;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -127,7 +127,7 @@
   transition: color 0.2s cubic-bezier(0, 0.66, 0.58, 1) 0.05s;
 
   &.r-contents-link:hover {
-    color: var(--primary800);
+    color: var(--primary-800);
     transition-delay: initial;
   }
 
@@ -141,11 +141,11 @@
     height: calc(100% + 8px);
     border-style: solid;
     border-width: 0 2px 0 0;
-    border-color: var(--primary800);
+    border-color: var(--primary-800);
   }
 
   &::before {
-    border-color: var(--neutral200);
+    border-color: var(--neutral-200);
   }
 
   &::after {
@@ -193,7 +193,7 @@
 
 .r-contents-link._passed {
   @media screen and (width >= $lg) {
-    color: var(--neutral800);
+    color: var(--neutral-800);
   }
 
   &::after {
@@ -205,7 +205,7 @@
 
 .r-contents-link._active {
   @media screen and (width >= $lg) {
-    color: var(--primary800);
+    color: var(--primary-800);
   }
 
   &::after,
@@ -231,7 +231,7 @@
   display: block;
   width: 100%;
   position: relative;
-  color: var(--neutral600);
+  color: var(--neutral-600);
   text-decoration: none;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -239,6 +239,6 @@
   font-weight: 600;
 
   &:hover {
-    color: var(--neutral900);
+    color: var(--neutral-900);
   }
 }

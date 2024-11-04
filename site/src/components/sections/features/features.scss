@@ -14,14 +14,14 @@
   align-content: space-between;
   border-radius: 12px;
   padding: 48px 32px;
-  background: var(--neutral50);
+  background: var(--neutral-50);
 }
 
 .features-card-1 {
   background: radial-gradient(
     50.69% 38.39% at 10.59% 64.42%,
-    var(--primary50) 0%,
-    var(--neutral50) 100%
+    var(--primary-50) 0%,
+    var(--neutral-50) 100%
   );
 
   @media screen and (width >= 768px) {
@@ -33,8 +33,8 @@
 .features-card-2 {
   background: radial-gradient(
     64.59% 64.59% at 46.08% 31.57%,
-    var(--primary50) 0%,
-    var(--neutral50) 100%
+    var(--primary-50) 0%,
+    var(--neutral-50) 100%
   );
 
   @media screen and (width >= 768px) {
@@ -46,8 +46,8 @@
 .features-card-3 {
   background: radial-gradient(
     34.95% 63.28% at 96.22% 96.73%,
-    var(--primary50) 0%,
-    var(--neutral50) 100%
+    var(--primary-50) 0%,
+    var(--neutral-50) 100%
   );
 
   @media screen and (width >= 768px) {
@@ -59,8 +59,8 @@
 .features-card-4 {
   background: radial-gradient(
     54.17% 69.64% at 46.8% 78.55%,
-    var(--primary50) 0%,
-    var(--neutral50) 100%
+    var(--primary-50) 0%,
+    var(--neutral-50) 100%
   );
 
   @media screen and (width >= 768px) {
@@ -72,8 +72,8 @@
 .features-card-5 {
   background: radial-gradient(
     75% 75.87% at 78.57% 45.14%,
-    var(--primary50) 0%,
-    var(--neutral50) 100%
+    var(--primary-50) 0%,
+    var(--neutral-50) 100%
   );
 
   @media screen and (width >= 768px) {
@@ -99,11 +99,11 @@
 
 .features-sources._visible {
   .features-source {
-    stroke: var(--primary500);
+    stroke: var(--primary-500);
   }
 
   .features-source-box {
-    fill: var(--primary500);
+    fill: var(--primary-500);
   }
 }
 

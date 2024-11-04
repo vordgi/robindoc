@@ -25,11 +25,11 @@
 }
 
 .r-breadcrumb-link {
-  color: var(--neutral700);
+  color: var(--neutral-700);
   text-decoration: none;
 
   &:hover {
-    color: var(--primary800);
+    color: var(--primary-800);
   }
 }
 
@@ -41,6 +41,6 @@
 }
 
 .r-breadcrumb-title {
-  color: var(--neutral950);
+  color: var(--neutral-950);
   font-weight: 600;
 }
