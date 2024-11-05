@@ -1,6 +1,6 @@
 @import "src/assets/_vars";
 
-.r-theme {
+.r-theme-switcher {
   position: relative;
   display: flex;
   gap: 4px;
@@ -24,7 +24,7 @@
   }
 }
 
-.r-theme-btn {
+.r-theme-switcher-btn {
   padding: 8px;
   background: none;
   border: 0;
@@ -43,29 +43,29 @@
   }
 }
 
-.theme-dark:not(.theme-system) .r-theme::before {
+.theme-dark:not(.theme-system) .r-theme-switcher::before {
   left: 2px;
 }
 
-.theme-dark:not(.theme-system) .r-theme-btn__dark {
+.theme-dark:not(.theme-system) .r-theme-switcher-btn__dark {
   color: var(--neutral-950);
   pointer-events: none;
 }
 
-.theme-system .r-theme::before {
+.theme-system .r-theme-switcher::before {
   left: 38px;
 }
 
-.theme-system .r-theme-btn__system {
+.theme-system .r-theme-switcher-btn__system {
   color: var(--neutral-950);
   pointer-events: none;
 }
 
-.theme-light:not(.theme-system) .r-theme::before {
+.theme-light:not(.theme-system) .r-theme-switcher::before {
   left: 74px;
 }
 
-.theme-light:not(.theme-system) .r-theme-btn__light {
+.theme-light:not(.theme-system) .r-theme-switcher-btn__light {
   color: var(--neutral-950);
   pointer-events: none;
 }

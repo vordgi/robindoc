@@ -1,7 +1,9 @@
-import "./footer.scss";
 import React from "react";
-import { Theme } from "@src/components/blocks/theme";
+
+import { ThemeSwitcher } from "@src/components/blocks/theme-switcher";
 import { Container } from "@src/components/ui/container";
+
+import "./footer.scss";
 
 export type FooterProps = {
     copyright: string;
@@ -13,7 +15,7 @@ export const Footer: React.FC<FooterProps> = ({ copyright, hidePoweredBy }) => (
         <Container>
             <div className="r-footer-row">
                 <div className="r-copyright">{copyright}</div>
-                <Theme />
+                <ThemeSwitcher />
             </div>
             {!hidePoweredBy && (
                 <div className="r-footer-row r-footer-additional">
