@@ -1,9 +1,10 @@
 "use client";
 
-import "./theme.scss";
 import React from "react";
 
-export type ThemeProps = {
+import "./theme-switcher.scss";
+
+export type ThemeSwitcherProps = {
     translations?: {
         /** Dark */
         dark?: string;
@@ -14,7 +15,7 @@ export type ThemeProps = {
     };
 };
 
-export const Theme: React.FC<ThemeProps> = ({ translations }) => {
+export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ translations }) => {
     const { dark = "Dark", system = "System", light = "light" } = translations || {};
     const changeTheme = (theme: string) => {
         localStorage.setItem("theme", theme);
@@ -32,8 +33,12 @@ export const Theme: React.FC<ThemeProps> = ({ translations }) => {
     };
 
     return (
-        <div className="r-theme">
-            <button className="r-theme-btn r-theme-btn__dark" type="button" onClick={() => changeTheme("dark")}>
+        <div className="r-theme-switcher">
+            <button
+                className="r-theme-switcher-btn r-theme-switcher-btn__dark"
+                type="button"
+                onClick={() => changeTheme("dark")}
+            >
                 <svg width="16" height="16" viewBox="0 0 20 20">
                     <title>{dark}</title>
                     <path
@@ -44,7 +49,11 @@ export const Theme: React.FC<ThemeProps> = ({ translations }) => {
                     />
                 </svg>
             </button>
-            <button className="r-theme-btn r-theme-btn__system" type="button" onClick={() => changeTheme("system")}>
+            <button
+                className="r-theme-switcher-btn r-theme-switcher-btn__system"
+                type="button"
+                onClick={() => changeTheme("system")}
+            >
                 <svg width="16" height="16" viewBox="0 0 20 20">
                     <title>{system}</title>
                     <path
@@ -73,7 +82,11 @@ export const Theme: React.FC<ThemeProps> = ({ translations }) => {
                     />
                 </svg>
             </button>
-            <button className="r-theme-btn r-theme-btn__light" type="button" onClick={() => changeTheme("light")}>
+            <button
+                className="r-theme-switcher-btn r-theme-switcher-btn__light"
+                type="button"
+                onClick={() => changeTheme("light")}
+            >
                 <svg width="16" height="16" viewBox="0 0 20 20">
                     <title>{light}</title>
                     <path
