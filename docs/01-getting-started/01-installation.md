@@ -1,19 +1,25 @@
 # Installation
 
-Robindoc is simply a helper framework, meaning it does not include React itself or its frameworks. _If you do not yet have an application, initialize it according to the instructions._
+Robindoc is simply a helper framework, meaning it does not include React itself or its frameworks.
 
-If you already have an application on a framework that supports RSC, simply install the `robindoc` package. After that, you can fully integrate it into your application by [initializing Robindoc](./03-initialization.md).
+If you do not yet have an application, initialize it according to the [Next.js guide](https://nextjs.org/docs/app/getting-started/installation).
 
-**Using npm:**
+Install the `robindoc` package in your project:
 
 ```bash switcher tab="npm"
 npm i robindoc
 ```
 
 ```bash switcher tab="pnpm"
-npm i robindoc
+pnpm add robindoc
 ```
 
 ```bash switcher tab="yarn"
 yarn add robindoc
 ```
+
+```bash switcher tab="bun"
+bun add robindoc
+```
+
+Now you can fully integrate it into your application by [initializing Robindoc](./03-initialization.md) guide.
