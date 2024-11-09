@@ -1,21 +1,41 @@
 .package-links {
   display: flex;
+  margin: 0 -6px;
+  margin-block-start: 12px;
+  margin-block-end: 28px;
 }
 
 .package-links-link {
   font-weight: 500;
-  border-radius: 6px;
+  border-radius: 8px;
   text-decoration: none;
   color: inherit;
   padding: 2px;
-  margin-right: 12px;
+  margin: 0 6px;
+
+  @media screen and (max-width: 480px) {
+    flex: 1;
+    text-align: center;
+  }
+
+  &:hover .package-links-link-inner {
+    background: inherit;
+    color: var(--body);
+  }
 }
 
 .package-links-link-inner {
   display: block;
-  padding: 4px 12px;
+  padding: 6px 20px;
   background-color: var(--body);
-  border-radius: 4px;
+  border-radius: 6px;
+  transition: background .15s, color .15s;
+  letter-spacing: 0.5px;
+
+  @media screen and (max-width: 480px) {
+    padding: 8px 20px;
+    font-weight: 700;
+  }
 }
 
 .package-links-link-npm {
