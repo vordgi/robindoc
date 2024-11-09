@@ -19,9 +19,7 @@ export const Features: React.FC = () => {
                         Unified documentation format
                     </Heading>
                     <Paragraph>
-                        Any of your documentation will work great in Robindoc
-                        <br />
-                        Any of Robindoc documentation will work great in any service
+                        Any of your documentation files will work great in Robindoc. Any of Robindoc documentation files will work great in any service
                     </Paragraph>
                 </div>
                 <Image src={require('./images/views.png').default} alt='' className='features-img' loading='lazy' />
@@ -29,12 +27,11 @@ export const Features: React.FC = () => {
             <div className='features-card features-card-2'>
                 <div>
                     <Heading component='h2' className='features-heading'>
-                        Built on React.js only
+                        Built on Server Components
                     </Heading>
                     <Paragraph>
-                        Robindoc is built on RSC. This gives flexibility and dynamics. But the most important thing is freedom of choice!
-                        <br />
-                        Use any bundler and any configuration in any project!
+                        This gives flexibility and dynamics. But the most important thing is freedom of choice!
+                        Use any bundler, any configuration, any tools in any next.js project!
                     </Paragraph>
                 </div>
                 <ToolsImg className='features-img' />
@@ -44,7 +41,7 @@ export const Features: React.FC = () => {
                     Fast and friendly
                 </Heading>
                 <Paragraph>
-                    Optimized for metrics and accessibility. Minimum data to client, minimum logic to server
+                    Optimized for metrics and accessibility. Minimum logic for the client, maximum speed on the server
                 </Paragraph>
             </div>
             <VisibleWrapper className='features-card features-card-5 features-sources'>
