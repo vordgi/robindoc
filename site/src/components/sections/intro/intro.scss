@@ -21,7 +21,7 @@
     content: "#";
     position: absolute;
     left: -32px;
-    color: var(--neutral-300);
+    color: var(--r-neutral-300);
     pointer-events: none;
   }
 }
@@ -35,7 +35,7 @@
     content: "**";
     position: absolute;
     top: -10px;
-    color: var(--neutral-300);
+    color: var(--r-neutral-300);
     pointer-events: none;
   }
 
@@ -56,7 +56,7 @@
   &::after {
     content: "_";
     position: absolute;
-    color: var(--neutral-300);
+    color: var(--r-neutral-300);
     pointer-events: none;
   }
 
@@ -146,7 +146,7 @@
   &::after {
     position: absolute;
     left: 0;
-    color: var(--neutral-300);
+    color: var(--r-neutral-300);
     pointer-events: none;
   }
 
@@ -165,13 +165,13 @@
   line-height: 22px;
   display: block;
   text-decoration: none;
-  background: var(--primary-700);
-  color: var(--neutral-50);
+  background: var(--r-primary-700);
+  color: var(--r-neutral-50);
   border-radius: 6px;
   padding: 8px 16px;
 
   &:hover {
-    background: var(--primary-800);
+    background: var(--r-primary-800);
   }
 }
 
@@ -180,14 +180,14 @@
   line-height: 22px;
   border-radius: 6px;
   padding: 8px 12px;
-  background-color: var(--neutral-50);
-  border: 1px solid var(--neutral-300);
+  background-color: var(--r-neutral-50);
+  border: 1px solid var(--r-neutral-300);
 
   &::before,
   &::after {
     position: absolute;
     left: 0;
-    color: var(--neutral-300);
+    color: var(--r-neutral-300);
     pointer-events: none;
   }
 

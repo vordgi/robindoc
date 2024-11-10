@@ -11,7 +11,7 @@ export const ThemeStyles: React.FC<ThemeStylesProps> = ({ theme }) => {
 
     const colorsStyles = Object.entries(colors).reduce<string[]>((acc, [type, variants]) => {
         Object.entries(variants).forEach(([key, color]) => {
-            acc.push(`--${type}-${key}:${color};`);
+            acc.push(`--rb-${type}-${key}:${color};`);
         });
         return acc;
     }, []);

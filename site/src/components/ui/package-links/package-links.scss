@@ -20,14 +20,14 @@
 
   &:hover .package-links-link-inner {
     background: inherit;
-    color: var(--body);
+    color: var(--r-body);
   }
 }
 
 .package-links-link-inner {
   display: block;
   padding: 6px 20px;
-  background-color: var(--body);
+  background-color: var(--r-body);
   border-radius: 6px;
   transition: background .15s, color .15s;
   letter-spacing: 0.5px;
@@ -43,5 +43,5 @@
 }
 
 .package-links-link-github {
-  background: var(--neutral-800);
+  background: var(--r-neutral-800);
 }

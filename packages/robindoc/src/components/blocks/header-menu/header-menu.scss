@@ -25,7 +25,7 @@
   @media screen and (width < $md) {
     flex-direction: column-reverse;
     padding: 12px;
-    background-color: var(--body);
+    background-color: var(--r-body);
     position: fixed;
     top: 60px;
     right: 0;
@@ -61,7 +61,7 @@
   width: 20px;
   height: 1.5px;
   position: absolute;
-  background-color: var(--neutral-700);
+  background-color: var(--r-neutral-700);
   margin: auto;
   transition: transform 0.3s;
 }
