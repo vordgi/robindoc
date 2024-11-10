@@ -2,9 +2,9 @@
 
 .r-header {
   position: sticky;
-  background-color: var(--body);
+  background-color: var(--r-body);
   top: 0;
-  border-bottom: 1px solid var(--neutral-300);
+  border-bottom: 1px solid var(--r-neutral-300);
   height: 60px;
   z-index: 1000;
 }
@@ -20,12 +20,12 @@
 .r-header-logo {
   display: block;
   margin-right: 24px;
-  color: var(--neutral-700);
+  color: var(--r-neutral-700);
   transition: color 0.2s;
 
   &:hover,
   &:focus {
-    color: var(--neutral-950);
+    color: var(--r-neutral-950);
   }
 }
 
@@ -40,23 +40,23 @@
 }
 
 .r-header-link {
-  color: var(--neutral-600);
+  color: var(--r-neutral-600);
   text-decoration: none;
   padding: 4px 0;
   transition: color 0.2s;
 
   &:hover,
   &:focus-visible {
-    color: var(--neutral-950);
+    color: var(--r-neutral-950);
   }
 }
 
 .r-header-link._target {
-  color: var(--primary-800);
+  color: var(--r-primary-800);
 
   &:hover,
   &:focus-visible {
-    color: var(--primary-700);
+    color: var(--r-primary-700);
   }
 }
 

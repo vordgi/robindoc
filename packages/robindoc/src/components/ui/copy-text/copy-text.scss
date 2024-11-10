@@ -7,7 +7,7 @@
   font: inherit;
 
   &:hover {
-    color: var(--neutral-950);
+    color: var(--r-neutral-950);
   }
 
   &::after {
@@ -31,5 +31,5 @@
 
 .copy-text:active,
 .copy-text._active {
-  color: var(--success);
+  color: var(--r-success);
 }
