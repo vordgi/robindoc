@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { Container } from 'robindoc/lib/components/ui/container'
 import { Heading } from 'robindoc/lib/components/ui/heading'
 import { Paragraph } from 'robindoc/lib/components/ui/paragraph'
 import { Strong } from 'robindoc/lib/components/ui/strong'
