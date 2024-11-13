@@ -1,33 +1,34 @@
-import React from "react";
-import parse, { attributesToProps, DOMNode, domToReact, HTMLReactParserOptions, Text } from "html-react-parser";
-import { type BundledLanguage } from "shiki/langs";
-import { type TokensList, type Token, type Tokens } from "marked";
-import { type RobinProps, type Components } from "@src/core/types/content";
-import { type BaseProvider } from "@src/core/providers/base";
-import { NavContentLink } from "@src/components/blocks/nav-content-link";
 import { AnchorHeading } from "@src/components/blocks/anchor-heading";
 import { CodeSection } from "@src/components/blocks/code-section";
-import { Table, Thead, Tr, Th, Tbody, Td } from "@src/components/ui/table";
-import { CodeSpan } from "@src/components/ui/code-span";
-import { CodeBlock } from "@src/components/ui/code-block";
-import { Img } from "@src/components/ui/img";
+import { NavContentLink } from "@src/components/blocks/nav-content-link";
 import { Block } from "@src/components/ui/block";
 import { Blockquote } from "@src/components/ui/blockquote";
-import { Paragraph } from "@src/components/ui/paragraph";
-import { Strong } from "@src/components/ui/strong";
+import { CodeBlock } from "@src/components/ui/code-block";
+import { CodeSpan } from "@src/components/ui/code-span";
 import { Del } from "@src/components/ui/del";
 import { Em } from "@src/components/ui/em";
-import { Hr } from "@src/components/ui/hr";
 import { Heading } from "@src/components/ui/heading";
-import { Tabs } from "@src/components/ui/tabs";
+import { Hr } from "@src/components/ui/hr";
+import { Img } from "@src/components/ui/img";
 import { ListItem, OrderedList, UnorderedList } from "@src/components/ui/list";
+import { Paragraph } from "@src/components/ui/paragraph";
+import { Strong } from "@src/components/ui/strong";
+import { Table, Tbody, Td, Th, Thead, Tr } from "@src/components/ui/table";
+import { Tabs } from "@src/components/ui/tabs";
 import { TaskListItem, TaskOrderedList, TaskUnorderedList } from "@src/components/ui/task-list";
+import { type BaseProvider } from "@src/core/providers/base";
+import { type Components, type RobinProps } from "@src/core/types/content";
+import parse, { attributesToProps, DOMNode, domToReact, HTMLReactParserOptions, Text } from "html-react-parser";
+import { type Token, type Tokens, type TokensList } from "marked";
+import React from "react";
+import { type BundledLanguage } from "shiki/langs";
 
 import { type PagesType } from "./types";
 import {
     formatId,
     formatLinkHref,
     isNewCodeToken,
+    parseBlockqoute,
     parseCodeLang,
     parseMarkdown,
     validateComponentName,
@@ -247,7 +248,17 @@ export const Document: React.FC<ContentProps> = ({
             case "em":
                 return <Em>{token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}</Em>;
             case "blockquote":
-                return <Blockquote>{token.tokens ? <DocumentToken token={token.tokens} /> : token.raw}</Blockquote>;
+                const { token: blockquoteToken, type } = parseBlockqoute(token);
+
+                return (
+                    <Blockquote type={type}>
+                        {blockquoteToken.tokens ? (
+                            <DocumentToken token={blockquoteToken.tokens} />
+                        ) : (
+                            blockquoteToken.raw
+                        )}
+                    </Blockquote>
+                );
             case "codespan":
                 const inlineCode = token.raw.replace(/^`|`$/g, "");
                 const hightlightMatch = inlineCode.match(/(.+){:([a-zA-Z]+)}$/);
