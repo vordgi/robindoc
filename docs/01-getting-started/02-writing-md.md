@@ -7,7 +7,7 @@ In addition to standard Markdown-to-HTML conversion, Robindoc automatically hand
 - Inserts images (_public images will use their direct URLs, while private images will be inserted via blob URLs_);
 - Embeds HTML/JSX (_Robindoc supports markup in both MDX and MD files_).
 
-## Components Usage
+## JSX Components
 
 All custom components should be passed to the page manually via props. This means that components do not need to be imported inside Markdown files. This approach provides maximum flexibility for all of Robindoc's features.
 
