@@ -1,11 +1,62 @@
 .r-blockquote {
   background-color: var(--r-neutral-100);
-  padding: 12px;
-  border-left: 6px solid var(--r-primary-800);
+  padding: 8px 12px 8px 20px;
+  border-left: 6px solid var(--r-neutral-600);
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
   font: inherit;
   margin-inline: 0;
   margin-block-start: 1em;
   margin-block-end: 1em;
+}
+
+.r-blockquote-title {
+  font-weight: 600;
+}
+
+.r-blockquote-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: -2px;
+  margin-right: 8px;
+}
+
+.r-blockquote-note {
+  border-left-color: var(--r-note);
+
+  .r-blockquote-title {
+    color: var(--r-note);
+  }
+}
+
+.r-blockquote-tip {
+  border-left-color: var(--r-tip);
+
+  .r-blockquote-title {
+    color: var(--r-tip);
+  }
+}
+
+.r-blockquote-important {
+  border-left-color: var(--r-important);
+
+  .r-blockquote-title {
+    color: var(--r-important);
+  }
+}
+
+.r-blockquote-warning {
+  border-left-color: var(--r-warning);
+
+  .r-blockquote-title {
+    color: var(--r-warning);
+  }
+}
+
+.r-blockquote-caution {
+  border-left-color: var(--r-caution);
+
+  .r-blockquote-title {
+    color: var(--r-caution);
+  }
 }

@@ -3,11 +3,11 @@ import { Heading } from 'robindoc/lib/components/ui/heading'
 import { Paragraph } from 'robindoc/lib/components/ui/paragraph'
 import { ContentLink } from 'robindoc/lib/components/ui/content-link'
 
+import { VisibleWrapper } from '../../ui/visible-wrapper';
 import { SourcesImg } from './images/sources';
 import { ToolsImg } from './images/tools';
 
 import './features.scss';
-import { VisibleWrapper } from '../../ui/visible-wrapper';
 
 export const Features: React.FC = () => {
     return (

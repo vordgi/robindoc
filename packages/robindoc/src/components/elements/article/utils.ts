@@ -1,8 +1,10 @@
 import GithubSlugger from "github-slugger";
 import matter from "gray-matter";
-import { lexer, type Token } from "marked";
+import { lexer, type Tokens, type Token } from "marked";
 import { dirname, join } from "path";
-import { PagesType } from "./types";
+
+import { type BlockquoteType } from "@src/components/ui/blockquote";
+import { type PagesType } from "./types";
 
 export type AnchorData = {
     title: string;
@@ -109,4 +111,31 @@ export const formatLinkHref = (href: string, pathname: string, pages?: PagesType
         }
     }
     return { href: finalHref, external };
+};
+
+export const parseBlockqoute = (token: Tokens.Blockquote | Tokens.Generic) => {
+    const typeMatch = token.raw.match(/^> \[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\n/);
+    if (typeMatch) {
+        const [raw, type] = typeMatch;
+        const newToken = { ...token, raw: token.raw.substring(raw.length) };
+        if (newToken.tokens) {
+            const firstToken = { ...newToken.tokens[0] } as Tokens.Paragraph;
+            firstToken.raw = firstToken.raw.substring(type.length + 4);
+            firstToken.text = firstToken.text.substring(type.length + 4);
+            if (firstToken.tokens[0]) {
+                const firstSubtoken = { ...firstToken.tokens[0] } as Tokens.Paragraph;
+                firstSubtoken.raw = firstSubtoken.raw.substring(type.length + 4);
+                firstSubtoken.text = firstSubtoken.text.substring(type.length + 4);
+                firstToken.tokens[0] = firstSubtoken;
+            }
+            newToken.tokens[0] = firstToken;
+        }
+
+        return {
+            token: newToken,
+            type: type.toLowerCase() as BlockquoteType,
+        };
+    }
+
+    return { token, type: null };
 };

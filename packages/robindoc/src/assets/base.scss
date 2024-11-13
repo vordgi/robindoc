@@ -53,6 +53,7 @@ body {
   overflow: hidden auto;
   scroll-padding-top: calc(var(--header-height) + 20px);
   scrollbar-color: var(--r-neutral-400) var(--r-neutral-200);
+  white-space: pre;
 
   @media screen and (width < $sm) {
     scroll-padding-top: calc(var(--header-height) + 60px);
@@ -141,6 +142,11 @@ svg {
   --r-secondary-900: var(--rb-secondary-900, #1e3a8a);
   --r-secondary-950: var(--rb-secondary-950, #172554);
   --r-success: #15803d;
+  --r-note: #0e7490;
+  --r-tip: #047857;
+  --r-important: #a21caf;
+  --r-warning: #b45309;
+  --r-caution: #b91c1c;
   --r-link: var(--r-secondary-600);
   --r-link-hovered: var(--r-secondary-800);
   --r-link-active: var(--r-primary-700);
@@ -247,6 +253,11 @@ svg {
   --r-secondary-900: var(--rb-secondary-100, #dbeafe);
   --r-secondary-950: var(--rb-secondary-50, #eff6ff);
   --r-success: #86efac;
+  --r-note: #22d3ee;
+  --r-tip: #34d399;
+  --r-important: #e879f9;
+  --r-warning: #fbbf24;
+  --r-caution: #f87171;
   --r-link: var(--r-secondary-500);
   --r-link-hovered: var(--r-secondary-800);
   --r-link-active: var(--r-primary-700);
