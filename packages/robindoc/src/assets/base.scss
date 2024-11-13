@@ -53,7 +53,7 @@ body {
   overflow: hidden auto;
   scroll-padding-top: calc(var(--header-height) + 20px);
   scrollbar-color: var(--r-neutral-400) var(--r-neutral-200);
-  white-space: pre;
+  white-space: pre-wrap;
 
   @media screen and (width < $sm) {
     scroll-padding-top: calc(var(--header-height) + 60px);
