@@ -19,7 +19,7 @@ However, when using the automatic mode for generating the structure, the documen
 
 You can initialize Robindoc on any subpath of your site, as long as you specify the [`basePath`](../02-structure/01-configuration.md) in the project initialization and pass the correct path in the Robindoc components.
 
-After initialization, you will receive Sidebar, Page, getPages, getMeta, and getPageContent. Read more on the [Initialization](../03-initialization.md) page.
+After initialization, you will receive Sidebar, Page, getStaticParams, getMetadata, and getPageData. Read more on the [Initialization](../03-initialization.md) page.
 
 Global elements - [`RobinProvider`](../03-customization/01-elements/robin-provider.md), [`Header`](../03-customization/01-elements/header.md), [`Footer`](../03-customization/01-elements/footer.md), [`Containers`](../03-customization/01-elements/containers.md) and [`Sidebar`](../03-customization/01-elements/sidebar.md) - should ideally be placed above all pages and reused across all.
 Currently, Robindoc works only with the App Router. Once RSC is available for the Pages Router, Robindoc will automatically support it as well.
@@ -29,7 +29,7 @@ Currently, Robindoc works only with the App Router. Once RSC is available for th
 Next.js supports dynamic routes, so it is recommended to set up one [dynamic segment](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes#optional-catch-all-segments) for all documentation pages.
 
 ```tsx filename="app/docs/[[...path]]/page.tsx" switcher tab="v14 TSX"
-import { Page, Sidebar, getMeta, getPages } from "../robindoc";
+import { Page, Sidebar, getMetadata, getStaticParams } from "../robindoc";
 
 const Page: React.FC<{ params }: { params: { path?: string[] } }> = async ({ params }) => {
   const pathname = "/docs/" + (params.path?.join("/") || "");
@@ -41,7 +41,7 @@ export default Page;
 ```
 
 ```jsx filename="app/docs/[[...path]]/page.js" switcher tab="v14 JSX"
-import { Page, Sidebar, getMeta, getPages } from "../robindoc";
+import { Page, Sidebar, getMetadata, getStaticParams } from "../robindoc";
 
 const Page = async ({ params }) => {
   const pathname = "/docs/" + (params.path?.join("/") || "");
@@ -53,7 +53,7 @@ export default Page;
 ```
 
 ```tsx filename="app/docs/[[...path]]/page.tsx" switcher tab="v15 TSX"
-import { Page, Sidebar, getMeta, getPages } from "../robindoc";
+import { Page, Sidebar, getMetadata, getStaticParams } from "../robindoc";
 
 const Page: React.FC<{ params }: { params: Promise<{ path?: string[] }> }> = async ({ params }) => {
   const { path } = await params;
@@ -66,7 +66,7 @@ export default Page;
 ```
 
 ```jsx filename="app/docs/[[...path]]/page.js" switcher tab="v15 JSX"
-import { Page, Sidebar, getMeta, getPages } from "../robindoc";
+import { Page, Sidebar, getMetadata, getStaticParams } from "../robindoc";
 
 const Page = async ({ params }) => {
   const { path } = await params;
@@ -83,7 +83,7 @@ For more details about the props, refer to the [`Page`](../03-customization/01-e
 You should also set up metadata generation and static parameters generation (if you want to use SSG, which is highly recommended):
 
 ```tsx filename="app/docs/[[...path]]/page.tsx" switcher tab="v14 TSX"
-import { Page, Sidebar, getMeta, getPages } from "../robindoc";
+import { Page, Sidebar, getMetadata, getStaticParams } from "../robindoc";
 
 // ...
 
@@ -93,37 +93,37 @@ export const generateMetadata = async ({
   params: { path?: string[] };
 }) => {
   const pathname = "/docs/" + (params.path?.join("/") || "");
-  const meta = await getMeta(pathname);
+  const metadata = await getMetadata(pathname);
 
-  return meta;
+  return metadata;
 };
 
 export const generateStaticParams = async () => {
-  const pages = await getPages("/docs/");
-  return pages.map((page) => ({ path: page.split("/").slice(2) }));
+  const staticParams = await getStaticParams("/docs/");
+  return staticParams;
 };
 ```
 
 ```jsx filename="app/docs/[[...path]]/page.js" switcher tab="v14 JSX"
-import { Page, Sidebar, getMeta, getPages } from "../robindoc";
+import { Page, Sidebar, getMetadata, getStaticParams } from "../robindoc";
 
 // ...
 
 export const generateMetadata = async ({ params }) => {
   const pathname = "/docs/" + (params.path?.join("/") || "");
-  const meta = await getMeta(pathname);
+  const metadata = await getMetadata(pathname);
 
-  return meta;
+  return metadata;
 };
 
 export const generateStaticParams = async () => {
-  const pages = await getPages("/docs/");
-  return pages.map((page) => ({ path: page.split("/").slice(2) }));
+  const staticParams = await getStaticParams("/docs/");
+  return staticParams;
 };
 ```
 
 ```tsx filename="app/docs/[[...path]]/page.tsx" switcher tab="v15 TSX"
-import { Page, Sidebar, getMeta, getPages } from "../robindoc";
+import { Page, Sidebar, getMetadata, getStaticParams } from "../robindoc";
 
 // ...
 
@@ -134,33 +134,33 @@ export const generateMetadata = async ({
 }) => {
   const { path } = await params;
   const pathname = "/docs/" + (path?.join("/") || "");
-  const meta = await getMeta(pathname);
+  const metadata = await getMetadata(pathname);
 
-  return meta;
+  return metadata;
 };
 
 export const generateStaticParams = async () => {
-  const pages = await getPages("/docs/");
-  return pages.map((page) => ({ path: page.split("/").slice(2) }));
+  const staticParams = await getStaticParams("/docs/");
+  return staticParams;
 };
 ```
 
 ```jsx filename="app/docs/[[...path]]/page.js" switcher tab="v15 JSX"
-import { Page, Sidebar, getMeta, getPages } from "../robindoc";
+import { Page, Sidebar, getMetadata, getStaticParams } from "../robindoc";
 
 // ...
 
 export const generateMetadata = async ({ params }) => {
   const { path } = await params;
   const pathname = "/docs/" + (path?.join("/") || "");
-  const meta = await getMeta(pathname);
+  const metadata = await getMetadata(pathname);
 
-  return meta;
+  return metadata;
 };
 
 export const generateStaticParams = async () => {
-  const pages = await getPages("/docs/");
-  return pages.map((page) => ({ path: page.split("/").slice(2) }));
+  const staticParams = await getStaticParams("/docs/");
+  return staticParams;
 };
 ```
 
@@ -171,7 +171,7 @@ It is recommended to place the Robindoc initialization near this route.
 ```ts filename="app/docs/robindoc.ts" switcher tab="TypeScript" clone="js|JavaScript|app/docs/robindoc.js"
 import { initializeRobindoc } from "robindoc";
 
-export const { Page, Sidebar, getPages, getMeta, getPageContent } =
+export const { Page, Sidebar, getStaticParams, getMetadata, getPageData } =
   initializeRobindoc({
     configuration: {
       sourceRoot: "../docs",
@@ -339,21 +339,21 @@ const nextConfig: NextConfig = {
 };
 ```
 
-For more details on search configuration, refer to the [Search](../03-customization/03-search.md) page.
+For more details on search configuration, refer to the [Search](../03-customization/04-search.md) page.
 
 ## Sitemap Setup
 
-To generate a sitemap in next.js, you can use a [special sitemap file](https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap) in combination with [getPages](../03-customization/02-tools/get-pages.md) tool:
+To generate a sitemap in next.js, you can use a [special sitemap file](https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap) in combination with [getStaticParams](../03-customization/02-tools/get-static-params.md) tool:
 
 ```ts filename="app/sitemap.ts" switcher tab="TypeScript"
 import { type MetadataRoute } from "next";
-import { getPages } from "./docs/robindoc";
+import { getStaticParams } from "./docs/robindoc";
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const pages = await getPages();
+  const staticParams = await getStaticParams();
 
-  return pages.map((page) => ({
-    url: `https://robindoc.com${page}`,
+  return staticParams.map(({ segments }) => ({
+    url: `https://robindoc.com${segments.join("/")}`,
     lastModified: new Date(),
     changeFrequency: "daily",
     priority: 0.7,
@@ -365,13 +365,13 @@ export default sitemap;
 
 ```js filename="app/sitemap.js" switcher tab="JavaScript"
 import { type MetadataRoute } from "next";
-import { getPages } from "./docs/robindoc";
+import { getStaticParams } from "./docs/robindoc";
 
 const sitemap = async () => {
-  const pages = await getPages();
+  const staticParams = await getStaticParams();
 
-  return pages.map((page) => ({
-    url: `https://robindoc.com${page}`,
+  return staticParams.map(({ segments }) => ({
+    url: `https://robindoc.com/${segments.join('/')}`,
     lastModified: new Date(),
     changeFrequency: "daily",
     priority: 0.7,
