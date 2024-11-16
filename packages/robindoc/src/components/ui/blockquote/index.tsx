@@ -13,7 +13,8 @@ interface BlockquoteProps {
 }
 
 export const Blockquote: React.FC<React.PropsWithChildren<BlockquoteProps>> = ({ className, type, children }) => {
-    const { icon: Icon, title } = type && type in TYPES_DATA ? TYPES_DATA[type] : {};
+    const { icon: Icon, title } =
+        type && type in TYPES_DATA ? TYPES_DATA[type] : ({} as { icon: undefined; title: undefined });
 
     return (
         <blockquote className={clsx("r-blockquote", type && `r-blockquote-${type}`, className)}>

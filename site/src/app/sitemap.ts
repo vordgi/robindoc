@@ -1,12 +1,13 @@
 import { type MetadataRoute } from 'next';
-import { getPages } from './docs/robindoc';
+
+import { getStaticParams } from './docs/robindoc';
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const pages = await getPages();
-  pages.push('');
+  const staticParams = await getStaticParams('', 'path');
+  staticParams.push({ path: [] });
 
-  return pages.map(page => ({
-    url: `https://robindoc.com${page}`,
+  return staticParams.map(({ path }) => ({
+    url: `https://robindoc.com/${path.join('/')}/`,
     lastModified: new Date(),
     changeFrequency: 'daily',
     priority: 0.7,

@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
 import { useHeadingIndex } from "@src/components/contexts/contents/use-heading-index";
-import { detectGitType } from "@src/core/utils/git-data";
+import { detectGitType } from "@src/core/utils/git-tools";
 
 import "./contents.scss";
 

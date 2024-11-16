@@ -2,7 +2,7 @@ import { type DocItem } from "../types/structure";
 import { type Pages, type Crumbs, type Configuration } from "../types/content";
 import { type TreeItem } from "../../components/elements/sidebar/types";
 import { getConfiguration } from "./get-configuration";
-import { getMeta } from "./get-meta";
+import { getMetadata } from "./get-metadata";
 import { generatePseudoTitle, checkIsLinkExternal, mergePathname, normalizePathname } from "./path-tools";
 import { loadContent } from "./load-content";
 
@@ -114,8 +114,8 @@ const parseAutoStructure = async (
         const pathname = mergePathname(parentConfiguration.basePath, clientPath);
         const pathnameNormalized = normalizePathname(pathname);
 
-        const meta = await getMeta({ provider: parentConfiguration.provider, uri: clientPath });
-        const title = meta.title || generatePseudoTitle(pathnameNormalized);
+        const metadata = await getMetadata({ provider: parentConfiguration.provider, uri: clientPath });
+        const title = metadata.title || generatePseudoTitle(pathnameNormalized);
         const origPath = await parentConfiguration.provider?.getPageSourcePathname(clientPath, pathnameNormalized);
         if (origPath) {
             pages[pathnameNormalized] = {
@@ -248,10 +248,10 @@ export const parseStructure = async (
     nestingLevel: number = 0,
 ) => {
     if (items === "auto") {
-        const structureData = await parseAutoStructure(parentConfiguration, crumbs, pathname, nestingLevel);
-        return structureData;
+        const structureParsed = await parseAutoStructure(parentConfiguration, crumbs, pathname, nestingLevel);
+        return structureParsed;
     }
 
-    const structureData = await parseStaticStructure(items, parentConfiguration, crumbs, pathname, nestingLevel);
-    return structureData;
+    const structureParsed = await parseStaticStructure(items, parentConfiguration, crumbs, pathname, nestingLevel);
+    return structureParsed;
 };

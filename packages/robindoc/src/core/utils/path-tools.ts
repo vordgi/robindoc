@@ -1,24 +1,39 @@
-export const getFileUrl = (path: string) => {
-    const [, filename, ext] = path.match(/(?:^|\/)([^/]+)(\.mdx?)$/) || [];
+export const getFileUrl = (pathname: string) => {
+    const [, filename, ext] = pathname.match(/(?:^|\/)([^/]+)(\.mdx?)$/) || [];
 
-    const clientPath = path.replace(new RegExp(`((\/|^)(readme|README|index|${filename}/${filename}))?${ext}$`), "");
+    const clientPath = pathname.replace(
+        new RegExp(`((\/|^)(readme|README|index|${filename}/${filename}))?${ext}$`),
+        "",
+    );
 
     return clientPath;
 };
 
-export const normalizePathname = (path?: string | null) => {
-    if (!path) return "/";
+export const normalizePathname = (pathname?: string | null) => {
+    if (!pathname) return "/";
 
-    return path.replace(/\/$/, "") || "/";
+    return pathname.replace(/\/$/, "") || "/";
 };
 
-export const generatePseudoTitle = (path?: string | null) => {
-    const pathname = normalizePathname(path);
-    const pathnameSegments = pathname.split("/").filter(Boolean);
+export const removeTrailingSlash = (pathname?: string | null) => {
+    if (!pathname) return "";
 
-    if (pathnameSegments.length === 0) return "Index";
+    return pathname.endsWith("/") ? pathname.substring(0, pathname.length - 1) : pathname;
+};
 
-    const lastSegment = pathnameSegments[pathnameSegments.length - 1];
+export const addTrailingSlash = (pathname?: string | null) => {
+    if (!pathname) return "";
+
+    return pathname.endsWith("/") ? pathname : pathname + "/";
+};
+
+export const generatePseudoTitle = (pathname?: string | null) => {
+    const pathnamename = normalizePathname(pathname);
+    const pathnamenameSegments = pathnamename.split("/").filter(Boolean);
+
+    if (pathnamenameSegments.length === 0) return "Index";
+
+    const lastSegment = pathnamenameSegments[pathnamenameSegments.length - 1];
     const lastSegmentWords = lastSegment.split("-");
     return lastSegmentWords.map((word) => word[0].toUpperCase() + word.substring(1)).join(" ");
 };

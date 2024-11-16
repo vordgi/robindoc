@@ -7,6 +7,7 @@ export const loadContent = async (uri: string, providerArg?: BaseProvider, root?
         const content = await providerArg.load(uri);
         return { data: content, type: providerArg.type, provider: providerArg };
     }
+
     if (uri.startsWith("https://github.com/")) {
         const provider = new GithubProvider(uri);
         if (provider.pathname) {
@@ -16,6 +17,7 @@ export const loadContent = async (uri: string, providerArg?: BaseProvider, root?
             throw new Error("Can not load content");
         }
     }
+
     if (uri.match(/https?:\/\//)) {
         const resp = await fetch(uri);
         if (!resp.ok) {
