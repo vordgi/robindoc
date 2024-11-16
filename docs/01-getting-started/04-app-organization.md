@@ -28,11 +28,11 @@ Currently, Robindoc works only with the App Router. Once RSC is available for th
 
 Next.js supports dynamic routes, so it is recommended to set up one [dynamic segment](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes#optional-catch-all-segments) for all documentation pages.
 
-```tsx filename="app/docs/[[...path]]/page.tsx" switcher tab="v14 TSX"
+```tsx filename="app/docs/[[...segments]]/page.tsx" switcher tab="v14 TSX"
 import { Page, Sidebar, getMetadata, getStaticParams } from "../robindoc";
 
-const Page: React.FC<{ params }: { params: { path?: string[] } }> = async ({ params }) => {
-  const pathname = "/docs/" + (params.path?.join("/") || "");
+const Page: React.FC<{ params }: { params: { segments?: string[] } }> = async ({ params }) => {
+  const pathname = "/docs/" + (params.segments?.join("/") || "");
 
   return <Page pathname={pathname} />;
 };
@@ -40,11 +40,11 @@ const Page: React.FC<{ params }: { params: { path?: string[] } }> = async ({ par
 export default Page;
 ```
 
-```jsx filename="app/docs/[[...path]]/page.js" switcher tab="v14 JSX"
+```jsx filename="app/docs/[[...segments]]/page.js" switcher tab="v14 JSX"
 import { Page, Sidebar, getMetadata, getStaticParams } from "../robindoc";
 
 const Page = async ({ params }) => {
-  const pathname = "/docs/" + (params.path?.join("/") || "");
+  const pathname = "/docs/" + (params.segments?.join("/") || "");
 
   return <Page pathname={pathname} />;
 };
@@ -52,12 +52,12 @@ const Page = async ({ params }) => {
 export default Page;
 ```
 
-```tsx filename="app/docs/[[...path]]/page.tsx" switcher tab="v15 TSX"
+```tsx filename="app/docs/[[...segments]]/page.tsx" switcher tab="v15 TSX"
 import { Page, Sidebar, getMetadata, getStaticParams } from "../robindoc";
 
-const Page: React.FC<{ params }: { params: Promise<{ path?: string[] }> }> = async ({ params }) => {
-  const { path } = await params;
-  const pathname = "/docs/" + (path?.join("/") || "");
+const Page: React.FC<{ params }: { params: Promise<{ segments?: string[] }> }> = async ({ params }) => {
+  const { segments } = await params;
+  const pathname = "/docs/" + (segments?.join("/") || "");
 
   return <Page pathname={pathname} />;
 };
@@ -65,12 +65,12 @@ const Page: React.FC<{ params }: { params: Promise<{ path?: string[] }> }> = asy
 export default Page;
 ```
 
-```jsx filename="app/docs/[[...path]]/page.js" switcher tab="v15 JSX"
+```jsx filename="app/docs/[[...segments]]/page.js" switcher tab="v15 JSX"
 import { Page, Sidebar, getMetadata, getStaticParams } from "../robindoc";
 
 const Page = async ({ params }) => {
-  const { path } = await params;
-  const pathname = "/docs/" + (path?.join("/") || "");
+  const { segments } = await params;
+  const pathname = "/docs/" + (segments?.join("/") || "");
 
   return <Page pathname={pathname} />;
 };
@@ -82,7 +82,7 @@ For more details about the props, refer to the [`Page`](../03-customization/01-e
 
 You should also set up metadata generation and static parameters generation (if you want to use SSG, which is highly recommended):
 
-```tsx filename="app/docs/[[...path]]/page.tsx" switcher tab="v14 TSX"
+```tsx filename="app/docs/[[...segments]]/page.tsx" switcher tab="v14 TSX"
 import { Page, Sidebar, getMetadata, getStaticParams } from "../robindoc";
 
 // ...
@@ -90,9 +90,9 @@ import { Page, Sidebar, getMetadata, getStaticParams } from "../robindoc";
 export const generateMetadata = async ({
   params,
 }: {
-  params: { path?: string[] };
+  params: { segments?: string[] };
 }) => {
-  const pathname = "/docs/" + (params.path?.join("/") || "");
+  const pathname = "/docs/" + (params.segments?.join("/") || "");
   const metadata = await getMetadata(pathname);
 
   return metadata;
@@ -104,13 +104,13 @@ export const generateStaticParams = async () => {
 };
 ```
 
-```jsx filename="app/docs/[[...path]]/page.js" switcher tab="v14 JSX"
+```jsx filename="app/docs/[[...segments]]/page.js" switcher tab="v14 JSX"
 import { Page, Sidebar, getMetadata, getStaticParams } from "../robindoc";
 
 // ...
 
 export const generateMetadata = async ({ params }) => {
-  const pathname = "/docs/" + (params.path?.join("/") || "");
+  const pathname = "/docs/" + (params.segments?.join("/") || "");
   const metadata = await getMetadata(pathname);
 
   return metadata;
@@ -122,7 +122,7 @@ export const generateStaticParams = async () => {
 };
 ```
 
-```tsx filename="app/docs/[[...path]]/page.tsx" switcher tab="v15 TSX"
+```tsx filename="app/docs/[[...segments]]/page.tsx" switcher tab="v15 TSX"
 import { Page, Sidebar, getMetadata, getStaticParams } from "../robindoc";
 
 // ...
@@ -130,10 +130,10 @@ import { Page, Sidebar, getMetadata, getStaticParams } from "../robindoc";
 export const generateMetadata = async ({
   params,
 }: {
-  params: Promise<{ path?: string[] }>;
+  params: Promise<{ segments?: string[] }>;
 }) => {
-  const { path } = await params;
-  const pathname = "/docs/" + (path?.join("/") || "");
+  const { segments } = await params;
+  const pathname = "/docs/" + (segments?.join("/") || "");
   const metadata = await getMetadata(pathname);
 
   return metadata;
@@ -145,14 +145,14 @@ export const generateStaticParams = async () => {
 };
 ```
 
-```jsx filename="app/docs/[[...path]]/page.js" switcher tab="v15 JSX"
+```jsx filename="app/docs/[[...segments]]/page.js" switcher tab="v15 JSX"
 import { Page, Sidebar, getMetadata, getStaticParams } from "../robindoc";
 
 // ...
 
 export const generateMetadata = async ({ params }) => {
-  const { path } = await params;
-  const pathname = "/docs/" + (path?.join("/") || "");
+  const { segments } = await params;
+  const pathname = "/docs/" + (segments?.join("/") || "");
   const metadata = await getMetadata(pathname);
 
   return metadata;

@@ -10,7 +10,7 @@ For more details on using the utility in your application, refer to the [App Org
 
 You can obtain an array of objects with the list of segments for each page using the following method:
 
-```tsx filename="app/docs/[[...path]]/page.tsx" switcher tab="TypeScript" clone="jsx|JavaScript|app/docs/[[...path]]/page.jsx"
+```tsx filename="app/docs/[[...segments]]/page.tsx" switcher tab="TypeScript" clone="jsx|JavaScript|app/docs/[[...segments]]/page.jsx"
 import { getStaticParams } from "./robindoc";
 
 export const generateStaticParams = async () => {
@@ -29,6 +29,6 @@ const staticParams = await getStaticParams("/docs");
 
 Also in some situations you may need a different key for the parameter (the default and recommended is `segments`). In such situations, pass the name of the dynamic parameter as the second argument (`segmentsParamKey`):
 
-```tsx filename="app/docs/[[...path]]/page.tsx" switcher tab="TypeScript" clone="jsx|JavaScript|app/docs/[[...path]]/page.jsx"
+```tsx filename="app/docs/[[...segments]]/page.tsx" switcher tab="TypeScript" clone="jsx|JavaScript|app/docs/[[...segments]]/page.jsx"
 const staticParams = await getStaticParams("/docs", "path");
 ```

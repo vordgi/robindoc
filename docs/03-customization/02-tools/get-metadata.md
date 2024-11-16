@@ -29,9 +29,9 @@ import { getMetadata } from "./robindoc";
 export const generateMetadata = async ({
   params,
 }: {
-  params: { path?: string[] };
+  params: { segments?: string[] };
 }) => {
-  const pathname = "/docs/" + (params.path?.join("/") || "");
+  const pathname = "/docs/" + (params.segments?.join("/") || "");
   const metadata = await getMetadata(pathname);
 
   return metadata;
@@ -42,8 +42,8 @@ export const generateMetadata = async ({
 import { getMetadata } from "./robindoc";
 
 export const generateMetadata = async ({ params }) => {
-  const { path } = await params;
-  const pathname = "/docs/" + (path?.join("/") || "");
+  const { segments } = await params;
+  const pathname = "/docs/" + (segments?.join("/") || "");
   const metadata = await getMetadata(pathname);
 
   return metadata;
