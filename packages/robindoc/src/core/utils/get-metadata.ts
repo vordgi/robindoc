@@ -1,19 +1,21 @@
-import { type BaseProvider } from "../providers/base";
 import matter from "gray-matter";
 import { lexer, Tokens } from "marked";
 import { set } from "dot-prop";
-import { loadContent } from "./load-content";
 
-type GetMetaOptions =
+import { type BaseProvider } from "../providers/base";
+import { loadContent } from "./load-content";
+import { parseTokenText } from "./content-tools";
+
+type GetMetadataOptions =
     | { uri: string; provider?: BaseProvider; content?: undefined }
     | { uri?: undefined; provider?: undefined; content: string };
 
-export const getMeta = async (opts: GetMetaOptions) => {
+export const getMetadata = async (opts: GetMetadataOptions) => {
     const { uri, provider, content } = opts;
     const { data } = uri ? await loadContent(uri, provider) : { data: content };
 
     if (!data) {
-        throw new Error("Robindoc: Please provide content or valid uri");
+        throw new Error("Robindoc: Please provide content or valid URI");
     }
 
     const { content: matterContent, data: matterData } = matter(data);
@@ -21,8 +23,8 @@ export const getMeta = async (opts: GetMetaOptions) => {
 
     const robinData = Object.entries(tree.links).reduce<Record<string, string>>((acc, cur) => {
         const [key, value] = cur;
-        const metaKey = key.startsWith("robin.") && key.replace("robin.", "");
         const content = value.title;
+        const metaKey = key.startsWith("robin.") && key.substring(6);
 
         if (content && metaKey) {
             set(acc, metaKey, content);
@@ -34,7 +36,14 @@ export const getMeta = async (opts: GetMetaOptions) => {
     if (!robinData.title) {
         const pageHeading = tree.find((el) => el.type === "heading" && el.depth === 1) as Tokens.Heading | undefined;
         if (pageHeading?.text) {
-            robinData.title = pageHeading.text;
+            robinData.title = parseTokenText(pageHeading);
+        }
+    }
+
+    if (!robinData.description) {
+        const firstParagraph = tree.find((el) => el.type === "paragraph") as Tokens.Heading | undefined;
+        if (firstParagraph?.text) {
+            robinData.description = parseTokenText(firstParagraph);
         }
     }
 

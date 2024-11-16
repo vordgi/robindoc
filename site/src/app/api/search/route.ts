@@ -1,5 +1,6 @@
 import { matchSorter } from 'match-sorter'
-import { getPages, getPageContent } from '../../docs/robindoc';
+
+import { getStaticParams, getPageData } from '../../docs/robindoc';
 
 const headers = new Headers();
 headers.set('Content-Type', 'application/json; charset=UTF-8');
@@ -10,15 +11,16 @@ export const GET = async (request: Request) => {
 
     if (!search) return new Response(JSON.stringify([]), { headers });
 
-    const pages = await getPages();
-    const docs: { href: string; content: string; title: string }[] = [];
+    const staticParams = await getStaticParams();
+    const docs: { href: string; raw: string; title: string }[] = [];
 
-    for await (const page of pages) {
-        const { content, title } = await getPageContent(page);
-        docs.push({ href: page, content, title });
+    for await (const staticParam of staticParams) {
+        const pathname = `/${staticParam.segments.join('/')}`;
+        const { raw, title } = await getPageData(pathname);
+        docs.push({ href: pathname, raw, title });
     }
 
-    const searchResults = matchSorter(docs, search, { keys: ['content', 'title'] });
+    const searchResults = matchSorter(docs, search, { keys: ['raw', 'title'] });
 
     return new Response(
         JSON.stringify(searchResults.slice(0, 5).map(item => ({ title: item.title, href: item.href }))),

@@ -7,7 +7,7 @@ import './showcases.scss';
 const Showcases = () => (
     <Container className="showcases">
         <h1>
-            Tools chosen <span className="showcases-name">RobinDoc</span> for their documentation
+            Tools chosen <span className="showcases-name">Robindoc</span> for their documentation
         </h1>
         <div className="showcases-btns">
             <Link

@@ -38,7 +38,7 @@ All customization in Robindoc happens through the structure and props of the com
 
 `links` [`{ title: string; href: string }[]`] - a list of links to pages on your site unrelated to the documentation section. This could include blog, showcases, about, etc.;
 
-`searcher` - the route for search functionality or a client-side async callback. If this field is not provided, search functionality will not be available. Read more on the "[Search](../03-search.md)" page;
+`searcher` - the route for search functionality or a client-side async callback. If this field is not provided, search functionality will not be available. Read more on the "[Search](../04-search.md)" page;
 
 `translations` [`{ [key: string]: string }`] - translations for the current block. The key is the term identifier, and the value is the corresponding translation. _For the latest list of terms, check the editor hints_;
 

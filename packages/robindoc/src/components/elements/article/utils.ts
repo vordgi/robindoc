@@ -4,6 +4,8 @@ import { lexer, type Tokens, type Token } from "marked";
 import { dirname, join } from "path";
 
 import { type BlockquoteType } from "@src/components/ui/blockquote";
+import { parseTokenText } from "@src/core/utils/content-tools";
+
 import { type PagesType } from "./types";
 
 export type AnchorData = {
@@ -11,20 +13,6 @@ export type AnchorData = {
     id: string;
     nested: boolean;
     token: Token;
-};
-
-export const parseTokenText = (token: Token): string => {
-    if (!token) return "";
-
-    if ("tokens" in token) {
-        return token.tokens?.map((el) => parseTokenText(el)).join("") || "";
-    }
-
-    if ("raw" in token) {
-        return token.raw;
-    }
-
-    return "";
 };
 
 export const parseMarkdown = (content: string) => {

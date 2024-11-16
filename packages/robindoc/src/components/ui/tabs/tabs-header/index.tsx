@@ -2,7 +2,7 @@
 
 import React from "react";
 import clsx from "clsx";
-import { saveTab } from "@src/core/utils/tabs-store";
+import { saveTab } from "@src/core/utils/tabs-tools";
 
 export interface TabsHeaderProps {
     tabs: { name: string; id: string }[];

@@ -1,6 +1,6 @@
 {
   "name": "robindoc",
-  "version": "2.5.1",
+  "version": "3.0.0",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -13,7 +13,13 @@
     "assets"
   ],
   "keywords": [
-    "documentation"
+    "documentation",
+    "genearation",
+    "SSG",
+    "next.js",
+    "RSC",
+    "docs",
+    "markdown"
   ],
   "repository": {
     "type": "git",

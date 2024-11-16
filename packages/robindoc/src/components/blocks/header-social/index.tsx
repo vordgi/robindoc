@@ -1,6 +1,6 @@
 import React from "react";
 
-import { detectGitType } from "@src/core/utils/git-data";
+import { detectGitType } from "@src/core/utils/git-tools";
 import { GithubLogo, GitlabLogo, GitLogo } from "@src/components/ui/git-logos";
 
 import "./header-social.scss";

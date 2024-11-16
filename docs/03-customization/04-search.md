@@ -7,7 +7,7 @@ You can configure search in two ways: by providing the path to the search API ro
 To use an API route for search, pass the path to the search endpoint in the `searcher` prop of the [`Header`](./01-elements/header.md) component. The search API should return an array of results with the following keys:
 
 - `title` - the title of the page (e.g., `Introduction`, `Search`);
-- `href` - the link to the page (e.g., `/docs/introduction`, `/docs/03-search`);
+- `href` - the link to the page (e.g., `/docs/introduction`, `/docs/04-search`);
 - `description` - an optional additional field with search results related to the page content.
 
 Here’s an example of how to configure the `Header` component with a search API route:
@@ -58,11 +58,11 @@ export const searcher = async (search, abortController) => {
 
 ## API Route Example
 
-If you use an API route, the server should handle the search requests. The following code demonstrates a simple search implementation using the `match-sorter` library and the utilities `getPages` and `getPageContent`:
+If you use an API route, the server should handle the search requests. The following code demonstrates a simple search implementation using the `match-sorter` library and the utilities `getStaticParams` and `getPageData`:
 
 ```ts filename="app/api/search/route.ts" switcher tab="TypeScript"
 import { matchSorter } from "match-sorter";
-import { getPages, getPageContent } from "../docs/robindoc";
+import { getStaticParams, getPageData } from "../docs/robindoc";
 
 export const GET = async (request: Request) => {
   const url = new URL(request.url);
@@ -73,16 +73,17 @@ export const GET = async (request: Request) => {
 
   if (!search) return new Response(JSON.stringify([]), { headers });
 
-  const pages = await getPages();
-  const docs: { href: string; content: string; title: string }[] = [];
+  const staticParams = await getStaticParams();
+  const docs: { href: string; raw: string; title: string }[] = [];
 
-  for await (const page of pages) {
-    const { content, title } = await getPageContent(page);
-    docs.push({ href: page, content, title });
+  for await (const staticParam of staticParams) {
+    const pathname = `/${staticParam.segments.join("/")}`;
+    const { raw, title } = await getPageData(pathname);
+    docs.push({ href: pathname, raw, title });
   }
 
   const matchResults = matchSorter(docs, search, {
-    keys: ["content", "title"],
+    keys: ["raw", "title"],
   });
   const searchResults = matchResults
     .slice(0, 5)
@@ -94,7 +95,7 @@ export const GET = async (request: Request) => {
 
 ```js filename="app/api/search/route.js" switcher tab="JavaScript"
 import { matchSorter } from "match-sorter";
-import { getPages, getPageContent } from "../docs/robindoc";
+import { getStaticParams, getPageData } from "../docs/robindoc";
 
 export const GET = async (request) => {
   const url = new URL(request.url);
@@ -105,16 +106,17 @@ export const GET = async (request) => {
 
   if (!search) return new Response(JSON.stringify([]), { headers });
 
-  const pages = await getPages();
+  const staticParams = await getStaticParams();
   const docs = [];
 
-  for await (const page of pages) {
-    const { content, title } = await getPageContent(page);
-    docs.push({ href: page, content, title });
+  for await (const staticParam of staticParams) {
+    const pathname = `/${staticParam.segments.join("/")}`;
+    const { raw, title } = await getPageData(pathname);
+    docs.push({ href: pathname, raw, title });
   }
 
   const matchResults = matchSorter(docs, search, {
-    keys: ["content", "title"],
+    keys: ["raw", "title"],
   });
   const searchResults = matchResults
     .slice(0, 5)

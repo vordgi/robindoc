@@ -7,7 +7,7 @@ These utilities work based on the structure and documentation files. They are ne
 ```ts filename="app/docs/robindoc.ts" switcher tab="TypeScript" clone="js|JavaScript|app/docs/robindoc.js"
 import { initializeRobindoc } from "robindoc";
 
-export const { Page, Sidebar, getPages, getMeta, getPageContent } =
+export const { Page, Sidebar, getStaticParams, getMetadata, getPageData } =
   initializeRobindoc({
     configuration: {
       sourceRoot: "../docs",
@@ -18,4 +18,4 @@ export const { Page, Sidebar, getPages, getMeta, getPageContent } =
   });
 ```
 
-For more information on using the utilities, refer to their respective pages - [`getMeta`](./get-meta.md), [`getPages`](./get-pages.md), [`getPageContent`](./get-page-content.md).
+For more information on using the utilities, refer to their respective pages - [`getMetadata`](./get-metadata.md), [`getStaticParams`](./get-static-params.md), [`getPageData`](./get-page-data.md).

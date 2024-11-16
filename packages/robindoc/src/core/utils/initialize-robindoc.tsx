@@ -1,11 +1,13 @@
 import React from "react";
+
 import { Article as ArticleBase, type ArticleProps as ArticlePropsBase } from "@src/components/elements/article";
 import { Sidebar as SidebarBase, type SidebarProps as SidebarPropsBase } from "@src/components/elements/sidebar";
+
 import { type Structure } from "../types/structure";
 import { parseStructure } from "./parse-structure";
 import { getConfiguration } from "./get-configuration";
-import { getMeta as getMetaBase } from "./get-meta";
-import { normalizePathname } from "./path-tools";
+import { getMetadata as getMetadataBase } from "./get-metadata";
+import { normalizePathname, removeTrailingSlash } from "./path-tools";
 import { loadContent } from "./load-content";
 
 type PageProps = Omit<Partial<ArticlePropsBase>, "uri" | "content" | "provider" | "pathname" | "pages"> & {
@@ -23,28 +25,27 @@ const loadStructure = async (structureTemplate: Structure | (() => Structure | P
 };
 
 export const initializeRobindoc = (structureTemplate: Structure | (() => Structure | Promise<Structure>)) => {
-    const pageDataPromise = loadStructure(structureTemplate).then((structure) =>
+    const structureParsedPromise = loadStructure(structureTemplate).then((structure) =>
         parseStructure(structure.items || [], getConfiguration(structure.configuration || {})),
     );
 
     const Page: React.FC<PageProps> = async ({ pathname, ...props }) => {
-        const { pages } = await pageDataPromise;
-        const pathnameClean = normalizePathname(pathname);
-        const pageData = pages[pathnameClean];
+        const { pages } = await structureParsedPromise;
+        const pathnameNormalized = normalizePathname(pathname);
+        const pageInstruction = pages[pathnameNormalized];
 
-        if (!pageData) {
-            throw new Error(`Can not find data for "${pathnameClean}". Please check structure`);
+        if (!pageInstruction) {
+            throw new Error(`Can not find data for "${pathnameNormalized}". Please check structure`);
         }
 
         const paths = Object.keys(pages);
-        const targetPageIndex = paths.indexOf(pathnameClean);
-        const prevPagePathname = targetPageIndex > 0 && paths[targetPageIndex - 1];
-        const nextPagePathname =
-            targetPageIndex !== -1 && targetPageIndex < paths.length - 1 && paths[targetPageIndex + 1];
+        const targetPageIndex = paths.indexOf(pathnameNormalized);
+        const prevPagePathname = paths[targetPageIndex - 1];
+        const nextPagePathname = targetPageIndex < paths.length - 1 && paths[targetPageIndex + 1];
         const prev = prevPagePathname && { pathname: prevPagePathname, title: pages[prevPagePathname].title };
         const next = nextPagePathname && { pathname: nextPagePathname, title: pages[nextPagePathname].title };
 
-        const breadcrumbs = pageData.crumbs.map((crumb) => ({ title: pages[crumb].title, pathname: crumb }));
+        const breadcrumbs = pageInstruction.crumbs.map((crumb) => ({ title: pages[crumb].title, pathname: crumb }));
         const clientPages = Object.entries(pages).reduce<{ clientPath: string; origPath: string }[]>(
             (acc, [clientPath, { origPath }]) => {
                 if (origPath) acc.push({ clientPath, origPath });
@@ -55,10 +56,10 @@ export const initializeRobindoc = (structureTemplate: Structure | (() => Structu
 
         return (
             <ArticleBase
-                pathname={pathnameClean}
-                provider={pageData.configuration.provider}
-                uri={pageData.uri}
-                title={pageData.title}
+                pathname={pathnameNormalized}
+                provider={pageInstruction.configuration.provider}
+                uri={pageInstruction.uri}
+                title={pageInstruction.title}
                 breadcrumbs={breadcrumbs}
                 prev={prev || undefined}
                 next={next || undefined}
@@ -69,58 +70,72 @@ export const initializeRobindoc = (structureTemplate: Structure | (() => Structu
     };
 
     const Sidebar: React.FC<SidebarProps> = async (props) => {
-        const { tree } = await pageDataPromise;
+        const { tree } = await structureParsedPromise;
 
         return <SidebarBase tree={tree} {...props} />;
     };
 
-    const getPages = async (basePath?: string) => {
-        const { pages } = await pageDataPromise;
+    const getStaticParams = async <T extends string = "segments">(
+        prefix: string = "",
+        segmentsParamKey: T = "segments" as T,
+    ) => {
+        const { pages } = await structureParsedPromise;
         const pagesArr = Object.keys(pages);
-        if (basePath) return pagesArr.filter((page) => page.startsWith(basePath));
-        return pagesArr;
+        const prefixWithoutTrailingSlash = removeTrailingSlash(prefix);
+
+        return pagesArr.reduce<Record<T, string[]>[]>((acc, cur) => {
+            if (!cur.startsWith(prefixWithoutTrailingSlash)) return acc;
+
+            acc.push({
+                [segmentsParamKey]: cur.substring(prefixWithoutTrailingSlash.length + 1).split("/"),
+            } as Record<T, string[]>);
+
+            return acc;
+        }, []);
     };
 
-    const getMeta = async (pathname: string) => {
-        const { pages } = await pageDataPromise;
-        const pathnameClean = normalizePathname(pathname);
-        const pageData = pages[pathnameClean];
-        if (!pageData) {
-            throw new Error(`Can not find data for "${pathnameClean}". Please check structure`);
+    const getMetadata = async (pathname: string) => {
+        const { pages } = await structureParsedPromise;
+        const pathnameNormalized = normalizePathname(pathname);
+        const pageInstruction = pages[pathnameNormalized];
+
+        if (!pageInstruction) {
+            throw new Error(`Can not find data for "${pathnameNormalized}". Please check structure`);
         }
-        const meta = await getMetaBase({
-            uri: pageData.uri,
-            provider: pageData.configuration.provider,
+
+        const metadata = await getMetadataBase({
+            uri: pageInstruction.uri,
+            provider: pageInstruction.configuration.provider,
         });
-        return meta;
-    };
-
-    const getPageContent = async (pathname: string) => {
-        const { pages } = await pageDataPromise;
-        const pathnameClean = normalizePathname(pathname);
-        const pageData = pages[pathnameClean];
-
-        if (!pageData) {
-            throw new Error(`Can not find data for "${pathnameClean}". Please check structure`);
-        }
-
-        const title = pageData.title;
-        const { data } = await loadContent(pageData.uri, pageData.configuration.provider);
-
-        return { title, content: data };
+        return metadata;
     };
 
     const getPageData = async (pathname: string) => {
-        const { pages } = await pageDataPromise;
-        const pathnameClean = normalizePathname(pathname);
-        const pageData = pages[pathnameClean];
+        const { pages } = await structureParsedPromise;
+        const pathnameNormalized = normalizePathname(pathname);
+        const pageInstruction = pages[pathnameNormalized];
 
-        if (!pageData) {
-            throw new Error(`Can not find data for "${pathnameClean}". Please check structure`);
+        if (!pageInstruction) {
+            throw new Error(`Can not find data for "${pathnameNormalized}". Please check structure`);
         }
 
-        return pageData;
+        const title = pageInstruction.title;
+        const { data } = await loadContent(pageInstruction.uri, pageInstruction.configuration.provider);
+
+        return { title, raw: data };
     };
 
-    return { Page, Sidebar, getPages, getMeta, getPageContent, getPageData };
+    const getPageInstruction = async (pathname: string) => {
+        const { pages } = await structureParsedPromise;
+        const pathnameNormalized = normalizePathname(pathname);
+        const pageInstruction = pages[pathnameNormalized];
+
+        if (!pageInstruction) {
+            throw new Error(`Can not find data for "${pathnameNormalized}". Please check structure`);
+        }
+
+        return pageInstruction;
+    };
+
+    return { Page, Sidebar, getStaticParams, getMetadata, getPageData, getPageInstruction };
 };
