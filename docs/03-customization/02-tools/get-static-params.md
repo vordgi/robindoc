@@ -21,8 +21,14 @@ export const generateStaticParams = async () => {
 
 ## Arguments
 
-In some cases, you might want to retrieve a specific section of the documentation, such as `/docs` or `/blog`. To get a filtered list of pages, simply pass the desired prefix as an argument.
+In some cases, you might want to retrieve a specific section of the documentation, such as `/docs` or `/blog`. To get a filtered list of pages, simply pass the desired `prefix` as an argument.
+
+```tsx filename="app/docs/[[...segments]]/page.tsx" switcher tab="TypeScript" clone="jsx|JavaScript|app/docs/[[...segments]]/page.jsx"
+const staticParams = await getStaticParams("/docs");
+```
+
+Also in some situations you may need a different key for the parameter (the default and recommended is `segments`). In such situations, pass the name of the dynamic parameter as the second argument (`segmentsParamKey`):
 
 ```tsx filename="app/docs/[[...path]]/page.tsx" switcher tab="TypeScript" clone="jsx|JavaScript|app/docs/[[...path]]/page.jsx"
-const staticParams = await getStaticParams("/docs");
+const staticParams = await getStaticParams("/docs", "path");
 ```
