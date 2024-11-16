@@ -11,11 +11,11 @@ export const GET = async (request: Request) => {
 
     if (!search) return new Response(JSON.stringify([]), { headers });
 
-    const staticParams = await getStaticParams('', 'path');
+    const staticParams = await getStaticParams();
     const docs: { href: string; raw: string; title: string }[] = [];
 
     for await (const staticParam of staticParams) {
-        const pathname = `/${staticParam.path.join('/')}`;
+        const pathname = `/${staticParam.segments.join('/')}`;
         const { raw, title } = await getPageData(pathname);
         docs.push({ href: pathname, raw, title });
     }

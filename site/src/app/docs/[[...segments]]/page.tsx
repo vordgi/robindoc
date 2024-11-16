@@ -2,9 +2,9 @@ import { Page, getMetadata, getPageInstruction, getStaticParams } from "../robin
 import { Note } from "../../../components/ui/note";
 import { PackageLinks } from "../../../components/ui/package-links";
 
-const Docs = async ({ params }: { params: Promise<{ path?: string[] }> }) => {
-    const { path } = await params;
-    const pathname = '/docs/' + (path?.join('/') || '');
+const Docs = async ({ params }: { params: Promise<{ segments?: string[] }> }) => {
+    const { segments } = await params;
+    const pathname = '/docs/' + (segments?.join('/') || '');
     const pageInstriction = await getPageInstruction(pathname);
 
     return (
@@ -22,15 +22,15 @@ const Docs = async ({ params }: { params: Promise<{ path?: string[] }> }) => {
     );
 }
 
-export const generateMetadata = async ({ params }: { params: Promise<{ path?: string[] }> }) => {
-    const { path } = await params;
-    const pathname = '/docs/' + (path?.join('/') || '');
+export const generateMetadata = async ({ params }: { params: Promise<{ segments?: string[] }> }) => {
+    const { segments } = await params;
+    const pathname = '/docs/' + (segments?.join('/') || '');
     const metadata = await getMetadata(pathname);
     return metadata;
 };
 
 export const generateStaticParams = async () => {
-    const staticParams = await getStaticParams('/docs', 'path');
+    const staticParams = await getStaticParams('/docs');
     return staticParams;
 }
 

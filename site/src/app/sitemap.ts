@@ -3,11 +3,11 @@ import { type MetadataRoute } from 'next';
 import { getStaticParams } from './docs/robindoc';
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const staticParams = await getStaticParams('', 'path');
-  staticParams.push({ path: [] });
+  const staticParams = await getStaticParams();
+  staticParams.push({ segments: [] });
 
-  return staticParams.map(({ path }) => ({
-    url: `https://robindoc.com/${path.join('/')}/`,
+  return staticParams.map(({ segments }) => ({
+    url: `https://robindoc.com/${segments.join('/')}/`,
     lastModified: new Date(),
     changeFrequency: 'daily',
     priority: 0.7,
