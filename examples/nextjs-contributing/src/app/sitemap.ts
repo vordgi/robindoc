@@ -1,12 +1,12 @@
 import { type MetadataRoute } from 'next';
-import { getPages } from './robindoc';
+import { getStaticParams } from './robindoc';
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const pages = await getPages();
-  pages.push('');
+  const staticParams = await getStaticParams();
+  staticParams.push({ segments: [] });
 
-  return pages.map(page => ({
-    url: `https://nextjs-dev.robindoc.com${page}`,
+  return staticParams.map(staticParam => ({
+    url: `https://nextjs-dev.robindoc.com/${staticParam.segments.join('/')}`,
     lastModified: new Date(),
     changeFrequency: 'daily',
     priority: 0.7,
