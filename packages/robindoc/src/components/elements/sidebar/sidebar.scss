@@ -23,15 +23,16 @@
   grid-column-start: 1;
 }
 
-.r-sidebar:not(._opened) .r-sidebar-nav {
+.r-sidebar-input:not(:checked) ~ .r-sidebar-btn ~ .r-sidebar-nav {
   @media screen and (width < $sm) {
     display: none;
   }
 }
 
-.r-sidebar._opened {
+.r-sidebar-nav {
   @media screen and (width < $sm) {
-    height: calc(100vh - var(--header-height));
+    overflow: auto;
+    max-height: calc(100vh - var(--header-height) - 41px);
   }
 }
 
@@ -113,7 +114,7 @@
   transition: transform 0.2s;
 }
 
-.r-sidebar._opened .r-sidebar-chevron {
+.r-sidebar-input:checked ~ .r-sidebar-btn .r-sidebar-chevron {
   transform: rotate(90deg);
 }
 
