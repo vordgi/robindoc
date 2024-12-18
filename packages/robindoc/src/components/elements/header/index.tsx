@@ -1,6 +1,6 @@
 import "./header.scss";
 import React from "react";
-import { HeaderMenu, HeaderMenuProps } from "@src/components/blocks/header-menu";
+import { HeaderMenu, type HeaderMenuProps } from "@src/components/blocks/header-menu";
 import { Search, type SearchProps } from "@src/components/blocks/search";
 import { SectionDropdown } from "@src/components/blocks/section-dropdown";
 import { HeaderSocial } from "@src/components/blocks/header-social";

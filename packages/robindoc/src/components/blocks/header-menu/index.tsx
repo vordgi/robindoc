@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import clsx from "clsx";
+
 import { useNavigate } from "@src/components/contexts/navigate/use-navigate";
 
 import "./header-menu.scss";
@@ -46,12 +46,20 @@ export const HeaderMenu: React.FC<HeaderMenuProps> = ({ children, translations }
     );
 
     return (
-        <div className={clsx("r-header-menu", opened && "_opened")}>
-            <div className="r-header-responsive">{children}</div>
-            <button type="button" className="r-header-burger" onClick={toggleHandler} aria-label={menu}>
+        <div className="r-header-menu">
+            <input
+                onChange={toggleHandler}
+                checked={opened}
+                id="header-burger"
+                type="checkbox"
+                className="r-header-input"
+                hidden
+            />
+            <label className="r-header-burger" htmlFor="header-burger" aria-label={menu} role="button" tabIndex={0}>
                 <span className="r-burger-line _top" />
                 <span className="r-burger-line _bottom" />
-            </button>
+            </label>
+            <div className="r-header-responsive">{children}</div>
         </div>
     );
 };

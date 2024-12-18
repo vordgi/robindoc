@@ -1,4 +1,4 @@
-.copy-text {
+.r-copy-text {
   position: relative;
   cursor: pointer;
   background: none;
@@ -10,7 +10,7 @@
     color: var(--r-neutral-950);
   }
 
-  &::after {
+  &::before {
     content: "";
     position: absolute;
     bottom: -2px;
@@ -29,7 +29,7 @@
   }
 }
 
-.copy-text:active,
-.copy-text._active {
+.r-copy-text:active,
+.r-copy-text._active {
   color: var(--r-success);
 }

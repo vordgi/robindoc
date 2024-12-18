@@ -1,4 +1,4 @@
-.copy-button {
+.r-copy-button {
   position: relative;
   padding: 8px;
   background: none;
@@ -13,32 +13,32 @@
     background-color 0.2s;
 }
 
-.copy-button-success {
+.r-copy-button-success {
   opacity: 0;
   transform: scale(0.7);
 
   transition: 0.2s;
 }
 
-.copy-button-base {
+.r-copy-button-base {
   transition: 0.2s;
 }
 
-.copy-button:hover {
+.r-copy-button:hover {
   color: var(--r-neutral-950);
   background-color: var(--r-neutral-200);
 }
 
-.copy-button:active,
-.copy-button._active {
+.r-copy-button:active,
+.r-copy-button._active {
   color: var(--r-success);
 
-  .copy-button-success {
+  .r-copy-button-success {
     opacity: 1;
     transform: scale(1);
   }
 
-  .copy-button-base {
+  .r-copy-button-base {
     opacity: 0;
     transform: scale(0.7);
   }

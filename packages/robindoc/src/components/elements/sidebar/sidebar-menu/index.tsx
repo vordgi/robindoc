@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "@src/components/contexts/navigate/use-navigate";
-import clsx from "clsx";
 
 export type SidebarMenuProps = React.PropsWithChildren<{
     translations?: {
@@ -43,26 +42,32 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ children, translations
     );
 
     return (
-        <>
-            <div className={clsx("r-sidebar", opened && "_opened")}>
-                <button className="r-sidebar-btn" onClick={toggleHandler}>
-                    <svg
-                        className="r-sidebar-chevron"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    >
-                        <path d="m9 18 6-6-6-6" />
-                    </svg>
-                    <span>{menu}</span>
-                </button>
-                {children}
-            </div>
-        </>
+        <div className="r-sidebar">
+            <input
+                type="checkbox"
+                id="sidebar-input"
+                className="r-sidebar-input"
+                hidden
+                onChange={toggleHandler}
+                checked={opened}
+            />
+            <label htmlFor="sidebar-input" className="r-sidebar-btn" role="button" tabIndex={0}>
+                <svg
+                    className="r-sidebar-chevron"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                >
+                    <path d="m9 18 6-6-6-6" />
+                </svg>
+                <span>{menu}</span>
+            </label>
+            {children}
+        </div>
     );
 };

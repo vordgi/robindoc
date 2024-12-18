@@ -51,7 +51,7 @@ export const Search: React.FC<SearchProps> = ({ searcher, translations }) => {
 
     return (
         <>
-            <button type="button" className="r-search-btn" onClick={openHandler} onKeyDown={keyDownHandler}>
+            <button type="button" className="r-search-btn r-no-js" onClick={openHandler} onKeyDown={keyDownHandler}>
                 <span className="r-search-title" ref={titleRef}>
                     {search}
                 </span>

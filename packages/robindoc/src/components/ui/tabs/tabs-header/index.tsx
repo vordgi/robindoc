@@ -31,7 +31,7 @@ export const TabsHeader: React.FC<TabsHeaderProps> = ({ tabs, tabsTypeId, type }
             {tabs.map((tab) => (
                 <div
                     key={tab.id}
-                    className={clsx(`r-tab-header r-tab-header_${tab.id}`, type && typeClassNames[type])}
+                    className={clsx(`r-tab-header r-tab-header_${tab.id} r-no-js`, type && typeClassNames[type])}
                     onClick={() => changeTabHandler(tab.id)}
                 >
                     {tab.name}

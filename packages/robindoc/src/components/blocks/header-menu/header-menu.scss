@@ -11,7 +11,7 @@
   }
 }
 
-.r-header-menu._opened .r-header-responsive {
+.r-header-input:checked ~ .r-header-burger ~ .r-header-responsive {
   display: flex;
 }
 
@@ -70,7 +70,7 @@
   transform: translateY(-3px);
 }
 
-.r-header-menu._opened .r-burger-line._top {
+.r-header-input:checked ~ .r-header-burger .r-burger-line._top {
   transform: translateY(0) rotate(45deg);
   margin-top: 0;
 }
@@ -79,7 +79,7 @@
   transform: translateY(3px);
 }
 
-.r-header-menu._opened .r-burger-line._bottom {
+.r-header-input:checked ~ .r-header-burger .r-burger-line._bottom {
   transform: translateY(0) rotate(-45deg);
   margin-top: 0;
 }

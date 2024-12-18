@@ -30,7 +30,11 @@ export const CopyText: React.FC<CopyTextProps> = ({ translations, text, classNam
     };
 
     return (
-        <button tabIndex={-1} onClick={clickHandler} className={clsx("copy-text", copyTimeout && "_active", className)}>
+        <button
+            tabIndex={-1}
+            onClick={clickHandler}
+            className={clsx("r-copy-text r-no-js _to-right", copyTimeout && "_active", className)}
+        >
             {text}
             <Tooltip position="bottom-start" visible={Boolean(copyTimeout)}>
                 {filenameCopied}

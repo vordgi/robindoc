@@ -35,7 +35,7 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ translations }) =>
     return (
         <div className="r-theme-switcher">
             <button
-                className="r-theme-switcher-btn r-theme-switcher-btn__dark"
+                className="r-theme-switcher-btn r-theme-switcher-btn__dark r-no-js"
                 type="button"
                 onClick={() => changeTheme("dark")}
             >
@@ -50,7 +50,7 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ translations }) =>
                 </svg>
             </button>
             <button
-                className="r-theme-switcher-btn r-theme-switcher-btn__system"
+                className="r-theme-switcher-btn r-theme-switcher-btn__system r-no-js"
                 type="button"
                 onClick={() => changeTheme("system")}
             >
@@ -83,7 +83,7 @@ export const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ translations }) =>
                 </svg>
             </button>
             <button
-                className="r-theme-switcher-btn r-theme-switcher-btn__light"
+                className="r-theme-switcher-btn r-theme-switcher-btn__light r-no-js"
                 type="button"
                 onClick={() => changeTheme("light")}
             >
