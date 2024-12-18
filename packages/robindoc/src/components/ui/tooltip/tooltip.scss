@@ -1,5 +1,6 @@
 .r-tooltip {
   font-family: var(--monospace-font, monospace, monospace);
+  display: none;
   opacity: 0;
   position: absolute;
   background: var(--r-neutral-200);
@@ -9,8 +10,8 @@
   max-width: 200px;
   transform: translateY(80%);
   transition:
-    transform 0.2s,
-    opacity 0.2s;
+    transform 0.2s allow-discrete,
+    opacity 0.2s allow-discrete;
 
   &._bottom-start {
     bottom: -8px;
@@ -24,6 +25,7 @@
 }
 
 .r-tooltip._visible {
+  display: block;
   opacity: 1;
   transform: translateY(100%);
 }
