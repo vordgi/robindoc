@@ -3,8 +3,9 @@
 import React, { useState } from "react";
 import clsx from "clsx";
 
-import "./copy-button.scss";
 import { Tooltip } from "../tooltip";
+
+import "./copy-button.scss";
 
 interface CopyButtonProps {
     raw: string;
@@ -34,7 +35,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({ translations, raw, class
         <button
             tabIndex={-1}
             onClick={clickHandler}
-            className={clsx("copy-button", copyTimeout && "_active", className)}
+            className={clsx("r-copy-button r-no-js", copyTimeout && "_active", className)}
         >
             <svg
                 width="20"
@@ -47,10 +48,10 @@ export const CopyButton: React.FC<CopyButtonProps> = ({ translations, raw, class
                 strokeLinejoin="round"
             >
                 <title>{copy}</title>
-                <g className="copy-button-success">
+                <g className="r-copy-button-success">
                     <path d="M20 6 9 17l-5-5" />
                 </g>
-                <g className="copy-button-base">
+                <g className="r-copy-button-base">
                     <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
                     <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
                 </g>
