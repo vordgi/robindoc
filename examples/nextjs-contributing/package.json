@@ -10,15 +10,15 @@
   },
   "dependencies": {
     "match-sorter": "6.3.4",
-    "next": "15.0.1",
-    "react": "^18",
-    "react-dom": "^18",
-    "robindoc": "3.0.0"
+    "next": "15.2.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "robindoc": "3.1.1"
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "19.0.10",
+    "@types/react-dom": "19.0.4",
     "eslint": "^8",
     "eslint-config-next": "14.2.15",
     "typescript": "^5"
