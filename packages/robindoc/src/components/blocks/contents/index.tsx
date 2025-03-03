@@ -8,7 +8,7 @@ import { detectGitType } from "@src/core/utils/git-tools";
 import "./contents.scss";
 
 export interface ContentsProps extends React.PropsWithChildren {
-    headings: { id: string; nested: boolean; title: string | JSX.Element }[];
+    headings: { id: string; nested: boolean; title: string | React.ReactNode }[];
     hideContents?: boolean;
     editUri?: string | null;
     translations?: {

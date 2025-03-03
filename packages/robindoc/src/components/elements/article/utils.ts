@@ -67,7 +67,7 @@ export const parseCodeLang = (raw: string) => {
 
 export const isNewCodeToken = (
     token: Token | Token[],
-    codeQueue: { [lang: string]: { element: JSX.Element; tabName: string } },
+    codeQueue: { [lang: string]: { element: React.ReactNode; tabName: string } },
 ) => {
     if (Array.isArray(token) || !Object.keys(codeQueue).length) return false;
 
