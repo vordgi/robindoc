@@ -114,7 +114,7 @@ export const Document: React.FC<ContentProps> = ({
         | null
         | { props: RobinProps; childTokens: Token[]; componentName: string; type: "base" }
         | { type: "dummy" } = null;
-    let codeQueue: { [lang: string]: { element: JSX.Element; tabName: string } } = {};
+    let codeQueue: { [lang: string]: { element: React.ReactNode; tabName: string } } = {};
     const insertedCodeKeys: string[] = [];
     const DocumentToken: React.FC<{ token: Token | Token[] }> = ({ token }) => {
         if (!token) return null;

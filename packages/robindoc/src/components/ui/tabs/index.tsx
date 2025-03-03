@@ -6,7 +6,7 @@ import "./tabs.scss";
 
 export interface TabsProps {
     insertStyles?: boolean;
-    tabsData: { [tabKey: string]: { element: JSX.Element; tabName: string } };
+    tabsData: { [tabKey: string]: { element: React.ReactNode; tabName: string } };
     blockKey?: string;
     type?: TabsHeaderProps["type"];
 }
