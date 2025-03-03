@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+
 import { useNavigate } from "@src/components/contexts/navigate/use-navigate";
+import { ReferenceProvider } from "@src/components/contexts/reference/provider";
 
 export type SidebarMenuProps = React.PropsWithChildren<{
     translations?: {
@@ -13,6 +15,7 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ children, translations
     const { menu = "Menu" } = translations || {};
     const { addListener, removeListener } = useNavigate();
     const [opened, setOpened] = useState(false);
+    const sidebarNavRef = useRef<HTMLElement | null>(null);
 
     const openHandler = () => {
         document.body.classList.add("body-mobile-lock");
@@ -67,7 +70,9 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({ children, translations
                 </svg>
                 <span>{menu}</span>
             </label>
-            {children}
+            <nav ref={sidebarNavRef} className="r-sidebar-nav" id="navigation">
+                <ReferenceProvider reference={sidebarNavRef}>{children}</ReferenceProvider>
+            </nav>
         </div>
     );
 };

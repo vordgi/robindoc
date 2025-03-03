@@ -71,18 +71,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ tree, translations }) => {
         <>
             <div className="r-sidebar-top-mock" />
             <SidebarMenu>
-                <nav className="r-sidebar-nav" id="navigation">
-                    <ul className="r-sidebar-list">
-                        {tree.map((item, index) => (
-                            <LinkBranch
-                                branch={item}
-                                key={item.type === "separator" ? `sep${index}` : item.href + item.title}
-                                depth={0}
-                                translations={translations}
-                            />
-                        ))}
-                    </ul>
-                </nav>
+                <ul className="r-sidebar-list">
+                    {tree.map((item, index) => (
+                        <LinkBranch
+                            branch={item}
+                            key={item.type === "separator" ? `sep${index}` : item.href + item.title}
+                            depth={0}
+                            translations={translations}
+                        />
+                    ))}
+                </ul>
             </SidebarMenu>
         </>
     );
