@@ -74,9 +74,8 @@ export default RootLayout;
 
 The provider will create a style tag with all the overwritten variables.
 
-<Note>
-If you change the CSS variables manually - Robindoc does not guarantee that they will work in future releases, although those passed to the `RobinProvider` will be supported for a while!
-</Note>
+> [!TIP]
+> If you change the CSS variables manually - Robindoc does not guarantee that they will work in future releases, although those passed to the `RobinProvider` will be supported for a while!
 
 You can pass hex, rgb, css variables or any other color format.
 
@@ -123,6 +122,5 @@ export const robinTheme = {
 };
 ```
 
-<Note>
-Don't forget to check accessibility after changing the theme (_for example, through the `LightHouse` accessibility check_).
-</Note>
+> [!TIP]
+> Don't forget to check accessibility after changing the theme (_for example, through the `LightHouse` accessibility check_).

@@ -101,9 +101,8 @@ export const { Page, Sidebar } = initializeRobindoc({
 });
 ```
 
-<Note>
-When generated automatically, the elements will be sorted in alphabetical order. In some cases, you can change the order by adding a number at the beginning (`01-installation.md`, `02-writing-md.md`, `03-initialization.md`), it will be automatically removed from the page path (`/installation `, `/writing-md`, `/initialization`).
-</Note>
+> [!TIP]
+> When generated automatically, the elements will be sorted in alphabetical order. In some cases, you can change the order by adding a number at the beginning (`01-installation.md`, `02-writing-md.md`, `03-initialization.md`), it will be automatically removed from the page path (`/installation `, `/writing-md`, `/initialization`).
 
 This, like any configuration setting, can be done anywhere in the structure.
 

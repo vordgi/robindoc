@@ -29,15 +29,13 @@ const Docs = async () => {
 };
 ```
 
-<Note>
-Some translations may use dynamic meanings. Such values ​​are wrapped in curly braces (f.e. `Edit on {service}`). They will be replaced by the framework automatically.
-</Note>
+> [!TIP]
+> Some UI translations may use dynamic parts. Such values ​​are wrapped in curly braces (f.e. `Edit on {service}`). They will be replaced by the framework automatically.
 
 For a current list of terms, see your editor's tooltips for relevant items. The default values ​​are listed in the js-doc.
 
-<Note>
-Some terms are visible to the user, some are used to improve accessibility.
-</Note>
+> [!NOTE]
+> Some terms are visible to the user, some are used to improve accessibility.
 
 ## Multi language site
 
