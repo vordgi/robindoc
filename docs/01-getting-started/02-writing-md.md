@@ -51,7 +51,7 @@ const Page = () => (
 export default Page;
 ```
 
-The content of custom components (`children`) will be passed as parsed Markdown.
+The content of your components (`children`) will be passed as ReactNode, parsed from Markdown.
 
 ## Robin Components
 

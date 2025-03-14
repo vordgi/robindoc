@@ -40,9 +40,8 @@ const RootLayout = ({ children }) => (
 export default RootLayout;
 ```
 
-<Note>
-If you use this separately from the `Page` component, assign the page content element the attribute `id="main-content"`.
-</Note>
+> [!NOTE]
+> If you use this separately from the `Page` component, assign the page content element the attribute `id="main-content"`.
 
 ### Props
 
@@ -54,9 +53,8 @@ A special element that appears at the very end of the page when navigating using
 
 This element should be inserted at the very end of the page, i.e., the last element in the body.
 
-<Note>
-`KeylinkToNavigation` should be added at the page level in case there are pages without navigation.
-</Note>
+> [!NOTE]
+> `KeylinkToNavigation` should be added at the page level in case there are pages without navigation.
 
 ```tsx filename="app/docs/layout.tsx" switcher tab="TypeScript"
 import { DocsContainer, KeylinkToNavigation } from "robindoc";
@@ -90,9 +88,8 @@ const DocsLayout = ({ children }) => (
 export default DocsLayout;
 ```
 
-<Note>
-It should be used together with the `Sidebar` component. If you use your own navigation component, assign it the attribute `id="navigation"`.
-</Note>
+> [!NOTE]
+> It should be used together with the `Sidebar` component. If you use your own navigation component, assign it the attribute `id="navigation"`.
 
 ### Props
 

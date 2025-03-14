@@ -184,9 +184,8 @@ export const { Page, Sidebar, getStaticParams, getMetadata, getPageData } =
   });
 ```
 
-<Note>
-When uploading to Vercel, the final image will contain only files inside the next.js project
-</Note>
+> [!IMPORTANT]
+> When deploying to Vercel, the final image will contain only files inside the next.js project
 
 ## Layout Setup
 
