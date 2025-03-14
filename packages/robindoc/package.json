@@ -1,7 +1,7 @@
 {
   "name": "robindoc",
-  "version": "3.2.0",
-  "description": "",
+  "version": "3.2.1",
+  "description": "Robindoc is a framework for automatically creating documentation websites based on markdown files, built on React.js Server Components",
   "main": "./lib/index.js",
   "scripts": {
     "prepare": "ts-patch install -s",
@@ -14,7 +14,9 @@
   ],
   "keywords": [
     "documentation",
-    "genearation",
+    "generation",
+    "generate",
+    "auto",
     "SSG",
     "next.js",
     "RSC",
