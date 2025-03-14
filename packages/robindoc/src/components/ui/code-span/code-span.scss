@@ -1,11 +1,13 @@
 .r-code-span {
   font-family: var(--monospace-font, monospace, monospace);
-  background-color: var(--r-neutral-100);
+  background-color: var(--r-neutral-200);
+  color: var(--r-primary-900);
   border-radius: 4px;
   padding: 2px 6px;
   font-size: 16px;
+  letter-spacing: .5px;
 }
 
-.r-code-span + .r-content-link-external {
+.r-code-span+.r-content-link-external {
   margin-left: -12px;
 }
